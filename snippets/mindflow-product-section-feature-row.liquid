@@ -1,0 +1,216 @@
+{% assign image_with_text = product.metafields.section.image_with_text %}
+<div class="item__wrapper">
+  <div class="panal">
+    <div class="page-width product-section section-feature-row" id="davkovani">
+      <div class="image-text__container">
+        <div class="left">
+          <h2>{{ image_with_text.heading | escape }}</h2>
+          <div class="image-text__wrapper">
+            {% for block in image_with_text.blocks %}
+              <div class="item">
+                <img src="{{ block.icon | append: '.svg' | asset_url }}" alt="{{ block.heading }} svg"> 
+                <div class="text-wrap">
+                  <h3>{{ block.heading }}</h3>
+                  <p>{{ block.text }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="right"><img src="{{ image_with_text.image }}"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #shopify-section-product_products-slider{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .right img{
+    max-width: 100%;
+  }
+  .image-text__container h2{
+    font-size: 32px;
+    line-height: 42px;
+    color: #222;
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+
+  .section-feature-row .right img{
+    border-radius: 8px;
+  }
+
+  .section-feature-row .right{
+    width: 50%;
+    margin-bottom: auto;
+  }
+  .section-feature-row .left {
+    width: 50%;
+  }
+  .image-text__container .section-label{
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    color: #8B9093;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .image-text__wrapper img{
+    max-width: 39px;
+  }
+  .image-text__wrapper .text-wrap p{
+    font-size: 19px;
+    color: #222;
+    font-weight: 400;
+    line-height: 32px;
+  }
+
+  .image-text__wrapper .text-wrap h3{
+    font-size: 14px;
+    color: #6C6E73;
+    font-weight: 400;
+    line-height: 27px;
+  }
+  .image-text__wrapper > .item{
+    display: flex;
+    align-items: flex-start;
+  }
+  .image-text__wrapper > .item img{
+    margin-right: 25px;
+  }
+  .image-text__container > div{
+    width: 50%;
+  }
+  .image-text__container{
+    display: flex;
+    align-items: center;
+    padding: 68px 165px;
+  }
+  .image-text__container .left{
+    margin-right: 70px;
+    margin-bottom: auto;
+  }
+  .image-text__wrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+  }
+
+  .image-text__wrapper .text-wrap{
+    margin: 0;
+  }
+  @media (max-width: 1250px){
+    .image-text__container{
+      padding: 100px 80px;
+    }
+    .image-text__wrapper .text-wrap p {
+      font-size: 16px;
+      line-height: 30px;
+    }
+  }
+
+    @media (max-width: 1000px) {
+    .image-text__container{
+      flex-direction: column;
+    }
+    .image-text__container .left{
+      width: 100%;
+      margin-right: 0;
+    }
+    .section-feature-row .right{
+      width: 100%;
+    }
+    .right img{
+      width: 100%;
+      margin-top: 30px;
+    }
+  }
+  @media (max-width: 970px) {
+    .image-text__container{
+      padding: 50px 30px;
+    }
+    .image-text__wrapper .text-wrap p{
+      font-size: 16px;
+      color: #222;
+      font-weight: 400;
+      line-height: 28px;
+    }
+    .image-text__container .left{
+      margin-right: 0;
+    }
+  }
+  @media (max-width: 768px) {
+    .image-text__container{
+      padding: 50px 16px;
+    }
+    .section-feature-row .right img{
+      border-radius: 8px;
+      padding: 0;
+    }
+    .right img{
+      max-width: 100%;
+    }
+    .section-feature-row .right img{
+      border-radius: 0;
+    }
+    .image-text__container .right{
+      width: 100%;
+      padding: 0;
+    }
+    .image-text__wrapper > .item{
+      flex-direction: row;
+    }
+    .section-feature-row .right{
+      width: 100%;
+    }
+    .image-text__wrapper > .item img{
+      margin-right: 16px;
+    }
+    .image-text__container{
+      flex-direction: column;
+    }
+
+
+    .section-feature-row .left{
+      width: 100%;
+    }
+
+    .image-text__container h2{
+      font-size: 24px;
+      line-height: 36px;
+      margin-bottom: 25px;
+    }
+
+    .image-text__wrapper .text-wrap p{
+      font-size: 16px;
+      line-height: 28px;
+    }
+  }
+
+  @media screen and (min-width: 320px) and (max-width: 480px){
+    .image-text__container .section-label{
+      margin-bottom: 8px;
+    }
+
+    .image-text__wrapper{
+      margin-bottom: 32px;
+    }
+
+    .image-text__wrapper:nth-last-child(1){
+      margin-bottom: 0;
+    }
+
+    .image-text__wrapper > .item{
+      column-gap: 16px;
+    }
+
+    .image-text__wrapper .text-wrap h3{
+      margin: 0;
+      margin-bottom: 4px;
+      line-height: 22px;
+    }
+  }
+</style>

@@ -1,0 +1,646 @@
+<div class="garance_block">
+    <div class="garance_block_position">
+        <div class="garance_hero">
+            <div class="garance_text">
+                <h2>{{ section.settings.head_g }}</h2>
+                <div class="icon_container">
+                    <h3>{{ section.settings.sub_head_g }}</h3>
+                </div>
+                <p>{{ section.settings.inf_g }}</p>
+            </div>
+            <div class="garance_img">
+                <img src="https://cdn.shopify.com/s/files/1/0511/0421/9293/files/garance_img.png?v=1691422293" alt="">
+            </div>
+        </div>
+        <div class="garance_hero section2">
+            <div class="garance_text2">
+                <h3 class="head2">{{ section.settings.head2 }}</h3>
+                <div class="text-button_container">
+                    <div class="bold-text">{{ section.settings.title1 }}</div>
+                    <a id="jump-to-form" class="button_wr"
+                       href="#complaint-wrapper">{{ section.settings.fill_form }}</a>
+                </div>
+                <div class="bold-text">{{ section.settings.title2 }}</div>
+                <p>{{ section.settings.text1 }}</p>
+                <p>{{ section.settings.text2 }}</p>
+            </div>
+            <div class="garance_img">
+                <div class="container_image">
+                    <h3>{{ section.settings.text_in_image }}</h3>
+                    <div class="garance-img_text">
+                        <img class="garance_image2"
+                             src="https://cdn.shopify.com/s/files/1/0589/1624/1617/files/garance_products.png?v=1691602398">
+                        <div class="garance-img_image">
+                            <a class="button_wr fill-form-btn"
+                               href="{{ section.settings.btn_wr_link }}">{{ section.settings.btn_wr }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p_s">
+            <span><span>{{ section.settings.p_s }} </span>{{ section.settings.p_s_note }}</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("jump-to-form").onclick = function () {
+        let complaintForm = document.getElementById("complaint-wrapper")
+        complaintForm.classList.remove("hidden")
+    };
+</script>
+
+{% comment %}
+   ///// Style /////
+{% endcomment %}
+
+<style>
+
+    .container_image h3 {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+    .garance-img_image {
+        width: 100%;
+        margin: 0 auto;
+        z-index: 10;
+        position: absolute;
+        bottom: 25px;
+    }
+    .garance-img_text{
+        z-index: 10;
+        position: relative;
+    }
+    .garance_image2 {
+    }
+
+    .text-button_container {
+        margin-bottom: 60px;
+    }
+
+    .text-button_container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .head2 {
+        font-size: 32px;
+        line-height: 42px;
+        color: #222;
+    }
+
+    .p_s {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+        margin-top: 90px;
+    }
+
+    .p_s p {
+        font-size: 18px;
+        line-height: 26px;
+        color: #6C6E73;
+        margin: 0 0 16px;
+        font-family: 'Graphik-Regular';
+    }
+
+    .p_s span {
+        font-size: 16px;
+        line-height: 28px;
+        color: #8B9093;
+        max-width: 740px;
+    }
+
+    .bold-text {
+        color: #222;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 28px;
+        margin-bottom: 24px;
+    }
+
+    .without_risk {
+        display: flex;
+        max-width: 600px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+    }
+
+    .without_risk h2 {
+        font-size: 32px;
+        line-height: 42px;
+        color: #222222;
+        margin: 0 0 32px;
+        font-weight: normal;
+        text-align: center;
+        font-family: Graphik-Regular;
+    }
+
+    .button_wr {
+        background: #FF4438;
+        border-radius: 900px;
+        font-family: Graphik-Regular;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 16px;
+        line-height: 20px;
+        color: #fff;
+        border: 1px solid #FF4438;
+        transition: .2s;
+        padding: 22px 40px;
+        display: inline-block;
+        width: 256px;
+        text-align: center;
+    }
+
+    .button_wr:hover {
+        background-color: #C01616;
+        color: #fff !important;
+    }
+
+
+    .container_image {
+        text-align: center;
+        border-radius: 8px;
+        background-size: cover;
+        padding: 50px 30px;
+    }
+
+    .section2 {
+        flex-direction: row-reverse;
+        margin-top: 150px;
+    }
+
+    .icon_container h3 {
+        font-size: 32px;
+        line-height: 42px;
+        font-family: Graphik-Regular;
+    }
+
+    .icon_container img {
+        width: 82px;
+        height: 82px;
+        margin-right: 10px;
+    }
+
+    .garance_text h2 {
+        font-size: 44px;
+        line-height: 56px;
+        font-family: Graphik-Regular;
+    }
+
+    .garance_text2 h2 {
+        font-size: 44px;
+        line-height: 56px;
+        font-family: Graphik-Regular;
+    }
+
+    .garance_img {
+        width: 50%;
+        background-color: #F5F5F5;
+        border-radius: 8px;
+    }
+
+    .garance_img img {
+        width: 100%;
+    }
+
+    .garance_text {
+        width: 50%;
+        margin-right: 90px;
+    }
+
+    .garance_text2 {
+        width: 50%;
+        margin-left: 90px;
+    }
+
+    .garance_hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .icon_container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 15px
+    }
+
+    .instruction > div {
+        width: 50%;
+    }
+
+    .garance_block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: auto;
+        padding: 30px 165px 80px 165px;
+    }
+
+    .garance_block_position {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        font-family: Graphik-Regular;
+    }
+
+    .garance_block_position h2 {
+        font-size: 44px;
+        line-height: 55px;
+        color: #222222;
+        margin-bottom: 23px;
+        text-transform: none;
+        font-weight: normal;
+        font-family: 'Graphik-Regular';
+        padding-top: 40px;
+        max-width: 600px;
+    }
+
+    .garance_block_position p {
+        font-size: 16px;
+        line-height: 28px;
+        color: #8B9093;
+        margin: 0 0 64px;
+    }
+
+    .instruction {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 64px;
+        margin-top: 24px;
+        column-gap: 16px;
+    }
+
+    .instruction h5 {
+        font-size: 16px;
+        line-height: 20px;
+        color: #222222;
+        margin: 0 0 16px;
+        font-family: 'Graphik-Medium';
+    }
+
+    .instruction a {
+
+    }
+
+    .instruction p {
+        font-size: 16px;
+        line-height: 28px;
+        color: #222222;
+        margin: 0;
+    }
+
+    .first_step {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .button_step:hover {
+        background-color: #F5F6F7;
+    }
+
+    .button_step {
+        padding: 20px 40px;
+        border: 1px solid #E4E7E9;
+        border-radius: 900px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FF4438;
+        font-family: 'Graphik-Medium';
+    }
+
+    .second_step {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .garance_card {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .prod_inform_g {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-left: 67px;
+    }
+
+    .prod_inform_g a {
+        font-size: 16px;
+        line-height: 28px;
+        color: #222222;
+        margin-left: 17px;
+    }
+
+    @media screen and (max-width: 1500px) {
+        .section2 {
+            margin-top: 25px;
+        }
+    }
+
+
+    @media screen and (max-width: 1250px) {
+
+        .section2 {
+            margin-top: 20px;
+        }
+
+        .garance_card {
+            flex-direction: column;
+            margin-right: 80px;
+            margin-left: auto;
+        }
+
+        .prod_inform_g {
+            margin-bottom: 16px;
+            margin-left: 0;
+        }
+
+        .garance_block {
+            padding: 10px 80px 30px 80px;
+        }
+    }
+
+    @media screen and (max-width: 970px) {
+
+        .p_s {
+            margin: 30px 0;
+        }
+
+        .garance_block_position h2 {
+            padding-top: 0;
+        }
+
+        .garance_block_position p {
+            margin: 0 0 20px;
+        }
+
+        .garance_text2 {
+            margin-left: 0;
+        }
+
+        .garance_block {
+            padding: 0;
+        }
+
+        .garance_hero {
+            flex-direction: column;
+        }
+
+        .garance_text {
+            width: 100%;
+            margin-right: 0 !important;
+            padding: 30px;
+        }
+
+        .garance_text2 {
+            width: 100%;
+            margin-right: 0 !important;
+            padding: 30px;
+        }
+
+        .garance_img {
+            width: 100%;
+            margin-right: 0 !important;
+        }
+    }
+
+    @media screen and (max-width: 970px) {
+
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .p_s{
+            padding: 0 16px;
+        }
+
+        .container_image{
+        }
+        .icon_container {
+            margin-bottom: 0;
+        }
+
+        .section2 {
+            margin-top: 30px;
+        }
+
+        .head2 {
+            font-size: 28px;
+            line-height: 40px;
+        }
+
+        .text-button_container {
+            margin-bottom: 25px;
+        }
+
+        .garance_block_position p {
+            margin: 0 0 20px;
+        }
+
+        .icon_container h3 {
+            font-size: 24px;
+            line-height: 36px;
+        }
+
+        .icon_container img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .garance_block_position h2 {
+            font-size: 28px;
+            line-height: 40px;
+            margin-top: 20px;
+        }
+
+        .garance_text {
+            padding: 0 16px;
+        }
+
+        .garance_text2 {
+            padding: 0 16px;
+        }
+
+        .garance_block_position h2 {
+            padding-top: 0;
+        }
+
+        .instruction > div {
+            width: 100%;
+        }
+
+        .garance_card {
+            margin: 0;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .garance-img_image {
+            bottom: -5px;
+        }
+
+
+        .p_s p {
+            font-size: 16px;
+            line-height: 22px;
+        }
+
+        .comment_block h4 {
+            font-size: 24px;
+            line-height: 32px;
+        }
+
+        .instruction {
+            flex-direction: column;
+            line-height: 22px;
+        }
+
+        .first_step {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 22px;
+        }
+
+        .button_step {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media screen and (max-width: 375px) {
+        .without_risk h6 {
+            text-align: center;
+        }
+    }
+</style>
+
+
+{% schema %}
+{
+  "name": "garance",
+  "settings": [
+    {
+      "id": "head2",
+      "type": "text",
+      "label": "heading2"
+    },
+    {
+      "id": "title1",
+      "type": "text",
+      "label": "title1"
+    },
+    {
+      "id": "title2",
+      "type": "text",
+      "label": "title2"
+    },
+    {
+      "id": "fill_form",
+      "type": "text",
+      "label": "button text"
+    },
+    {
+      "id": "text1",
+      "type": "text",
+      "label": "text1"
+    },
+    {
+      "id": "text2",
+      "type": "text",
+      "label": "text2"
+    },
+    {
+      "id": "btn_wr",
+      "type": "text",
+      "label": "Button text"
+    },
+    {
+      "id": "btn_wr_link",
+      "type": "url",
+      "label": "Button URL"
+    },
+    {
+      "id": "head_g",
+      "type": "text",
+      "label": "Heading",
+      "default": "Tittle"
+    },
+    {
+      "id": "sub_head_g",
+      "type": "textarea",
+      "label": "Heading",
+      "default": "Sub Tittle"
+    },
+    {
+      "id": "inf_g",
+      "type": "textarea",
+      "label": "Text"
+    },
+    {
+      "id": "first_step",
+      "type": "text",
+      "label": "First Step"
+    },
+    {
+      "id": "btn_step",
+      "type": "text",
+      "label": "Button text"
+    },
+    {
+      "id": "text_in_image",
+      "type": "text",
+      "label": "image text"
+    },
+    {
+      "id": "btn_step_link",
+      "type": "url",
+      "label": "Button URL"
+    },
+    {
+      "id": "second_step",
+      "type": "text",
+      "label": "Second Step"
+    },
+    {
+      "id": "address_g",
+      "type": "textarea",
+      "label": "Address"
+    },
+    {
+      "type": "text",
+      "id": "p_s",
+      "label": "Head"
+    },
+    {
+      "type": "textarea",
+      "id": "p_s_note",
+      "label": "P.S"
+    }
+  ]
+}
+{% endschema %}

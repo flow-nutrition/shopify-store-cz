@@ -1,0 +1,116 @@
+<section class="page-width featured-blog">
+    {% if section.settings.title != blank %}
+        <div class="section-header">
+            <h2>{{ section.settings.title | escape }}</h2>
+        </div>
+    {% endif %}
+
+    {%- assign blog = blogs[section.settings.blog_for_product] -%}
+
+{{ blog }}
+    {% unless blog.articles_count == 0 %}
+        <ul class="articles-wrapper grid grid--uniform grid--blog">
+            {% for article in blog.articles limit: 3%}
+                <li class="grid__item medium-up--one-third">
+                    <article aria-labelledby="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+                        <div>
+                            <a href="{{ article.url }}" class="article__link">
+                                {% if article.image %}
+                                    {% capture img_id %}ArticleImage-{{ article.image.id }}{% endcapture %}
+                                    {% capture img_wrapper_id %}ArticleImageWrapper-{{ article.image.id }}{% endcapture %}
+                                    {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+                                    {% include 'image-style', image: article.image, height: 235, wrapper_id: img_wrapper_id, img_id: img_id %}
+                                    <div id="{{ img_wrapper_id }}" class="article__grid-image-wrapper js">
+                                        <div class="article__grid-image-container" style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;" data-image-loading-animation>
+                                            <img id="{{ img_id }}"
+                                                 class="article__grid-image lazyload"
+                                                 data-src="{{ img_url }}"
+                                                 data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                                                 data-aspectratio="{{ article.image.aspect_ratio }}"
+                                                 data-sizes="auto"
+                                                 alt="">
+                                        </div>
+                                    </div>
+                                    <noscript>
+                                        <div class="article__grid-image-wrapper">
+                                            {{ article | img_url: '345x345', scale: 2 | img_tag: article.title, 'article__grid-image' }}
+                                        </div>
+                                    </noscript>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <a href="{{ article.url }}" class="article__link">
+                            <h3 class="article__title" id="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+                                {{ article.title }}
+                            </h3>
+                        </a>
+                        <div class="article__grid-meta">
+                            {% if section.settings.blog_show_excerpt %}
+                                <div class="rte article__grid-excerpt">
+                                    {% if article.excerpt.size > 0 %}
+                                        {{ article.excerpt }}
+                                    {% else %}
+                                        {{ article.content | strip_html | truncate: 150 }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {% if article.tags.size > 0 %}
+                                <div class="article__tags rte">
+                                    <ul class="list--inline" aria-label="{{ 'blogs.article.tags' | t }}">
+                                        {% for tag in article.tags %}
+                                            {% if tag contains "time" or tag contains "product:" %}
+                                            {% else %}
+                                                <li>
+                                                    <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__grid-tag">{{ tag }}</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if tag contains "time" %}
+                                                {% assign tag_split = tag | split: ':' %}
+                                                <li class="time-count">{{ tag_split[1] }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="grid grid--uniform grid--blog">
+            {% for i in (1..3) %}
+                <div class="grid__item medium-up--one-third">
+                    <div class="article__grid-meta">
+                        <h3 class="article__title">
+                            <a href="#">{{ 'homepage.onboarding.blog_title' | t }}</a>
+                        </h3>
+
+                        <div class="rte article__grid-excerpt">
+                            {{ 'homepage.onboarding.blog_excerpt' | t }}
+                        </div>
+
+                        <ul class="list--inline article__meta-buttons">
+                            <li>
+                                <a href="{{ article.url }}" class="btn btn--tertiary btn--small">
+                                    {{ 'blogs.article.read_more' | t }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endunless %}
+
+    {% if section.settings.show_view_all %}
+        <div class="text-center read-all-btn">
+            <a href="{{ blog.url }}" class="btn" aria-label="{{ 'blogs.article.view_all_blogs' | t }}">
+                {{ 'blogs.article.view_all' | t }}
+            </a>
+        </div>
+    {% endif %}
+</section>

@@ -1,0 +1,17 @@
+{% assign bundle = product.metafields.section.product_bundle %}
+<div class="product-bundle">
+  {% for product in bundle.products %}
+    {% if bundle.products.size == 4 %}
+      {% assign width = '25%' %}
+    {% endif %}
+    {% if bundle.products.size == 5 %}
+      {% assign width = '20%' %}
+    {% endif %}
+    <div class="product" style="width: {{ width }}">
+      <div class="image-wrapper"><img src="{{ product.image }}" alt="{{ product.heading }}"></div>
+      <a href="{{ product.url }}"><h3>{{ product.heading }}</h3></a>
+      <p>{{ product.text }}</p>
+      <button><a href="{{ product.url }}">Detail produktu<i aria-hidden="true" class="fas fa-angle-right"></i></a></button>
+    </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,341 @@
+{% assign cards = product.metafields.section.cards %}
+{% assign url_s = shop.metafields.studie.url.value %}
+{% assign url_c = shop.metafields.certifikat.url.value %}
+<div class="item__wrapper">
+    <div class="panal">
+        <div class="section-cards-wrapper" id="slozeni">
+          <div class="page-width product-section section-cards">
+            <div class="text-center header">
+                <div style="flex-direction: row-reverse" class="buttons-wrapper">
+                    <div style="display: flex;">
+                        <!-- <div class="prev-review-slide"><img src="{{ 'arrow-left.svg' | asset_url }}" alt=""></div>
+            <div class="next-review-slide"><img src="{{ 'arrow-right.svg' | asset_url }}" alt=""></div> -->
+                        <div class="prev-review-slide">{% include 'review_arrow_left' %}</div>
+                        <div class="next-review-slide">{% include 'review_arrow_right' %}</div>
+                    </div>
+                <h2>{{ cards.heading }}</h2>
+              </div>
+            <div id="container" class="card-container">
+              {% for block in cards.blocks %}
+        
+                <div class="card-item" style="background-image: url({{ block.image }});">
+                <div>
+                  <div class="card-title-wrapper">
+                    <h3 class="card__heading">
+                      {{ block.heading }}
+                    </h3>
+                    <div class="card-weight">{{ block.amount }}</div>
+                  </div>
+        
+                 <div class="content-wrapper">
+                  <p>{{ block.text }}</p>
+                  <div class="information {% if block.heading == 'Veganská tobolka' %}hidden{% endif %}">
+          
+                      {% assign handle = block.heading | handleize %}
+                      <div class="info-title">Více informací</div>
+                      <div class="info-item {% if block.heading == 'Melatonin' %}hidden{% endif %}">
+                          <a href="{% if handle %}{{ url_c[handle] }}{% else %}#{% endif %}" target="_blank" >
+                          <img src="{{ block.icon2 | append: '.svg' | asset_url }}" alt="{{ block.heading }} svg">
+                        <span>{{ block.info-item2 }}</span>
+                          </a>
+                      </div>
+                      <div class="info-item">
+                          <a href="{% if handle %}{{ url_s[handle] }}{% else %}#{% endif %}" target="_blank">
+                              <img src="{{ block.icon1 | append: '.svg' | asset_url }}" alt="{{ block.heading }} svg">
+                              <span>
+                                 {{ block.info-item1 }}
+                            </span>
+                          </a>
+                      </div>
+                  </div>
+                 </div>
+                </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-container{
+        display: flex;
+    }
+    .card-container .card-item{
+        max-width: 340px;
+        border-radius: 8px
+    }
+    .slick-slide{
+        width: 100%;
+    }
+
+    .content-wrapper p{
+        text-align: left;
+    }
+    .information{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .text-center .buttons-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .prev-review-slide svg,.next-review-slide svg{
+        width: 64px;
+        height: 64px;
+    }
+    .section-cards.page-width.product-section{
+        max-width: 100%;
+        padding-bottom: 105px;
+        padding-left: 165px;
+    }
+    .section-cards-wrapper{
+        padding-top: 110px;
+        background-color: #F5F6F7;
+    }
+      .section-cards-wrapper .section-cards{
+        padding: 0;
+      }
+     .section-cards-wrapper .section-label{
+         font-size: 14px;
+         line-height: 24px;
+         letter-spacing: 1px;
+         text-transform: uppercase;
+         color: #8B9093;
+         font-weight: 400;
+         margin-bottom: 16px;
+     }
+     .card-title-wrapper{
+         display: flex;
+         align-items: center;
+         margin-bottom: 16px;
+     }
+      .section-cards .header h2{
+          font-size: 32px;
+          line-height: 42px;
+          color: #222222;
+          margin-bottom: 0;
+      }
+      .section-cards .card-container .card-item{
+          background-position: 145px 110%;
+          background-repeat: no-repeat;
+          border: 1px solid #dadada;
+          background-color: #fff;
+          padding: 35px 45px 40px 40px;
+          position: relative;
+          margin: 10px;
+      }
+
+      .section-cards .card-container .card-item h3{
+          font-size: 18px;
+          line-height: 26px;
+          color: #222222;
+          margin-bottom: 0;
+          position: relative;
+          margin-right: 15px;
+          text-align: left;
+      }
+        .card-weight{
+            font-size: 18px;
+            line-height: 26px;
+            color: #8B9093;
+            font-family: 'Graphik-Medium';
+            white-space: nowrap;
+        }
+
+      .section-cards .card-container .card-item h3:after {
+          content: '';
+          width: 4px;
+          height: 4px;
+          display: inline-block;
+          background: #E4E7E9;
+          border-radius: 50%;
+          margin-right: 8px;
+          margin-left: 8px;
+          margin-bottom: 3px;
+          position: absolute;
+          top: 50%;
+          right: -17px;
+          transform: translateY(-50%);
+      }
+      .section-cards .card-container .card-item .content-wrapper p{
+          font-size: 16px;
+          line-height: 28px;
+          color: #222222;
+          max-width: 267px;
+          margin-bottom: 16px;
+      }
+      .info-title{
+          color: #8B9093;
+          font-size: 14px;
+          line-height: 20px;
+          margin-bottom: 16px;
+      }
+      .info-item img{
+          margin-right: 10px;
+      }
+      .info-item span{
+          font-size: 14px;
+          line-height: 20px;
+          color: #222222;
+          font-family: 'Graphik-Medium';
+      }
+      .info-item{
+          margin-bottom: 16px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+      .info-item:last-of-type{
+          margin-bottom: 0;
+      }
+      @media screen and (min-width: 768px) {
+        .text-center.header .section-label{
+            display: none;
+        }
+      }
+        @media (max-width: 1250px){
+            .section-cards.page-width.product-section{
+                padding-left: 80px;
+            }
+        }
+            @media (max-width: 1151px){
+            .section-cards .container{
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+            .section-cards .card-container .card-item{
+                background-position: 150px 115%;
+            }
+
+        }
+      @media (max-width: 970px){
+          .section-cards.page-width.product-section{
+              padding-left: 30px;
+          }
+      }
+    @media (max-width: 996px){
+        .information{
+            flex-direction: column-reverse;
+        }
+        .card-weight{
+            font-size: 16px;
+            line-height: 26px;
+        }
+        .info-title{
+            order: 3;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .section-cards .card-container .card-item .content-wrapper p{
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+        .section-cards .card-container .card-item h3{
+            font-size: 16px;
+            line-height: 26px;
+        }
+        .info-item{
+            margin-bottom: 5px;
+        }
+        .card-title-wrapper{
+            margin-bottom: 5px;
+        }
+        .section-cards .card-container .card-item .content-wrapper p{
+            font-size: 14px;
+            line-height: 22px;
+        }
+        .section-cards .card-container .card-item {
+            background-position: 109px 115%;
+            background-size: 139px;
+            padding: 25px 15px;
+        }
+        .card-container .card-item{
+            width: 240px;
+            border-radius: 8px;
+            background-image: url({{ block.image }});
+        }
+      }
+      @media (max-width: 768px){
+          .section-cards.page-width.product-section{
+              padding-left: 16px;
+          }
+          .section-cards .header h2{
+              font-size: 24px;
+              line-height: 27px;
+              color: #222222;
+              margin-bottom: 0;
+          }
+      }
+      @media (max-width: 749px){
+          .section-cards-wrapper .section-label{
+              display: none;
+          }
+          .section-cards .text-center.header{
+              text-align: left!important;
+          }
+
+          .section-cards.page-width.product-section{
+              padding-bottom: 20px;
+          }
+
+          .section-cards .container{
+              display: flex!important;
+          }
+      }
+
+      @media (max-width: 480px){
+          .section-cards .card-container .card-item {
+              background-size: 43%;
+              background-position: 80% 108%;
+          }
+          .section-cards .text-center.header{
+              padding: 0;
+          }
+      }
+
+</style>
+    {{ 'slick.min.js' | asset_url | script_tag }}
+
+<script>
+
+    $('#container').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        prevArrow: $('.prev-review-slide'),
+        nextArrow: $('.next-review-slide'),
+        variableWidth: true,
+        responsive: [
+            {
+                breakpoint: 1500,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 1000,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ],
+        adaptiveHeight: true
+    });
+</script>

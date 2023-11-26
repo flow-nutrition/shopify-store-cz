@@ -1,0 +1,44 @@
+<section class="sitemap-wrapper">
+    {% for block in section.blocks %}
+        <a href="{{ block.settings.url }}">
+           {{ block.settings.title }}
+        </a>
+    {% endfor %}
+</section>
+
+<style>
+    .sitemap-wrapper{
+        padding: 50px 100px;
+    }
+    .sitemap-wrapper a{
+        display: block;
+        padding-bottom: 20px;
+        font-size: 16px;
+        font-family: 'Graphik-Medium';
+        color: #222222;
+    }
+</style>
+
+{% schema %}
+{
+"name": "Sitemap",
+"blocks": [
+{
+"type": "page",
+"name": "Pages",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Page title"
+},
+{
+"type": "url",
+"id": "url",
+"label": "Page url"
+}
+]
+}
+]
+}
+{% endschema %}

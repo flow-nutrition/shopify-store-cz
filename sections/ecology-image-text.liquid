@@ -1,0 +1,98 @@
+<div class="img__text__wrapper">
+    <div class="img__text__wrapper__inner">
+        <div class="image__wrapper">
+            <img src="{{section.settings.image | img_url: 'master'}}" alt="{{section.settings.image.alt}}">
+        </div>
+        <div class="image__text__wrapper">
+            <h2 class="section__heading">{{section.settings.heading}}</h2>
+            <div class="section__text">{{section.settings.content}}</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .section__text p{
+        color: #6C6E73;
+        font-size: 16px;
+        line-height: 28px;
+        max-width: 650px;
+    }
+    .img__text__wrapper__inner .image__wrapper{
+        width: 50%;
+    }
+    .img__text__wrapper{
+        padding-bottom: 100px;
+    }
+    .image__text__wrapper{
+        width: 50%;
+    }
+    .section__heading{
+        font-size: 32px;
+        line-height: 48px;
+        color: #222;
+    }
+    .img__text__wrapper__inner{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .img__text__wrapper .image__wrapper{
+        border-radius: 10px;
+        overflow: hidden;
+        margin-right: 70px;
+        width: 50%;
+    }
+    .image__wrapper img{
+        width: 100%;
+    }
+    @media screen and (max-width: 970px){
+        .img__text__wrapper{
+            padding-bottom: 50px;
+        }
+        .img__text__wrapper .image__wrapper{
+            margin-right: 0;
+        }
+        .img__text__wrapper .image__wrapper{
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        .img__text__wrapper__inner{
+            flex-direction: column-reverse;
+            margin-bottom: 16px
+        }
+        .image__text__wrapper h2{
+            font-size: 32px;
+        }
+        .img__text__wrapper .image__wrapper{
+            width: 100%;
+        }
+        .image__text__wrapper{
+            width: 100%;
+            margin-bottom: 16px;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "Image text",
+    "settings": [
+        {
+           "type": "text",
+           "id": "heading",
+           "label": "Section heading"
+        },
+        {
+           "type": "richtext",
+           "id": "content",
+           "label": "Text"
+        },
+        {
+           "type": "image_picker",
+           "id": "image",
+           "label": "Image"
+        }
+    ]
+}
+{% endschema %}

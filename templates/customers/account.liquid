@@ -1,0 +1,103 @@
+<div class="page-width">
+  <div class="section-header text-center">
+    <h1>{{ 'customer.account.title' | t }}</h1>
+    {{ 'layout.customer.log_out' | t | customer_logout_link }}
+  </div>
+
+  <div class="grid myaccount">
+    <div class="grid__item myaccount__account-details">
+      <h3>{{ 'customer.account.details' | t }}</h3>
+
+      {{ customer.default_address | format_address }}
+
+      <p><a href="{{ routes.account_addresses_url }}" class="btn--myaccount">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></p>
+    </div>
+    <div class="grid__item myaccount__order-history">
+      <h3>{{ 'customer.orders.title' | t }}</h3>
+
+      {% paginate customer.orders by 20 %}
+        {% if customer.orders.size != 0 %}
+
+          <table class="responsive-table">
+            <thead>
+              <tr>
+                <th scope="col">{{ 'customer.orders.order_number' | t }}</th>
+                <th scope="col">{{ 'customer.orders.date' | t }}</th>
+                <th scope="col">{{ 'customer.orders.payment_status' | t }}</th>
+                <th scope="col">{{ 'customer.orders.fulfillment_status' | t }}</th>
+                <th scope="col">{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in customer.orders %}
+                <tr>
+                  <th data-label="{{ 'customer.orders.order_number' | t }}" scope="row">
+                    <a href="{{ order.customer_url }}" class="btn btn--secondary btn--small btn--myorders" aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}">{{ order.name }}</a>
+                  </th>
+                  <td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | time_tag: format: 'date' }}</td>
+                  <td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
+                  <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">
+                    {% if order.fulfillment_status_label == "Nesplněno" %}
+                    	Připravuje se
+                    {% else %}
+                    	{{ order.fulfillment_status_label }}
+                  	{% endif %}
+                  </td>
+                  <td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        {% else %}
+
+          <p>{{ 'customer.orders.none' | t }}</p>
+
+        {% endif %}
+        {%- if paginate.pages > 1 -%}
+          {% include 'pagination', paginate: paginate %}
+        {%- endif -%}
+      {% endpaginate %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .section-header {
+    margin: 84px 0 55px;
+  }
+  
+  .btn--myaccount:hover {
+    background: #F5F6F7;
+    color: #FF4438;
+  }
+  
+  .btn--myaccount {
+    background: #FF4438;
+    color: #FFFFFF;
+    border: 1px solid #E4E7E9;
+    border-radius: 900px;
+    min-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 200px;
+    display: none;
+  }
+  #customer_logout_link{
+    text-decoration: underline;
+  }
+  .myaccount{
+    margin-bottom: 20px;
+  }
+  .myaccount h3{
+    margin: 0 0 30px;
+  }
+  .myaccount__account-details{
+    max-width: 240px;
+    margin-right: 40px;
+  }
+  .myaccount__order-history{
+    margin-right: 40px;
+  }
+</style>

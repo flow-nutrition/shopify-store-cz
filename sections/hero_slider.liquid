@@ -1,0 +1,717 @@
+<div class="hero_slider">
+    <div class="herp_slider_position">
+        {% for block in section.blocks %}
+            <div class="hs_item slick-slide" data-adapt-height="true">
+                <div class="hs_image_wrapper">
+                    <img class="desktop_img" src="{{ block.settings.image | img_url: 'master' }}">
+                    <img class="mobile_img" src="{{ block.settings.mobile-image | img_url: 'master' }}">
+                </div>
+                <div class="hs_content_wrapper hs_text_pos_{{ block.id }}">
+                    <div class="hs_content">
+                        <div class="hs_title">{{ block.settings.title }}</div>
+                        <p class="hs_info info_title">{{ block.settings.info }}</p>
+                        <div class="hs_buttons">
+                            {% if block.settings.link1_text != blank %}
+                                <a href="{{ block.settings.link1 }}"
+                                   class="hs_button_def">{{ block.settings.link1_text }}</a>
+                            {% endif %}
+                            {% if block.settings.link2_text != blank %}
+                                <a href="{{ block.settings.link2 }}"
+                                   class="hs_button_transparent">{{ block.settings.link2_text }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="hs_dots"></div>
+    <div class="hs_prev_arrow">{% include 'icon-chevron-left' %}</div>
+    <div class="hs_next_arrow">{% include 'icon-chevron-right' %}</div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.herp_slider_position').slick({
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            centerPadding: '0',
+            useTransform: false,
+            dots: true,
+            fade: true,
+            arrows: true,
+            appendDots: $(".hs_dots"),
+            prevArrow: $('.hs_prev_arrow'),
+            nextArrow: $('.hs_next_arrow'),
+            responsive: [
+                {
+                    breakpoint: 601,
+                    settings: {
+                        adaptiveHeight: true,
+                    }
+                }
+            ]
+        });
+
+        $('.icon-text-item').mouseover(function () {
+            $(".hs_dots").css('opacity', '0')
+            $(".hero_slider .slick-list").css({
+                'padding-bottom': '250px',
+                'margin-bottom': '-250px',
+                'overflow-y': 'visible'
+            })
+        })
+        $('.icon-text-item').mouseleave(function () {
+            $(".hs_dots").css('opacity', '1')
+            $(".hero_slider .slick-list").css({'padding-bottom': '0px', 'margin-bottom': '0px', 'overflow-y': 'hidden'})
+        })
+    });
+</script>
+
+
+{%- style -%}
+    {% for block in section.blocks %}
+        {% if block.settings.cont_pos == 'left' %}
+            .hs_text_pos_{{ block.id }}{
+            justify-content: flex-start;
+            }
+        {% elsif block.settings.cont_pos == 'center' %}
+            .hs_text_pos_{{ block.id }}{
+            justify-content: center;
+            text-align: center;
+            }
+        {% else block.settings.cont_pos == 'right' %}
+            .hs_text_pos_{{ block.id }}{
+            justify-content: flex-end;
+            }
+        {% endif %}
+        .hs_text_pos_{{ block.id }} .hs_title p{
+        color: {{ block.settings.title_color }};
+        }
+        .hs_text_pos_{{ block.id }} .hs_info{
+        color: {{ block.settings.info_color }};
+        }
+        .hs_text_pos_{{ block.id }} .hs_content .icon-text-item span{
+        color: {{ block.settings.text_color }};
+        }
+    {% endfor %}
+{%- endstyle -%}
+
+<style>
+    @media screen and (min-width: 1441px) {
+        .herp_slider_position {
+            max-width: 100% !important;
+        }
+    }
+
+    .mobile_img {
+        display: none;
+    }
+
+    .hs_dots {
+        position: absolute;
+        bottom: 15px;
+        z-index: 2;
+    }
+
+    .hs_dots .slick-dots li.slick-active button:before {
+        color: transparent !important;
+    }
+
+    .hs_dots li button {
+        width: 10px;
+        height: 10px;
+        margin: 0 8px;
+        background: #ccd0d2 !important;
+        border-radius: 100%;
+    }
+
+    .hs_dots li.slick-active button {
+        background: #6c6e73 !important;
+        border-radius: 100%;
+    }
+
+    .hs_prev_arrow {
+        background-color: #ff4438;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        left: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+    .hs_next_arrow {
+        background-color: #ff4438;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        right: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+    .hs_next_arrow svg, .hs_prev_arrow svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .hero_slider {
+        padding: 0 22px;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .herp_slider_position {
+        display: flex;
+        width: 100%;
+        max-width: 1360px;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .herp_slider_position.slick-initialized {
+        opacity: 1;
+    }
+
+    .hs_image_wrapper {
+        height: 100%;
+        position: relative;
+        width: 100%;
+    }
+
+    .hs_image_wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hs_content_wrapper {
+        position: absolute;
+        display: flex;
+        width: 100%;
+        top: 50%;
+        align-items: center;
+        opacity: 0;
+        margin: 0;
+        transition: .6s cubic-bezier(.44, .13, .48, .87);
+        transition-delay: .3s;
+    }
+
+    .hero_slider .slick-list {
+        /* overflow-y: visible;
+        padding-bottom: 250px;
+        margin-bottom: -250px; */
+        z-index: 1;
+    }
+
+    .hs_item {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        transition: height .6s cubic-bezier(.44, .13, .48, .87);
+        height: 100vh;
+    }
+
+    .hs_item.slick-active .hs_content_wrapper {
+        transform: translateY(-50%);
+        opacity: 1;
+    }
+
+    .hs_content {
+        display: flex;
+        max-width: 664px;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0 120px;
+    }
+
+    .hs_title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        margin: 0 0 16px;
+    }
+
+    .hs_title p {
+        font-family: "Graphik-regular";
+        font-style: normal;
+        font-size: 56px;
+        line-height: 72px;
+        margin: 0;
+        color: #202020;
+    }
+
+    .hs_info {
+        margin: 0;
+        font-family: "Graphik-Regular";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 19px;
+        line-height: 32px;
+        margin: 0 0 56px;
+        color: #202020;
+    }
+
+    .info_title {
+        color: #202020;
+    }
+
+    .hs_buttons {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .hs_button_def {
+        background: #FF4438;
+        min-width: 256px;
+        min-height: 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 900px;
+        font-family: "Graphik-Regular";
+        font-style: normal;
+        font-weight: 800;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FFFFFF;
+        border: 1px solid #FF4438;
+        transition: 0.2s;
+    }
+
+    .hs_button_def:hover {
+        color: #FFFFFF !important;
+        background: #C01616 !important;
+        border: 1px solid #C01616;
+    }
+
+    .hs_button_transparent {
+        background: #fff;
+        min-width: 253px;
+        color: #FF4438;
+        min-height: 64px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 900px;
+        font-family: "Graphik-Regular";
+        font-style: normal;
+        font-weight: 800;
+        font-size: 16px;
+        line-height: 20px;
+        border: 1px solid #6C6E73;
+        transition: 0.2s;
+        margin-left: 24px;
+        display: none;
+    }
+
+    .hs_button_transparent:hover {
+        color: #FF4438 !important;
+        border: 1px solid #FF4438;
+    }
+
+    .hs_content .icons-text-wrapper {
+        display: flex;
+        max-width: 100%;
+        padding-top: 96px;
+        margin-top: 0;
+        column-gap: 40px;
+        max-width: 550px;
+    }
+
+    .hs_content .icon-text-item {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        padding: 30px;
+        margin: -30px;
+    }
+
+    .hs_content .icon-text-item img {
+        max-width: 40px;
+    }
+
+    .hs_content .icon-text-item span {
+        font-family: "Graphik-Regular";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 22px;
+        margin: 0 2px 0 12px;
+    }
+
+    .hs_content .icon-text-item .tooltip, .item .tooltip {
+        width: 375px;
+        background: #fff;
+        cursor: auto;
+        padding: 32px 23px 32px 32px;
+        display: none;
+        top: 80px;
+        transition: 0.2s;
+        font-size: 16px;
+        line-height: 28px;
+        color: #222222;
+        left: -10px;
+    }
+
+    .hs_content .icon-text-item .tooltip a, .item .tooltip a {
+        color: #FF4438;
+        font-size: 14px;
+        line-height: 20px;
+        margin-top: 16px;
+        font-family: 'Graphik-Medium';
+    }
+
+    .hs_content .icon-text-item .tooltip:before, .item .tooltip:before {
+        content: '';
+        width: 11px;
+        height: 11px;
+        display: block;
+        background: #fff;
+        position: absolute;
+        top: -6px;
+        left: 53px;
+        transform: rotate(45deg);
+    }
+
+    .icon-text-item:hover .tooltip {
+        opacity: 1;
+        display: block;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .hs_item {
+            height: 80vh;
+        }
+
+        .hs_next_arrow {
+            right: 24px;
+        }
+
+        .hs_prev_arrow {
+            left: 24px;
+        }
+
+        .hs_content {
+            margin: 0 120px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .desktop_img {
+            display: none;
+        }
+
+        .mobile_img {
+            display: block;
+        }
+
+        .hs_button_transparent {
+            margin-left: 0;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .hero-title {
+            color: #ffffff;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .hs_buttons {
+            width: 80%;
+        }
+
+        .hs_button_transparent {
+            display: flex;
+        }
+
+        .hero_slider {
+            padding: 0 16px;
+        }
+
+        .hs_image_wrapper {
+            position: absolute;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .hs_item {
+            height: 80vh;
+        }
+
+        .hs_content {
+            margin: 0 30px;
+        }
+
+        .hs_next_arrow, .hs_prev_arrow {
+            display: none !important;
+        }
+
+        .hs_title p {
+            font-size: 32px;
+            line-height: 48px;
+            color: #222!important;
+            filter: drop-shadow(0px 0px 10px #ffffff);
+        }
+
+        .hs_info {
+            font-size: 16px;
+            line-height: 24px;
+            color: #222!important;
+            max-width: 200px;
+            filter: drop-shadow(0px 0px 10px #ffffff);
+        );
+        }
+
+        .hs_content .icons-text-wrapper {
+            padding-top: 30px;
+        }
+
+        .hero_slider .slick-list {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .hs_image_wrapper img {
+            border-radius: 8px;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .hs_content_wrapper {
+            max-width: 100%;
+        }
+
+        .hs_buttons {
+            flex-direction: column;
+        }
+
+        .hs_button_def {
+            width: 100%;
+        }
+
+        .hs_content .icons-text-wrapper {
+            flex-direction: column;
+        }
+
+        .hs_content .icon-text-item {
+            padding: 20px 30px;
+            margin: -15px -30px;
+        }
+
+        .hs_item {
+            height: max-content;
+        }
+
+        .hs_content_wrapper {
+            position: unset;
+        }
+
+        .hs_item.slick-active .hs_content_wrapper {
+            transform: unset;
+        }
+
+        .hs_image_wrapper img {
+            border-radius: 8px;
+        }
+
+        .hs_content {
+            margin: 60px 30px;
+            z-index: 1;
+        }
+    }
+</style>
+
+{% schema %}
+{
+  "name": "Hero Slider",
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Slider item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile-image",
+          "label": "MobileImage"
+        },
+        {
+          "type": "select",
+          "id": "cont_pos",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color",
+          "default": "#222222"
+        },
+        {
+          "type": "textarea",
+          "id": "info",
+          "label": "Text"
+        },
+        {
+          "type": "color",
+          "id": "info_color",
+          "label": "Info color",
+          "default": "#6C6E73"
+        },
+        {
+          "type": "url",
+          "id": "link1",
+          "label": "First Button link"
+        },
+        {
+          "type": "text",
+          "id": "link1_text",
+          "label": "First Button text"
+        },
+        {
+          "type": "url",
+          "id": "link2",
+          "label": "Second Button text"
+        },
+        {
+          "type": "text",
+          "id": "link2_text",
+          "label": "Second Button text"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#222222"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon-image1",
+          "label": "Icon image 1"
+        },
+        {
+          "type": "text",
+          "id": "icon-text1",
+          "label": "Icon text 1"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip1",
+          "label": "Tooltip 1"
+        },
+        {
+          "type": "text",
+          "id": "tooltip-btn1",
+          "label": "Tooltip button label"
+        },
+        {
+          "type": "url",
+          "id": "tooltip-url1",
+          "label": "Tooltip button url"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon-image2",
+          "label": "Icon image 2"
+        },
+        {
+          "type": "text",
+          "id": "icon-text2",
+          "label": "Icon text 2"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip2",
+          "label": "Tooltip 2"
+        },
+        {
+          "type": "text",
+          "id": "tooltip-btn2",
+          "label": "Tooltip button label"
+        },
+        {
+          "type": "url",
+          "id": "tooltip-url2",
+          "label": "Tooltip button url"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon-image3",
+          "label": "Icon image 3"
+        },
+        {
+          "type": "text",
+          "id": "icon-text3",
+          "label": "Icon text 3"
+        },
+        {
+          "type": "richtext",
+          "id": "tooltip3",
+          "label": "Tooltip 3"
+        },
+        {
+          "type": "text",
+          "id": "tooltip-btn3",
+          "label": "Tooltip button label"
+        },
+        {
+          "type": "url",
+          "id": "tooltip-url3",
+          "label": "Tooltip button url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Slider"
+    }
+  ]
+}
+{% endschema %}

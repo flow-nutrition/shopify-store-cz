@@ -1,0 +1,150 @@
+{% assign image_with_text = product.metafields.section.image_with_text %}
+<div class="page-width product-section section-feature-row" id="davkovani">
+  <div class="image-text__container">
+    <div class="left">
+      <div class="section-label">{{ image_with_text.label | escape }}</div>
+      <h2>{{ image_with_text.heading | escape }}</h2>
+      <div class="image-text__wrapper">
+        {% for block in image_with_text.blocks %}
+          <div class="item">
+            <img src="{{ block.icon | append: '.svg' | asset_url }}" alt="{{ block.heading }} svg"> 
+            <div class="text-wrap">
+              <h3>{{ block.heading }}</h3>
+              <p>{{ block.text }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="right"><img src="{{ image_with_text.image }}"></div>
+  </div>
+</div>
+
+<style>
+  .product-section.section-feature-row{
+    padding: 8rem 0;
+  }
+  .image-text__container{
+    padding: 0 10px;
+  }
+  .image-text__container h2{
+    font-size: 32px;
+    line-height: 48px;
+    color: #222;
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+
+  .section-feature-row .right img{
+    border-radius: 8px;
+  }
+
+  .section-feature-row .right{
+    width: 52%;
+  }
+  .section-feature-row .left {
+    width: 39%;
+  }
+  .image-text__container .section-label{
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    color: #8B9093;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .image-text__wrapper img{
+    max-width: 39px;
+  }
+  .image-text__wrapper .text-wrap p{
+    font-size: 19px;
+    color: #222;
+    font-weight: 400;
+    line-height: 32px;
+  }
+
+  .image-text__wrapper .text-wrap h3{
+    font-size: 14px;
+    color: #6C6E73;
+    font-weight: 400;
+    line-height: 22px;
+  }
+  .image-text__wrapper > .item{
+    display: flex;
+    align-items: flex-start;
+    column-gap: 25px;
+    
+  }
+  .image-text__container > div{
+    width: 50%;
+  }
+  .image-text__container{
+    display: flex;
+    column-gap: 129px;
+    flex-direction: row-reverse;
+  }
+  .image-text__wrapper{
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+  }
+
+  .image-text__wrapper .text-wrap{
+    max-width: 389px;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .section-feature-row .right{
+      display: none;
+    }
+
+    .section-feature-row .left{
+      width: 100%;
+    }
+
+    .product-section.section-feature-row{
+      padding: 49px 0 82px;
+    }
+
+    .image-text__container h2{
+      font-size: 32px;
+      line-height: 44px;
+      margin-bottom: 50px;
+    }
+
+    .image-text__wrapper .text-wrap p{
+      font-size: 16px;
+      line-height: 28px;
+    }
+  }
+
+  @media screen and (min-width: 320px) and (max-width: 480px){
+    .image-text__container .section-label{
+      margin-bottom: 8px;
+    }
+    .section-feature-row .left {
+      width: auto;
+    }
+
+    .image-text__wrapper{
+      margin-bottom: 32px;
+    }
+
+    .image-text__wrapper:nth-last-child(1){
+      margin-bottom: 0;
+    }
+
+    .image-text__wrapper > .item{
+      column-gap: 16px;
+      padding-left: 10px;
+    }
+
+    .image-text__wrapper .text-wrap h3{
+      margin: 0;
+      margin-bottom: 4px;
+      line-height: 22px;
+    }
+  }
+</style>

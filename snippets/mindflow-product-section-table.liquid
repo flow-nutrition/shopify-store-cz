@@ -1,0 +1,65 @@
+{% assign table = product.metafields.section.table %}
+<div style="background-image: url(https://mindflow.cz/wp-content/uploads/2020/05/Flow_up-1.png);
+  			background-position: top center;
+			background-repeat: repeat-x;
+  			background-size: contain;
+  			padding-top: 10rem;">
+  <div class="page-width product-section section-table">
+    <div class="section-label">
+      {{ table.label }}
+    </div>
+
+    <div class="container">
+      <div class="section-header">
+        <h2>{{ table.heading }}</h2>
+      </div>
+      <div class="section-description">
+        <p>{{ table.text }}</p>
+      </div>
+    </div>
+
+    <div class="container table">
+      <div class="section-image" style="width: 50%;">
+        <img src="{{ table.image }}" alt="section image" />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th style="color: #FF4438;">{{ table.table_header_1 }}</th> 
+            <th>{{ table.table_header_2 }}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for block in table.blocks %}
+          <tr>
+            {% if block.text_1 != blank and block.text_2 != blank %}
+              <th>{{ block.heading }}</th>
+            {% else %}
+              <th>
+                <div class="svg-wrapper"><img class="svg" src="{{ forloop.index | append: '.svg' | asset_url }}" alt="{{ forloop.index }} svg"></div>
+              </th>
+            {% endif %}
+            <td>
+              <div class="container table">
+                {% if block.text_1 != blank and block.text_2 != blank %}
+                  <span><i aria-hidden="true" class="fas fa-check"></i></span>
+                {% endif %}
+                <p class="{% if block.text_1 != blank and block.text_2 != blank %}text{% endif %}">{{ block.text_1 }}</p>
+              </div>
+            </td>
+            <td>
+              <div class="container table">
+                {% if block.text_1 != blank and block.text_2 != blank %}
+                  <span><i aria-hidden="true" class="fas fa-question"></i></span>
+                {% endif %}
+                <p class="{% if block.text_1 != blank and block.text_2 != blank %}text{% endif %}">{{ block.text_2 }}</p>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

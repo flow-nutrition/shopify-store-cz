@@ -1,0 +1,61 @@
+<script type='text/javascript' src='https://flow-nutrition.cz/apps/wlm/js/wlm-1.1.js'></script>
+{% assign wlmEnabled = true %}
+{% assign wlmLockON = false %}
+{% assign wlmRedirectURL = '' %} 
+{% assign wlmPnfHead = '' %} 
+{% assign wlmPnfMsg = '' %}
+{% assign wlmPwdForm = false %}
+{% assign wlmPwdMsg = '' %}
+{% assign wlmSuperPage = false %}
+
+{% if template == 'customers/login' or template == 'customers/activate_account' or template == 'customers/reset_password' or canonical_url contains 'challenge' %}
+
+{% unless canonical_url contains '/products/' or canonical_url contains '/collection/' or canonical_url contains '/collections/' or canonical_url contains '/search' %} {% assign wlmSuperPage = true %}
+ {% endunless %}{% endif %}
+
+{% capture wlm_check %}{% include 'super_page_access' %}{% endcapture %}{% unless wlm_check contains 'Liquid error' %}{% include 'super_page_access' %}{% endunless %}
+{% if wlmEnabled %}
+<style type="text/css">.wlm-message-pnf{text-align:center;}#wlm-pwd-form {padding: 30px 0;text-align: center}#wlm-wrapper,.wlm-form-holder {display: inline-block}#wlm-pwd-error {display: none;color: #fb8077;text-align: left}#wlm-pwd-error.wlm-error {border: 1px solid #fb8077}#wlm-pwd-form-button {display: inline-block!important;height: auto!important;padding: 8px 15px!important;background: #777;border-radius: 3px!important;color: #fff!important;text-decoration: none!important;vertical-align: top}.wlm-instantclick-fix,.wlm-item-selector {position: absolute;z-index: -999;display: none;height: 0;width: 0;font-size: 0;line-height: 0}</style>
+
+{% assign wlmLockedTags210510 = false %}
+{% assign wlmLockedTags210978 = false %}
+{% assign wlmLockedTags210979 = false %}
+{% for tag in customer.tags %}
+{% if tag == 'Wholesale' %}{% assign wlmLockedTags210510 = true %}{% endif %}
+{% if tag == 'GroupB' %}{% assign wlmLockedTags210978 = true %}{% endif %}
+{% if tag == 'GroupA' %}{% assign wlmLockedTags210979 = true %}{% endif %}
+{% endfor %}
+
+{% unless wlmLockON or wlmSuperPage or template == 'customers/register' %}
+{% assign wlmLockedContent = false %}
+{% if template contains "product" and product %} {% if product.id == 7517913776285 or product.id == 8522291183952 or product.id == 7473957339293 or product.id == 8544927809872 or product.id == 8542072668496 or product.id == 8554477224272 or product.id == 8539375829328 or product.id == 8539434189136 or product.id == 7517976199325 or product.id == 8539400208720 or product.id == 8545173766480 or product.id == 8522176627024 or product.id == 7638865641629 or product.id == 7984306127136 or product.id == 8554462314832 or product.id == 8169074688288 or product.id == 8523254038864 or product.id == 7638786048157 or product.id == 8028705489184 or product.id == 8554435182928 or product.id == 6689680490653 or product.id == 7528651423901 or product.id == 7528648474781 or product.id == 8028617572640 or product.id == 8023571628320 or product.id == 7177895739549 or product.id == 8539417706832 or product.id == 8576226427216 or product.id == 8523192402256 or product.id == 8523210457424 or product.id == 7520883703965 or product.id == 8522278797648 or product.id == 8617309733200 or product.id == 8578074607952 or product.id == 8578067595600 or product.id == 8542048321872 or product.id == 8523262984528 or product.id == 8539447722320 or product.id == 8539472200016 or product.id == 8522277781840 or product.id == 8551805550928 or product.id == 8551779500368 or product.id == 8522325000528 or product.id == 6690460729501 or product.id == 6689413562525 or product.id == 6689685307549 or product.id == 6689674789021 or product.id == 6690482159773 or product.id == 6689682882717 or product.id == 6689660207261 or product.id == 6689678819485 or product.id == 6690438283421 or product.id == 8551777763664 or product.id == 8551728054608 or product.id == 8551835205968 or product.id == 8539378319696 or product.id == 8523227758928 or product.id == 8539391721808 or product.id == 8539368423760 or product.id == 8522276962640 or product.id == 8522189275472 or product.id == 8617305571664 or product.id == 8681208316240 or product.id == 8028882141472 or product.id == 8617307439440 %} {% assign wlmLockedContent = true %}{% endif %}{% endif %}{% if wlmLockedContent %}
+{% if customer %}
+{% if wlmLockedTags210510 %}{% assign wlmLockON = true %}{% else %}{% assign wlmLockON = false %}{% endif %}
+{% if wlmLockON %}
+{% capture wlmPnfHead %}Page not found{% endcapture %}
+{% capture wlmPnfMsg %}<p>Sorry, we couldn't find this page.</p>{% endcapture %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endunless %}
+
+
+{% endif %}
+
+{% capture wlm_check_hide %}{% include 'wlm-hideByLink' %}{% endcapture %}{% unless wlm_check_hide contains 'Liquid error' %}{% include 'wlm-hideByLink' %}{% endunless %}
+
+        {% if wlmLockON %}<meta name='robots' content='NOINDEX,NOFOLLOW,NOARCHIVE,NOSNIPPET,NOODP,NOYDIR' />{% endif %}
+      <script type='text/javascript'>
+      {% if wlmLockON %}
+        wlm.navigate('{{ wlmRedirectURL}}');
+      {% else %}
+        wlm.navigateByLocation();
+      {% endif %}
+      wlm.jq(document).ready(function(){
+        wlm.removeLinks();
+      });
+    </script>
+    {% capture wlm_hide_price_check %}{% include "wlm-hide-price" %}{% endcapture %}
+    {% unless wlm_hide_price_check contains 'Liquid error' %}
+        {% include "wlm-hide-price" %}
+    {% endunless %}

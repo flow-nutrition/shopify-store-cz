@@ -1,0 +1,171 @@
+<div class="page-width">
+  {% if section.settings.title != blank %}
+    <div class="section-header text-center">
+      <h2>{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+
+  {% case section.settings.grid %}
+    {% when 2 %}
+      {%- assign grid_item_width = 'medium-up--one-half' -%}
+    {% when 3 %}
+      {%- assign grid_item_width = 'small--one-whole medium-up--one-third' -%}
+    {% when 4 %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-quarter' -%}
+    {% when 5 %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-fifth' -%}
+  {% endcase %}
+
+  <div id="blockItems" class="collection-grid">
+    <ul class="grid grid--uniform">
+      {% for block in section.blocks limit: section.blocks.size %}
+        <li class="grid__item {{ grid_item_width }}" {{ block.shopify_attributes }}>
+
+          {% assign block_image = block.settings.block-image %}
+
+          <div class="collection-grid-item">
+            <a href="{{ block.settings.block-url }}" class="collection-grid-item__link">
+                <div class="collection-grid-item__overlay box ratio-container lazyload js"
+                     data-bgset="{% include 'bgset', image: block_image %}"
+                     data-sizes="auto"
+                     data-parent-fit="cover"
+                     data-image-loading-animation>
+                </div>
+              <div class="collection-grid-item__title-wrapper">
+                <div class="collection-grid-item__title h3">
+                    {{ block.settings.block-title }}
+                </div>
+              </div>
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<style>
+  #blockItems{
+    overflow: hidden;
+  }
+  #blockItems .grid__item {
+    padding: 10px;
+  }
+  #blockItems ul.grid {
+    padding: 2px 12px 10px 12px;
+    margin-right: 0;
+  }
+  #blockItems .collection-grid-item{
+    margin-bottom: 0;
+  }
+  #blockItems .collection-grid-item__title-wrapper::before{
+    display: none!important;
+  }
+  #blockItems .collection-grid-item{
+    padding-bottom: 60%;
+  }
+  #blockItems .collection-grid-item__link{
+    max-height: 400px;
+  }
+  #blockItems .collection-grid-item__title{
+    top: 40px;
+    color: #222222;
+    text-shadow: none;
+    font-family: "Graphik-Regular";
+    font-size: 24px;
+    line-height: 36px;
+  }
+  @media (max-width: 767px) {
+    #blockItems .collection-grid-item__title{
+      font-size: 20px;
+    }
+    #blockItems .grid__item {
+      padding: 16px 8px;
+    }
+    #blockItems ul.grid {
+      padding: 0 8px;
+      margin-right: 0;
+    }
+  }
+  @media (max-width: 480px) {
+    #blockItems .collection-grid-item__title{
+      font-size: 20px;
+      line-height: 32px;
+      top: 33px;
+    }
+
+  }
+  @media (min-width: 1440px) {
+    #blockItems .collection-grid-item__link{
+      max-height: 100%;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Block list",
+  "class": "index-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "label": "Block per row",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list_block",
+      "name":  "Blocks",
+      "settings": [
+          {
+          "type": "text",
+          "id": "block-title",
+          "label": "Title"
+          },
+          {
+          "type": "image_picker",
+          "id": "block-image",
+          "label": "Image"
+          },
+{
+"type": "url",
+"id": "block-url",
+"label": "Url"
+}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "en": "Block list"
+      },
+      "category": {
+        "en": "Custom"
+      },
+      "blocks": [
+        {
+          "type": "list_block"
+        },
+        {
+          "type": "list_block"
+        },
+        {
+          "type": "list_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

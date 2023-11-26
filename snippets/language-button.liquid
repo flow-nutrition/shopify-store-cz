@@ -1,0 +1,108 @@
+<div class="language-selector">
+    <a class="language-selector__button">
+        <img src="{{ 'language-btn-cz.svg' | asset_url }}" alt="czech flag">
+        <span>CS | CZK</span>
+    </a>
+    <div class="language-selector__dropdown">
+        <a class="language-selector__dropdown-item" href="https://mindflow-lab.com">
+            <img src="{{ 'language-btn-en.svg' | asset_url }}" alt="UK flag">
+            <span>EN | EUR </span>
+        </a>
+        <a class="language-selector__dropdown-item" href="https://fr.flow-nutrition.eu">
+            <img src="{{ 'language-btn-fr.svg' | asset_url }}" alt="french flag">
+            <span>FR | EUR</span>
+        </a>
+    </div>
+</div>
+
+<style>
+    /* .flag__cz {
+        width: 25px;
+        background: url({{ 'language-btn-cz.svg' | asset_url }});
+        background-repeat: no-repeat;
+        background-size: cover;
+    } */
+    .language-selector{
+        position: relative;
+    }
+    .language-selector__dropdown {
+        flex-direction: column;
+        display: none;
+        margin-top: -3px;
+        background-color: white;
+        border: 1px solid #e0e0e0;
+        position: absolute;
+    }
+    .language-selector__button {
+        height: 40px;
+        padding: 5px 9px;
+        font-size: 13px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        color: black;
+        display: flex;
+        margin-left: 40px;
+    }
+    .language-selector__button:hover {
+        cursor: pointer;
+    }
+    a.language-selector__dropdown-item {
+        padding: 5px 10px;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+    }
+     a.language-selector__dropdown-item span {
+        margin-left: 3px;
+     }
+    .dropdown-display {
+        display: flex;
+    }
+    .language-selector__dropdown-item img {
+        width: 25px;
+    }
+    .language-selector__button img {
+        width: 25px;
+    }
+    .language-selector__button span {
+        padding-top: 6px;
+        margin-left: 3px;
+    }
+    .dropdown-is-open .language-selector__button {
+        border-bottom: none;
+    }
+    .dropdown-is-open .language-selector__dropdown.dropdown-display {
+        border-top: none;
+    }
+    .language-selector img {
+        padding-right: 5px;
+    }
+
+    @media (max-width: 1250px) {
+        .language-selector{
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    const languageDropdownToggle = () => {
+        let dropdown = document.querySelector(".language-selector__dropdown");
+        dropdown.classList.toggle("dropdown-display")
+        document.querySelector(".language-selector").classList.toggle("dropdown-is-open")
+    }
+    let languageButton = document.querySelector('.language-selector__button');
+    languageButton.addEventListener('click', function(e){
+        e.stopPropagation();
+        languageDropdownToggle()
+    })
+
+    document.addEventListener('click', function (clickOutsideLanguageDropdownButton) {
+        if (!clickOutsideLanguageDropdownButton.target.classList.contains('language-selector__button')){
+           if(document.querySelector(".dropdown-display") != null){
+               languageDropdownToggle()
+           }
+        }
+    }, false);
+
+</script>

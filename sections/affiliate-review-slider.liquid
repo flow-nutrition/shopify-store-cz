@@ -1,0 +1,339 @@
+<section class="review-slider-wrapper">
+    <div class="buttons-wrapper">
+        <div class="prev-review-slide"><img src="{{ 'white-arrow-left.svg' | asset_url }}" alt=""></div>
+        <div class="next-review-slide"><img src="{{ 'white-arrow-right.svg' | asset_url }}" alt=""></div>
+    </div>
+    <div class="review-subtitle">Zákazníci o nás řekli</div>
+    <div class="slider-content">
+        {% for block in section.blocks %}
+        <div style="background-color: black; margin-right: 20px; padding: 20px;" class="review-item">
+            <div class="review-text">{{ block.settings.review-text }}</div>
+            <div class="review-images-wrapper">
+                <div class="review-image-block">
+                    <img src="{{ block.settings.author-image | img_url: '80x80' }}">
+                    <div class="author-block">
+                        <div class="author-title">{{ block.settings.author-title }}</div>
+                        <div class="author-name">{{ block.settings.author-name }}</div>
+                    </div>
+                </div>
+                <div class="review-image-block">
+                    <img src="{{ block.settings.product-image | img_url: '80x80' }}">
+                    <div class="product-block">
+                        <div class="product-title">{{ block.settings.product-title }}</div>
+                        <a href="{{ block.settings.product-url }}" class="product-name">{{ block.settings.product-name }}</a>
+                    </div>
+                </div>
+            </div>
+            <a class="review-link" href="{{ block.settings.review-url }}">{{ block.settings.review-link-label }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+.review-slider-wrapper .buttons-wrapper > div:hover{
+    cursor: pointer;
+}
+.review-slider-wrapper .buttons-wrapper > div:hover{
+    cursor: pointer;
+    border: 1px solid #FF4438;
+    border-radius: 50%;
+}
+.review-slider-wrapper .buttons-wrapper > div{
+    border: 1px solid transparent;
+}
+.review-slider-wrapper{
+    background-color: {{ section.settings.bg-color }};
+    padding-top: 120px;
+    padding-bottom: 116px;
+}
+.buttons-wrapper{
+    margin-left: 160px;
+    display: flex;
+    justify-content: space-between;
+    min-width: 145px;
+    position: absolute;
+    margin-top: 77px;
+}
+.slider-content{
+    /*margin-left: 87px;*/
+    display: flex;
+    max-width: 100%;
+    margin-left: 300px;
+}
+.review-subtitle{
+    color: #F4C9C1;
+    font-size: 14px;
+    line-height: 24px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 0;
+    margin-left: 392px;
+}
+.review-text{
+    max-width: 779px;
+}
+.review-text p{
+    color: #FFFFFF;
+    font-size: 48px;
+    line-height: 38px;
+    margin-bottom: 40px;
+}
+.review-images-wrapper{
+    display: flex;
+    width: 430px;
+    justify-content: space-between;
+}
+.review-image-block{
+    display: flex;
+    align-items: center;
+    margin-bottom: 64px;
+}
+.review-image-block img{
+    max-width: 80px;
+    margin-right: 16px;
+}
+.author-title,.product-title{
+    font-size: 14px;
+    line-height: 24px;
+    color: #F4C9C1;
+    text-transform: uppercase;
+}
+.author-name,.product-name{
+    font-size: 14px;
+    line-height: 22px;
+    color: #FFFFFF;
+}
+a.product-name{
+    text-decoration: underline;
+}
+.review-link{
+    color: #FF4438;
+    font-size: 16px;
+    line-height: 20px;
+    border-bottom: 2px solid;
+    padding-bottom: 2px;
+    font-weight: 600;
+}
+.review-link:hover{
+    border-bottom: none;
+}
+@media (max-width: 1100px){
+    .slider-content{
+        margin-left: 320px;
+    }
+    .buttons-wrapper{
+        margin-left: 100px;
+    }
+}
+@media (max-width: 767px){
+    .review-slider-wrapper{
+        padding-top: 50px;
+        padding-bottom: 50px;
+        position: relative;
+    }
+    .buttons-wrapper{
+        margin-bottom: 25px;
+    }
+    .slider-content{
+        margin-left: 40px;
+    }
+
+    .review-text p{
+        font-size: 26px;
+        line-height: 38px;
+    }
+}
+@media (max-width: 480px) {
+    .review-slider-wrapper{
+        padding-top: 72px;
+        padding-bottom: 55px;
+    }
+    .slider-content{
+        margin-left: 32px;
+    }
+
+    .review-subtitle{
+        margin-bottom: 20px;
+        margin-left: 34px;
+    }
+    .review-text p{
+        font-size: 20px;
+        line-height: 32px;
+        max-width: 280px;
+        margin-bottom: 35px;
+    }
+    .review-image-block img{
+        max-width: 44px;
+    }
+    .review-image-block{
+        width: 80%;
+        margin-bottom: 22px;
+    }
+    .review-image-block:last-of-type{
+        margin-bottom: 48px;
+    }
+    .prev-review-slide,.next-review-slide{
+        max-width: 44px;
+        height: 44px;
+    }
+    .buttons-wrapper{
+        min-width: 104px;
+        bottom: 45px;
+        right: 45px;
+    }
+    .review-slider-wrapper .slick-list{
+        padding-left: 200px;
+    }
+    .review-item.slick-slide .review-link{
+       opacity: 0;
+    }
+    .review-item.slick-slide.slick-current.slick-active .review-link{
+        opacity: 1;
+        transition: 1s;
+    }
+}
+
+
+
+</style>
+{{ 'slick.min.js' | asset_url | script_tag }}
+
+<script>
+
+    $('.slider-content').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        prevArrow: $('.prev-review-slide'),
+        nextArrow: $('.next-review-slide'),
+        adaptiveHeight: true,
+        responsive: [
+            {
+                breakpoint: 1540,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 860,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+
+
+</script>
+
+
+
+{% schema %}
+{
+"name": "Review slider",
+"class": "index-section",
+"settings": [
+{
+"type": "color",
+"id": "bg-color",
+"label": "Background color"
+}
+],
+"blocks": [
+{
+"type": "review_item",
+"name": "Review",
+"settings": [
+{
+"type": "text",
+"id": "sub-title",
+"label": "Subtitle",
+"default": "Zákazníci o nás řekli"
+},
+{
+"type": "richtext",
+"id": "review-text",
+"label": "Review text"
+},
+{
+"type": "image_picker",
+"id": "author-image",
+"label": "Author image"
+},
+{
+"type": "text",
+"id": "author-title",
+"label": "Author title",
+"default": "Autor"
+},
+{
+"type": "text",
+"id": "author-name",
+"label": "Author name"
+},
+{
+"type": "image_picker",
+"id": "product-image",
+"label": "Product image"
+},
+{
+"type": "text",
+"id": "product-title",
+"label": "Product title",
+"default": "Produkt"
+},
+{
+"type": "text",
+"id": "product-name",
+"label": "Product name"
+},
+{
+"type": "url",
+"id": "product-url",
+"label": "Product url"
+},
+{
+"type": "text",
+"id": "review-link-label",
+"label": "Review link label",
+"default": "Všechny recenze"
+},
+{
+"type": "url",
+"id": "review-url",
+"label": "Review url"
+}
+]
+}
+],
+"presets": [
+{
+"name": "Review slider",
+"category": "Slider",
+"blocks": [
+{
+"type": "review_item"
+},
+{
+"type": "review_item"
+},
+{
+"type": "review_item"
+}
+]
+}
+]
+}
+{% endschema %}

@@ -1,0 +1,486 @@
+<div class="kontakt_block">
+    <div class="up_sect">
+        <div class="article_k">
+            <div class="head_kont">
+                <h4>{{ section.settings.sub_head}}</h4>
+                <h2>{{ section.settings.head}}</h2>
+            </div>
+        </div>
+        <div class="cont_card">
+            <div class="card_inf">
+                {% render 'icon-phone' %}
+                <div class="callto">
+                    <a href="tel:{{ section.settings.number}}">{{ section.settings.number}}</a>
+                    <span>{{ section.settings.work-time }}</span>
+                </div>
+            </div>
+            <div class="card_inf">
+                {% render 'icon-email' %}
+                <a href="mailto:{{section.settings.email}}">{{section.settings.email}}</a>
+            </div>
+            <div class="card_inf">
+                {% render 'icon-messenger' %}
+                <a href="{{ section.settings.mess_url}}">{{ section.settings.messenger_c}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="down_sect">
+        <div class="info">
+            <div class="address_k">
+                <h4>{{ section.settings.adress}}</h4>
+                {{ section.settings.post_adrs }}
+            </div>
+            <div class="pay">
+                <h4>{{ section.settings.pay }}</h4>
+                {{ section.settings.pay_adrs }}
+            </div>
+        </div>
+        <div class="cooperation">
+            <div class="coop_form">
+                <h3>{{ section.settings.coop}}</h3>
+                <div class="buttton">
+                    <a href="{{ section.settings.coop_url }}">{{ section.settings.link_coop }}</a>
+                    <a href="{{ section.settings.partner_url }}">{{ section.settings.link_partn }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <style>
+        .kontakt_block{
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .up_sect{
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            max-width: 1440px;
+            margin: auto;
+        }
+        .article_k{
+            display: flex;
+            width: 57%;
+            max-width: 832px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 100px 0;
+            border-bottom: 1px solid #E4E7E9;
+        }
+        .head_kont{
+            margin-left: 155px;
+            margin-right: auto;
+            max-width: 528px;
+        }
+        .article_k h4{
+            font-size: 14px;
+            line-height: 24px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 0 0 22px;
+            color: #6C6E73;
+            font-weight: normal;
+        }
+        .article_k h2{
+            font-size: 32px;
+            line-height: 48px;
+            color: #222222;
+            margin: 0;
+            font-weight: normal;
+            max-width: 405px;
+        }
+        .cont_card{
+            display: flex;
+            width: 43%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 140px 0;
+            background-color: #FFF2F0;
+            border-left: 1px solid #E4E7E9;
+            padding-top: 146px;
+            max-width: 607px;
+        }
+        .card_inf{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            margin-left: 97px;
+        }
+        .card_inf svg{
+            margin-top: 7px;
+            width: 20px;
+            height: auto;
+        }
+        .card_inf p{
+            font-size: 14px;
+            line-height: 32px;
+            color: #6C6E73;
+        }
+        .card_inf a{
+            font-size: 19px;
+            line-height: 32px;
+            color: #222222;
+            margin-left: 25px;
+        }
+        .callto{
+            display: flex;
+            flex-direction: column;
+        }
+        .callto span{
+            margin-left: 25px;
+            margin-top: 7px;
+            font-size: 14px;
+            line-height: 22px;
+        }
+        .down_sect{
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            max-width: 1440px;
+            margin: auto;
+        }
+        .info{
+            display: flex;
+            width: 57%;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            max-width: 832px;
+            column-gap: 10px;
+        }
+        .info h4{
+            font-size: 14px;
+            line-height: 24px;
+            letter-spacing: 1px;
+            color: #6C6E73;
+            text-transform: uppercase;
+            margin: 0 0 24px;
+            font-weight: normal;
+        }
+        .info p{
+            font-size: 16px;
+            line-height: 28px;
+            color: #222222;
+            margin: 0 0 16px;
+        }
+        .info span{
+            font-size: 16px;
+            line-height: 28px;
+            color: #222222;
+            margin: 0;
+        }
+        .address_k{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin-left: 165px;
+            max-width: 257px;       
+        }
+        .pay{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 307px;
+            margin-left: auto;
+            margin-right: 73px;
+        }
+        .cooperation{
+            display: flex;
+            width: 43%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 64px 0 154px 0;
+            border-left: 1px solid #E4E7E9;
+            max-width: 607px;
+        }
+        .cooperation h3{
+            font-size: 24px;
+            line-height: 36px;
+            font-weight: normal;
+            color: #222222;
+            margin: 0 0 30px;
+        }
+        .coop_form{
+            max-width: 345px;
+            margin-left: 96px;
+        }
+        .buttton{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .buttton a{
+            padding: 14px 32px;
+            border: 1px solid #E4E7E9;
+            border-radius: 900px;
+            margin-right: 15px;
+            font-family: 'Graphik-Medium';
+            color: #FF4438;
+            font-size: 16px;
+            line-height: 20px;
+            /* min-width: 186px; */
+            min-height: 48px;
+            text-align: center;
+        }
+
+        .buttton a:hover{
+            background-color: #F5F6F7;
+        }
+
+        @media screen and (min-width: 1440px){
+            .up_sect{
+                max-width: unset;
+                justify-content: space-between;
+            }
+            .article_k{
+                max-width: unset;
+            }
+            .cont_card{
+                max-width: unset;
+            }
+            .down_sect{
+                max-width: unset;
+            }
+            .info{
+                max-width: unset;
+                justify-content: flex-start;
+            }
+            .address_k{
+                margin-right: 36px;
+            }
+            .pay{
+                margin-left: 0;
+            }
+
+        }
+        @media screen and (max-width: 1200px){
+            .head_kont{
+                margin-left: 100px;
+            }
+            .address_k{
+                margin-left: 100px;
+            }
+            .pay{
+                margin-right: 20px;
+            }
+        }
+        @media screen and (max-width: 1000px){
+            .cooperation{
+                max-width: unset;
+            }
+            .cont_card{
+                max-width: unset;
+            }
+            .up_sect{
+                flex-direction: column;
+            }
+            .article_k{
+                width: 100%;
+                padding: 72px 0 64px;
+            }
+            .article_k h2{
+                font-size: 28px;
+                line-height: 44px;
+            }
+            .article_k h4{
+                margin: 0 0 16px;
+            }
+            .address_k{
+                width: 100%;
+            }
+            .cont_card{
+                width: 100%;
+                padding: 40px 0;
+                border: 0;
+            }
+            .head_kont{
+                margin-left: 100px;
+                margin-right: 32px;
+            }
+            .card_inf{
+                margin-left: 100px;
+                margin-bottom: 18px;
+            }
+            .down_sect{
+                flex-direction: column-reverse;
+            }
+            .cooperation{
+                width: 100%;
+                padding: 48px 0;
+                border: 0;
+            }
+            .cooperation h3{
+                font-size: 20px;
+                line-height: 32px;
+                margin: 0 0 16px;
+            }
+            .coop_form{
+                margin-left: 100px;
+            }
+            .info{
+                width: 100%;
+                margin: 0;
+                padding: 50px 0 100px 0;
+                border-top: 1px solid #E4E7E9;
+            }
+            .pay {
+                 margin-right: 76px;
+            }
+            .info h4{
+                margin: 0 0 16px;
+            }
+            .address_k{
+                margin-left: 100px;
+            }
+            @media screen and (max-width: 680px){
+                .article_k h2{
+                    max-width: 311px;
+                }
+                .info{
+                    flex-direction: column;
+                }
+                .address_k{
+                    margin-left: 100px;
+                }
+                .pay{
+                    margin-left: 100px;
+                    margin-top: 56px;
+                }
+            }
+            @media screen and (max-width: 425px){
+                .buttton{
+                    flex-direction: column;
+                }
+                .buttton a:first-of-type{
+                    margin-bottom: 10px;
+                }
+                .head_kont{
+                    margin-left: 32px;
+                }
+                .card_inf{
+                    margin-left: 40px;
+                }
+                .coop_form{
+                    margin-left: 32px;
+                    margin-right: 32px;
+                }
+                .info{
+                    flex-direction: column;
+                }
+                .address_k{
+                    margin-left: 32px;
+                }
+                .pay{
+                    margin-left: 32px;
+                }
+            }
+        }
+    </style>
+
+
+{% schema %}
+{
+    "name": "kontakt",
+    "settings": [
+        {
+            "id": "sub_head",
+            "type":"text",
+            "label":"Heading"
+        },
+    {
+    "id": "head",
+    "type":"text",
+    "label":"Heading"
+    },
+        {
+            "id": "number",
+            "type":"text",
+            "label":"Number"
+        },
+    {
+    "id": "work-time",
+    "type":"richtext",
+    "label":"Work time:"
+    },
+        {
+            "id": "messenger_c",
+            "type":"text",
+            "label":"Messenger"
+        },
+    {
+    "id": "email",
+    "type":"text",
+    "label":"Email:"
+    },
+    {
+    "id": "mess_url",
+    "type": "url",
+    "label": "Messenger Link"
+    },
+        {
+            "id": "adress",
+            "type":"text",
+            "label":"Heading"
+        },
+    {
+    "type":"richtext",
+    "id": "post_adrs",
+    "label":"Post Address"
+    },
+        {
+            "id": "pay",
+            "type":"text",
+            "label":"Heading"
+        },
+        {
+            "type":"richtext",
+            "id": "pay_adrs",
+            "label":"Pay Address"
+        },
+        {
+            "id": "coop",
+            "type":"text",
+            "label":"Heading"
+        },
+        {
+            "id": "coop_url",
+            "type": "url",
+            "label": "Cooperation Link"
+        },
+        {
+            "id": "link_coop",
+            "type": "text",
+            "label": "Button text"
+        },
+        {
+            "id": "partner_url",
+            "type": "url",
+            "label": "Partner Link"
+        },
+        {
+            "id": "link_partn",
+            "type": "text",
+            "label": "Button text"
+        }
+        
+    ]
+}
+{% endschema %}

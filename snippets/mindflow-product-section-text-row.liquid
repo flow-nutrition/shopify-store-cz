@@ -1,0 +1,435 @@
+{% assign text_row = product.metafields.section.text_row %}
+{% assign rich_text = product.metafields.section.rich_text %}
+{% assign pop_up = product.metafields.section.product_manual %}
+<div class="item__wrapper">
+  <div class="panal">
+    <div id="more-info" class="page-width product-section section-text-row">
+      <div class="grid">
+        <div class="text-row heading">
+          <div class="image">
+            <img src="{{ text_row.image }}">
+          </div>
+          <div class="heading-content">
+            <h2>{{ rich_text.heading }}</h2>
+            <p>{{ rich_text.text }}</p>
+            <div
+              class="popup__trigger"
+              data-defaultimg="{{section.settings.popup__image | img_url: 'master'}}"
+              data-defaultimgmobile="{{section.settings.mobile__popup__image | img_url: 'master'}}"
+              data-popupimg="{{product.metafields.my_fields.product_manual}}"
+              data-popupimgmobile="{{product.metafields.my_fields.product_manual_mobile}}"
+            >
+              Zobrazit návod
+            </div>
+          </div>
+        </div>
+        <div class="heading-container">
+          <h2>{{ text_row.heading2 }}</h2>
+          {% for block in text_row.blocks %}
+            <div class="table-row-numbers text-row">
+              <div class="item title">
+                <div class="svg">0{{ forloop.index }}</div>
+                <h3>{{ block.heading }}</h3>
+              </div>
+              <div class="item content">
+                <p>{{ block.text }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+
+    console.log(document.querySelector('.popup__wrapper .popup__img'))
+    document.querySelector('.close__popup').addEventListener('click', function(){
+      document.querySelector('.popup__wrapper').classList.toggle('active')
+    })
+    document.querySelector('.overlay').addEventListener('click', function(){
+      document.querySelector('.popup__wrapper').classList.toggle('active')
+    })
+    document.querySelectorAll('.popup__trigger').forEach(item => {
+      item.addEventListener('click', function(){
+        document.querySelector('.popup__wrapper').classList.toggle('active')
+        if(window.innerWidth > 768){
+          console.log(this.dataset.popupimg)
+          if(this.dataset.popupimg){
+            document.querySelector('.popup__wrapper .popup__img').src = this.dataset.popupimg
+          }else{
+            document.querySelector('.popup__wrapper .popup__img').src = this.dataset.defaultimg
+          }
+        }else{
+          if(this.dataset.popupimg){
+            document.querySelector('.popup__wrapper .popup__img').src = this.dataset.popupimgmobile
+          }else{
+            document.querySelector('.popup__wrapper .popup__img').src = this.dataset.defaultimgmobile
+          }
+        }
+      })
+    })
+    document.querySelectorAll('.open__popup').forEach(item => {
+      item.addEventListener('click', function(){
+        document.querySelector('.popup__wrapper').classList.toggle('active')
+      })
+    })
+  })
+</script>
+
+<style>
+  .popup__img{
+    width: 100%;
+  }
+  .open__popup{
+    cursor: pointer;
+  }
+  .popup__content::-webkit-scrollbar-thumb{
+    background-color: #ff412e;
+    border-radius: 10px;
+  }
+  .popup__content::-webkit-scrollbar {
+    width: 7px;
+  }
+  /* .popup__content::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 2px rgb(0 0 0 / 10%);
+      background: #ececec;
+  } */
+  .close__popup{
+    font-weight: 900;
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    cursor: pointer;
+    color: #000;
+    transition: .2s all linear;
+  }
+  .close__popup:hover {
+    color: #ff412e;
+  }
+  .popup__content{
+    width: 80%;
+    height: 70%;
+    background: #fff;
+    top: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    overflow-y: scroll;
+  }
+  .overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .4);
+  }
+  .popup__wrapper.active{
+    display: block;
+  }
+  .popup__wrapper{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    display: none;
+  }
+
+  .popup__trigger{
+    background: #FF4438;
+    border-radius: 900px;
+    font-family: "Graphik-Regular";
+    font-style: normal;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 20px;
+    color: #FFFFFF;
+    border: 1px solid #FF4438;
+    transition: 0.2s;
+    padding: 22px 40px;
+    display: inline-block;
+  }
+  .popup__trigger:hover{
+    background: #C01616!important;
+    cursor: pointer;
+  }
+  .heading-container, .heading-content{
+    padding-left: 165px;
+  }
+  .text-row.heading .image img{
+    border-radius: 8px;
+    padding-right: 165px;
+  }
+  .table-row-numbers{
+    border-top: 1px solid #E4E7E9;
+    padding: 30px 0;
+  }
+  .image img{
+    border-radius: 8px;
+  }
+  .heading-container h2{
+    font-size: 32px;
+    line-height: 42px;
+    margin-bottom: 28px;
+  }
+  .heading-container{
+    font-size: 32px;
+    line-height: 42px;
+    padding-bottom: 32px;
+    padding-left: 165px;
+    padding-right: 165px;
+  }
+  .text-center header{
+    padding-left: 165px;
+  }
+  .section-text-row.page-width.product-section{
+    max-width: 100%!important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .text-row.heading{
+    align-items: center;
+    margin-bottom: 140px;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .text-row.heading .image{
+    max-width: 50%;
+  }
+  .image img{
+    width: 100%;
+  }
+  .section-text-row .section-label{
+    font-size: 14px;
+    line-height: 24px;
+    color: #6C6E73;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+  .heading-content h2{
+    font-size: 32px;
+    line-height: 42px;
+    color: #222222;
+  }
+  .heading-content p{
+    font-size: 16px;
+    line-height: 28px;
+    color: #6C6E73;
+  }
+  .heading-content{
+    margin-right: 80px;
+    width: 50%;
+  }
+  .text-row{
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  .text-row .item p{
+    font-size: 16px;
+    line-height: 28px;
+    color: #6C6E73;
+    padding-left: 20px;
+  }
+  .text-row .item p span{
+    color: #FF4438;
+  }
+  .text-row .item p strong{
+    font-family: 'Graphik-Medium';
+  }
+  .text-row .item .svg{
+    width: 64px;
+    height: 64px;
+    background-color: #FFF2F0;
+    font-size: 14px;
+    line-height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Graphik-Regular';
+    border-radius: 100%;
+    color: #FF4438;
+    flex-shrink: 0;
+  }
+  .text-row .item h3{
+    font-size: 24px;
+    line-height: 36px;
+    color: #222222;
+    font-weight: 400;
+    margin: 0 0 0 20px;
+  }
+  .text-row:last-of-type{
+    padding-bottom: 20px;
+  }
+  .text-row .item.title{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    align-items: center;
+  }
+  .text-row .item.content{
+    width: 50%;
+  }
+  .text-row .item div{
+    margin-bottom: 0;
+  }
+  @media screen and (min-width: 768px) {
+    .section-text-row .heading-content .section-label{
+      display: none;
+    }
+  }
+  @media (max-width: 1250px) {
+    .heading-container, .heading-content{
+      padding-left: 80px;
+    }
+    .text-row.heading .image img{
+      padding-right: 80px;
+    }
+    .heading-container{
+      padding-right: 80px;
+    }
+  }
+  @media (max-width: 1110px) {
+    .text-row.heading .image img{
+      max-width: 100%;
+    }
+    .text-row .item.content {
+      min-width: unset;
+    }
+    .text-row .item h3{
+      max-width: unset;
+      margin-right: 15px;
+    }
+  }
+  @media (max-width: 970px) {
+    .heading-container{
+      padding-right: 30px;
+    }
+    .heading-container, .heading-content{
+      padding-left: 30px;
+    }
+    .text-row.heading .image img{
+      padding-right: 30px;
+    }
+  }
+  @media (max-width: 768px) {
+    .heading-container{
+      padding-right: 16px;
+    }
+    .section-cards .header h2{
+      margin-right: 50px;
+    }
+    .heading-container{
+      padding-bottom: 0;
+    }
+    .text-row .item.content{
+      width: 100%;
+      margin-top: 24px;
+    }
+    .text-row .item p{
+      padding-left: 0;
+    }
+    .text-row.heading{
+      padding-bottom: 0;
+    }
+    .heading-container h2{
+      display: none;
+    }
+    .text-row.heading .image img{
+      width: 100%;
+      padding: 0;
+      border-radius: 0;
+    }
+    .heading-container, .heading-content{
+      padding-left: 16px;
+      padding-right: 16px;
+      width: 100%;
+    }
+    .heading-content h2{
+      font-size: 24px;
+      line-height: 36px;
+    }
+    .text-row .item p{
+      line-height: 32px;
+    }
+    .text-row.heading .image{
+      max-width: 100%;
+    }
+    .text-row.heading{
+      flex-direction: column-reverse;
+      margin-bottom: 0;
+    }
+    .heading-content{
+      margin: 0 auto;
+      text-align: left;
+      padding-bottom: 25px;
+    }
+    .text-row.heading .image{
+      margin-left: -32px;
+      margin-right: -32px;
+      margin-bottom: 40px;
+    }
+    .section-text-row .section-label{
+      font-size: 14px;
+      line-height: 24px;
+      color: #8B9093;
+      margin-bottom: 16px;
+    }
+    .heading-content h3{
+      font-size: 28px;
+      line-height: 44px;
+      margin-bottom: 0;
+    }
+    .text-row .item .svg{
+      width: 56px;
+      height: 56px;
+      min-width: unset;
+      min-height: unset;
+      padding: 18px 16px;
+    }
+    .text-row .item h3 {
+      font-size: 20px;
+      line-height: 32px;
+    }
+    .text-row .item.content {
+      font-size: 16px;
+      line-height: 32px;
+    }
+  }
+  @media (max-width: 749px) {
+    .text-row{
+      flex-direction: column;
+      padding: 16px 0 32px 0;
+    }
+    .text-row:last-of-type {
+      padding-bottom: 35px;
+    }
+    .text-row .item.title{
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+      margin-bottom: 0;
+    }
+    .text-row .item h3{
+      margin-left: 16px;
+      margin-right: 18px;
+    }
+    @media (max-width: 480px) {
+      .text-row .item h3{
+        max-width: 195px;
+      }
+    }
+  }
+</style>

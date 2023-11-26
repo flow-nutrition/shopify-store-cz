@@ -1,0 +1,437 @@
+<div class="mindprod_block">
+    <div class="mindprod">
+        <div class="desk_none"><img src="{{ section.settings.product_img | img_url: 'master' }}"></div>
+        <div class="partnership_block">
+            <div class="partner_head">
+                <h3>{{ section.settings.head }}</h3>
+                <p>{{ section.settings.sub_head }}</p>
+            </div>
+            <div class="advantage">
+                <h4>{{ section.settings.adv_head }}</h4>
+                <ul class="advantage_list">
+                    {% assign advantages = section.settings.advantages | split: "," %}
+                    {% for advantage in advantages %}
+                        <li>
+                            {% include 'icon-list-item' %}
+                            {{ advantage | strip_html }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="prod_img">
+            <img src="{{ section.settings.product_img | img_url: 'master' }}">
+        </div>
+    </div>
+    <h4 class="write_us_heading">{{ section.settings.write_us }}</h4>
+    <a class="mail_button" href="{% if section.settings.btn-url != blank %}
+                {{ section.settings.btn-url }}
+                {% else %}
+                mailto:{{ section.settings.email }}{% endif %}">{{ section.settings.email }}</a>
+</div>
+
+<style>
+    .write_us_heading {
+        font-size: 32px;
+        line-height: 42px;
+        font-family: Graphik-regular;
+    }
+
+    .mindprod_block {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 165px 0;
+    }
+
+    .mindprod {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        z-index: 1;
+        padding-bottom: 100px;
+    }
+
+    .desk_none {
+        display: none;
+    }
+
+    .partnership_block {
+        display: flex;
+        width: 50%;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .partner_head {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .partner_head h3 {
+        font-family: Graphik-regular;
+        font-size: 44px;
+        line-height: 56px;
+        color: #222222;
+        margin: 0 0 24px;
+        font-weight: 400;
+    }
+
+    .partner_head p {
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+        margin: 0 0 70px;
+        max-width: 640px;
+    }
+
+    .advantage {
+        display: flex;
+        max-width: 388px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .advantage h4 {
+        font-size: 32px;
+        line-height: 42px;
+        color: #222222;
+        margin: 0 0 32px;
+        font-family: Graphik-regular;
+    }
+
+    .advantage li {
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+        margin: 0 0 8px;
+    }
+
+    .advantage li svg {
+        margin-right: 16px;
+    }
+
+    .prod_img {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 50%;
+        margin-left: 30px;
+    }
+
+    .prod_img h4 {
+        font-size: 24px;
+        line-height: 36px;
+        color: #222222;
+        margin: 72px 0 24px;
+    }
+
+    .prod_img img {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .mail_button:hover {
+        background-color: #C01616;
+        color: #fff !important;
+    }
+
+    .mail_button {
+        padding: 20px 40px;
+        background-color: #FF4438;
+        border-radius: 900px;
+        font-size: 16px;
+        line-height: 20px;
+        color: white;
+    }
+
+    .prod_contact {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 60px 0 60px 160px;
+        border-bottom: 1px solid #E9ECEE;;
+    }
+
+    .prod_contact p {
+        font-size: 14px;
+        line-height: 22px;
+        color: #222222;
+        margin: 0;
+    }
+
+    .prod_contact span {
+        font-size: 14px;
+        line-height: 22px;
+        color: #6C6E73;
+        margin: 0 36px 0 20px;
+    }
+
+    .inf_card {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .prod_inform {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-left: 67px;
+    }
+
+    .prod_inform a {
+        font-size: 16px;
+        line-height: 28px;
+        color: #222222;
+        margin-left: 17px;
+    }
+
+    .mail_button a:hover {
+        color: #fff;
+    }
+
+    @media screen and (max-width: 1250px) {
+        .mindprod_block {
+            padding: 0 80px;
+        }
+
+        .partner_head {
+            margin-top: 20px;
+        }
+
+        .advantage {
+            display: flex;
+            max-width: 388px;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .prod_img {
+            align-items: center;
+        }
+
+        .inf_card {
+            flex-direction: column;
+        }
+
+        .prod_inform {
+            margin-bottom: 16px;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+
+        .advantage {
+            margin-left: 50px;
+            margin-bottom: 70px;
+        }
+
+        .partner_head {
+            margin-right: 20px;
+            margin-left: 50px;
+            margin-top: 60px;
+        }
+
+        .desk_none {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin: 32px 0 0;
+        }
+
+        .desk_none img {
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .mindprod {
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 0;
+        }
+
+        .partnership_block {
+            width: 100%;
+        }
+
+        .partner_head {
+            max-width: 600px;
+        }
+
+        .partner_head h3 {
+            font-size: 48px;
+            line-height: 62px;
+        }
+
+        .partner_head p {
+            margin: 0 0 40px;
+        }
+
+        .prod_img {
+            display: none;
+        }
+
+        .prod_img img {
+            display: none;
+        }
+
+        .prod_img h4 {
+            margin: 24px 0;
+        }
+
+        .prod_contact {
+            flex-direction: column;
+            padding: 40px 0 36px 80px;
+        }
+
+        .prod_contact p {
+            margin: 0;
+        }
+
+        .prod_contact span {
+            margin: 0 0 24px;
+        }
+
+        .prod_inform {
+            margin-left: 0;
+            margin-bottom: 24px;
+        }
+    }
+
+    @media screen and (max-width: 970px) {
+        .mindprod_block {
+            padding: 0 30px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .desk_none {
+            margin-top: 10px;
+        }
+        .mindprod_block {
+            padding: 0 16px;
+        }
+
+        .advantage {
+            margin-bottom: 40px;
+        }
+
+        .partner_head {
+            margin-top: 40px;
+        }
+
+        .partner_head h3 {
+            font-size: 32px;
+            line-height: 40px;
+        }
+
+        .advantage h4 {
+            font-size: 22px;
+            line-height: 32px;
+            margin: 0 0 24px;
+        }
+
+        .write_us_heading {
+            font-size: 28px;
+            line-height: 38px;
+        }
+    }
+
+    @media screen and (max-width: 525px) {
+        .partner_head {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .advantage {
+            margin-left: 0;
+        }
+    }
+
+    @media screen and (max-width: 425px) {
+
+        .desk_none svg {
+            width: 100%;
+        }
+
+        .mail_button {
+            margin-bottom: 19px;
+        }
+
+        .prod_inform a {
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+</style>
+
+{% comment %}
+   ///// Schema /////
+{% endcomment %}
+
+
+{% schema %}
+{
+  "name": "mindprod",
+  "settings": [
+    {
+      "id": "head",
+      "type": "text",
+      "label": "Heading",
+      "default": "Tittle"
+    },
+    {
+      "id": "sub_head",
+      "type": "textarea",
+      "label": "Heading",
+      "default": "Sub Tittle"
+    },
+    {
+      "id": "adv_head",
+      "type": "text",
+      "label": "Adventage Head"
+    },
+    {
+      "id": "advantages",
+      "type": "richtext",
+      "label": "Adventage"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_img",
+      "label": "Product Image"
+    },
+    {
+      "type": "text",
+      "id": "write_us",
+      "label": "Write us"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email"
+    },
+    {
+      "type": "url",
+      "id": "btn-url",
+      "label": "Button url"
+    }
+  ]
+}
+{% endschema %}

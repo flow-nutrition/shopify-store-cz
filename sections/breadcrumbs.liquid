@@ -1,0 +1,127 @@
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' %}
+    <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+        <a href="/" title="Home">Home</a>
+        {% if template contains 'page' %}
+            <span aria-hidden="true">{% include 'right-arrow' %}</span>
+            <span>{{ page.title }}</span>
+        {% elsif template contains 'product' %}
+            {% if collection.url %}
+                <span aria-hidden="true">{% include 'right-arrow' %}</span>
+                {{ collection.title | link_to: collection.url }}
+            {% else %}
+                <span aria-hidden="true">{% include 'right-arrow' %}</span>
+                <a href="/collections/produkty">Produkty</a>
+            {% endif %}
+            <span aria-hidden="true">{% include 'right-arrow' %}</span>
+            <span>{{ product.title }}</span>
+        {% elsif template contains 'collection' and collection.handle %}
+            <span aria-hidden="true">{% include 'right-arrow' %}</span>
+            {% if current_tags %}
+                {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+                {{ collection.title | link_to: url }}
+                <span aria-hidden="true">{% include 'right-arrow' %}</span>
+                <span>{{ current_tags | join: ' + ' }}</span>
+            {% else %}
+                <span>{{ collection.title }}</span>
+            {% endif %}
+        {% elsif template == 'blog' %}
+            <span aria-hidden="true">{% include 'right-arrow' %}</span>
+            {% if current_tags %}
+                {{ blog.title | link_to: blog.url }}
+                <span aria-hidden="true">{% include 'right-arrow' %}</span>
+                <span>{{ current_tags | join: ' + ' }}</span>
+            {% else %}
+                <span>{{ blog.title }}</span>
+            {% endif %}
+        {% elsif template == 'article' %}
+            <span aria-hidden="true">{% include 'right-arrow' %}</span>
+            {{ blog.title | link_to: blog.url }}
+            <span aria-hidden="true">{% include 'right-arrow' %}</span>
+            <span>{{ article.title }}</span>
+            <style>
+                @media (max-width: 767px){
+                    .breadcrumb{
+                        flex-direction: row !important;
+                    }
+                    a[title="Home"]{
+                        display: none !important;
+                    }
+                }
+            </style>
+        {% else %}
+            <span aria-hidden="true">{% include 'right-arrow' %}</span>
+            <span>{{ page_title }}</span>
+        {% endif %}
+    </nav>
+{% endunless %}
+
+<style>
+    .breadcrumb a{
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.1px;
+        color: #222222;
+    }
+    .breadcrumb span{
+        font-size: 12px;
+        line-height: 16px;
+        color: #6C6E73;
+        letter-spacing: 0.1px;
+        align-items: center;
+        display: flex;
+    }
+
+    .breadcrumb svg{
+        margin-right: 13px;
+        margin-left: 12px;
+    }
+
+    .breadcrumb {
+        padding: 40px 168px;
+    }
+
+    @media (max-width: 1250px) {
+        .breadcrumb {
+            padding: 40px 80px;
+        }
+    }
+
+    @media (max-width: 970px) {
+        .breadcrumb {
+            padding: 20px 30px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .breadcrumb {
+            padding: 20px 16px;
+        }
+    }
+    @media (max-width: 767px) {
+        .breadcrumb span{
+            display: none;
+        }
+        .breadcrumb span:first-of-type{
+            display: block;
+        }
+        .breadcrumb span svg {
+            width: 10px;
+            height: 16px;
+        }
+        .breadcrumb span svg path {
+            fill: #222222;
+        }
+        .breadcrumb a{
+            font-size: 14px;
+            line-height: 22px;
+            letter-spacing: unset;
+            color: #6C6E73;
+        }
+
+    }
+    @media (max-width: 480px) {
+        .breadcrumb {
+            padding: 30px 10px 10px 10px;
+        }
+    }
+</style>

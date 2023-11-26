@@ -1,0 +1,195 @@
+<div class="page-width product-section section-text-row">
+    <div class="image-and-text-grid">
+        <div class="text-row heading">
+            <div class="image">
+                <img src="{{ section.settings.image | img_url: 'master' }}">
+            </div>
+            <div class="heading-content">
+                <h3>{{ section.settings.title }}</h3>
+                {{ section.settings.content }}
+                <a href="{{ section.settings.url }}">{{ section.settings.url-label }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .image{
+        width: 50%;
+    }
+    .image-text-wrapper{
+        border-bottom: 1px solid #E4E7E9;
+    }
+    .section-text-row.page-width.product-section{
+        max-width: 100%;!important;
+        padding-left: 165px;
+        padding-right: 165px;
+    }
+    .text-row.heading{
+        align-items: center;
+    }
+    .text-row.heading .image img{
+        width: 100%;
+    }
+    .section-text-row .section-label{
+        font-size: 14px;
+        line-height: 24px;
+        color: #6C6E73;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        font-weight: 400;
+    }
+    .heading-content h3{
+        font-size: 32px;
+        line-height: 42px;
+        color: #222222;
+        margin-bottom: 18px;
+    }
+    .heading-content{
+        margin-left: 55px;
+        width: 50%;
+    }
+    .heading-content p{
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+        min-height: 84px;
+        margin-bottom: 40px;
+        width: 50%;
+    }
+    .heading-content a{
+        color: #FF4438;
+        font-size: 16px;
+        line-height: 20px;
+        border-bottom: 2px solid #FF4438;
+        padding-bottom: 4px;
+        font-family: 'Graphik-Medium';
+    }
+    .heading-content a:hover{
+        border-bottom: none;
+    }
+
+    .text-row{
+        margin: 0;
+        padding: 110px 0 0 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    @media (max-width: 1250px) {
+        .section-text-row.page-width.product-section{
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+    }
+    @media (max-width: 1110px) {
+        .text-row.heading .image img{
+            max-width: 100%;
+        }
+        .text-row .item.content {
+            min-width: unset;
+        }
+        .text-row .item h3{
+            max-width: unset;
+            margin-right: 15px;
+        }
+    }
+    @media (max-width: 970px) {
+        .image-and-text-grid{
+            flex-direction: column-reverse;
+        }
+        .section-text-row.page-width.product-section{
+            padding-right: 30px;
+            padding-left: 30px;
+        }
+    }
+    @media (max-width: 767px) {
+        .heading-content h3{
+            font-size: 32px;
+            line-height: 42px;
+            color: #222222;
+            margin-bottom: 16px;
+        }
+        .image{
+            width: 100%;
+        }
+        .section-text-row.page-width.product-section{
+            padding-right: 0;
+            padding-left: 0;
+        }
+        .text-row.heading{
+            flex-direction: column;
+            padding: 0;
+        }
+        .text-row.heading .image{
+            margin-bottom: 30px;
+            margin-top: 18px;
+        }
+        .heading-content{
+            margin-left: 0;
+            text-align: left;
+            padding-bottom: 30px;
+            padding-left: 16px;
+            width: 100%;
+        }
+        .heading-content p{
+            margin: 0 auto;
+            width: 100%;
+        }
+
+    }
+
+    @media (max-width: 480px) {
+        .section-text-row .section-label{
+            color: #8B9093;
+            margin-bottom: 8px;
+        }
+        .heading-content p{
+            min-height: unset;
+            margin-bottom: 32px;
+        }
+    }
+</style>
+
+
+{% schema %}
+{
+"name": "Image and text",
+"class": "image-text-wrapper",
+"settings": [
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image"
+},
+{
+"type": "text",
+"id": "subheading",
+"label": "Subheading"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Title"
+},
+{
+"type": "richtext",
+"id": "content",
+"label": "Content"
+},
+{
+"type": "text",
+"id": "url-label",
+"label": "Link label"
+},
+{
+"type": "url",
+"id": "url",
+"label": "Url"
+}
+]
+}
+{% endschema %}
+

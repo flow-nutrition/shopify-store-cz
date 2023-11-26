@@ -1,0 +1,344 @@
+{% if section.settings.hide_section != blank %}
+<section id="custom-reviews" class="custom-reviews-wrapper">
+    <div class="reviews-texts">
+        <h2>{{section.settings.section_heading}}</h2>
+    </div>
+    <div class="reviews-content">
+        {% for block in section.blocks %}
+            <div class="review-content">
+                <div class="review-image-wrapper">
+                    <img src="{{block.settings.avatar | img_url: 'master'}}" alt="">
+                    <p class="review-name-wrapper">
+                        <span class="reviewer-name">{{block.settings.recenze_name}}</span>
+                        <span class="reviewer-stars">
+                            <span class="spr-starrating spr-badge-starrating">
+                                {% if block.settings.star_count == '1'%}
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                {% endif %}
+                                {% if block.settings.star_count == '2'%}
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                {% endif %}
+                                {% if block.settings.star_count == '3'%}
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                {% endif %}
+                                {% if block.settings.star_count == '4'%}
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                {% endif %}
+                                {% if block.settings.star_count == '5'%}
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                    <i class="spr-icon spr-icon-star" style="color: #f2c94c;"></i>
+                                {% endif %}
+                            </span>
+                        </span>
+                    </p>
+                </div>
+                <p class="review-text">{{block.settings.recenze__text}}</p>
+            </div>
+        {% endfor %}
+        <div class="show__elements hiden"></div>
+        <div class="show__reviews">Zobrazit všech 20 recenzí <img class="arrow" src="{{'arrow__down.svg' | asset_url}}" alt=""></div>
+        <div class="hide__reviews hiden">Skrýt všech 20 recenzí  <img class="arrow__up" src="{{'arrow__down.svg' | asset_url}}" alt=""></div>
+
+    </div>
+</section>
+{% endif %}
+
+<style>
+
+    .arrow__up{
+        position: absolute;
+        right: 10%;
+        top: 50%;
+        transform: rotate(180deg) translate(0, 50%);
+    }
+
+    .arrow{
+        position: absolute;
+        right: 10%;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+
+    .show__reviews, .hide__reviews{
+        background-color: #F5F6F7;
+        border-radius: 96px;
+        padding: 22px 76px 22px 32px;
+        color: #222;
+        font-size: 16px;
+        line-height: 20px;
+        font-family: 'Graphik-Medium';
+        display: inline-block;
+        font-weight: 400;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .hiden{
+        display: none;
+    }
+    .custom-reviews-wrapper .reviews-texts .spr-badge-starrating{
+        margin: 10px 0 0;
+    }
+    a.reviews-content-button{
+        position: relative;
+    }
+    a.reviews-content-button:after{
+        content: url("//cdn.shopify.com/s/files/1/0511/0421/9293/t/22/assets/dropdown-arrow.svg?v=8910488665677481323");
+        display: block;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 40px;
+
+    }
+    .reviews-content-button{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        padding: 22px 96px 22px 32px;
+        color: #222222;
+        margin-top: 58px;
+        background: #F5F6F7;
+        border-radius: 68px;
+        display: inline-block;
+        font-family: 'Graphik-Medium';
+    }
+
+
+    .custom-reviews-wrapper{
+        max-width: 1120px;
+        display: flex;
+        justify-content: space-between;
+        margin: auto;
+    }
+    .review-content{
+        max-width: 630px;
+    }
+    .custom-reviews-wrapper{
+        padding: 120px 32px;
+    }
+    .mobile-show{
+        display: none;
+    }
+    .review-text{
+        margin-top: 24px;
+        margin-bottom: 32px !important;
+        font-size: 16px;
+        line-height: 28px;
+    }
+    .reviews-texts p{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #8B9093;
+        margin-bottom: 16px;
+    }
+    .reviews-texts h2{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 32px;
+        line-height: 48px;
+        max-width: 352px;
+        margin-bottom: 54px;
+        color: #222222;
+    }
+    .review-image-wrapper{
+        display: flex;
+        display: -webkit-inline-box;
+    }
+    .review-image-wrapper img{
+        border-radius: 8px;
+        max-width: 44px;
+        margin-right: 16px;
+        object-fit: contain;
+    }
+    span.reviewer-name{
+        margin-bottom: 5px;
+        font-family: 'Graphik-Medium';
+        font-weight: 400;
+    }
+
+    .review-name-wrapper{
+        display: flex;
+        flex-direction: column;
+    }
+    .reviews-texts .average_review{
+        font-style: normal;
+        font-weight: normal;
+        font-family: 'Graphik-Light';
+
+        font-size: 56px;
+        line-height: 72px;
+        /* identical to box height, or 129% */
+
+
+        /* Grayscale / Gray 100 */
+
+        color: #222222;
+    }
+    .reviews_amount{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 22px;
+        /* identical to box height, or 157% */
+
+
+        /* Grayscale / Gray 60 (Disabled) */
+        display: block;
+        color: #8B9093;
+        margin-bottom: 90px;
+
+    }
+    .reviews-texts-button:hover{
+        background-color: #F5F6F7;
+    }
+    .reviews-texts-button{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FF4438;
+        border: 1px solid lightgray;
+        border-radius: 96px;
+        display: inline-block;
+        padding: 22px 76px;
+        font-family: 'Graphik-Medium';
+    }
+    .reviews-texts h2{
+        max-width: 250px;
+    }
+    @media( max-width: 850px){
+        .custom-reviews-wrapper{
+            flex-direction: column;
+        }
+        .custom-reviews-wrapper{
+            padding: 50px 32px;
+        }
+        .review-content{
+            max-width: unset;
+        }
+        .reviews-texts h2{
+            max-width: unset;
+        }
+        .reviews-content-button{
+            margin: 58px auto 0 auto;
+            display: block;
+            max-width: 310px;
+            padding: 22px 79px 22px 32px;
+        }
+    }
+
+    @media( max-width: 480px){
+        .custom-reviews-wrapper{
+            padding: 60px 32px 80px 32px;
+        }
+        .reviews-texts h2{
+            font-size: 28px;
+            line-height: 44px;
+            margin-bottom: 30px;
+        }
+        .reviews-content-button{
+            margin-top: 44px;
+        }
+
+
+
+    }
+
+</style>
+
+
+<script>
+
+$( document ).ready(function(){
+    let i = 0
+    document.querySelectorAll(".review-content").forEach(element => {
+
+        if(i >= 3){
+            document.querySelector('.show__elements').appendChild(element) 
+        }
+        i++
+    });
+
+    $( ".hide__reviews" ).click(function(){ 
+        $( ".show__elements" ).slideToggle();
+        $(this).addClass('hiden')
+        $( ".show__reviews" ).removeClass('hiden')
+    });
+
+    $( ".show__reviews" ).click(function(){
+        $( ".show__elements" ).slideDown();
+        $(this).addClass('hiden')
+        $( ".hide__reviews" ).removeClass('hiden')
+    });
+});
+
+</script>
+
+{% schema %}
+{
+    "name": "Recenze",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "hide_section",
+            "label": "Show section"
+        },
+        {
+            "type": "text",
+            "id": "section_heading",
+            "label": "Section Headnig"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "recenze",
+            "name": "Recenze",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "avatar",
+                    "label": "Recenzer Avatar"
+                },
+                {
+                    "type": "text",
+                    "id": "recenze_name",
+                    "label": "Rezenzer Name"
+                },
+                {
+                    "type": "radio",
+                    "id": "star_count",
+                    "label": "Star Count",
+                    "options": [
+                        { "value": "1", "label": "1" },
+                        { "value": "2", "label": "2" },
+                        { "value": "3", "label": "3" },
+                        { "value": "4", "label": "4" },
+                        { "value": "5", "label": "5" }
+                    ],
+                    "default": "5"
+                },
+                {
+                    "type": "text",
+                    "id": "recenze__text",
+                    "label": "recenze"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

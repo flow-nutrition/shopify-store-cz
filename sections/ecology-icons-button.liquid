@@ -1,0 +1,218 @@
+<div class="small__wrapper">
+    <div class="icons__wrapper__outer">
+        <div class="icons__wrapper">
+            <h3 class="heading__secondary">{{section.settings.icons__heading}}</h3>
+            <div class="icons__wrapper__inner">
+                <div class="icon__wrapper">
+                    <div class="img__wrapper">
+                        <img src="{{section.settings.icon1 | img_url: 'master'}}" alt="{{section.settings.icon1.alt}}">
+                    </div>
+                    <div class="icon__description">{{section.settings.icon_description1}}</div>
+                </div>
+                <div class="icon__wrapper">
+                    <div class="img__wrapper">
+                        <img src="{{section.settings.icon2 | img_url: 'master'}}" alt="{{section.settings.icon2.alt}}">
+                    </div>
+                    <div class="icon__description">{{section.settings.icon_description2}}</div>
+                </div>
+                <div class="icon__wrapper">
+                    <div class="img__wrapper">
+                        <img src="{{section.settings.icon3 | img_url: 'master'}}" alt="{{section.settings.icon3.alt}}">
+                    </div>
+                    <div class="icon__description">{{section.settings.icon_description3}}</div>
+                </div>
+            </div>
+            <h3 class="heading__secondary">{{section.settings.button__heading}}</h3>
+            <a href="{{section.settings.button__url}}" class="icons__button">{{section.settings.button__text}}</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .icon__description{
+        font-size: 14px;
+        line-height: 1.5;
+        color: #222222;
+    }
+    .icons__subheading p{
+        color: #6C6E73;
+        font-size: 16px;
+        line-height: 28px;
+    }
+    .icons__button{
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FFFFFF;
+        padding: 22px 40px;
+        background: #FF4438;
+        border-radius: 100px;
+        display: inline-block;
+        margin: 0 auto;
+    }
+    .icons__button:hover{
+        background: #C01616;
+        color: #FFF !important;
+    }
+    .icons__wrapper h3{
+        font-size: 32px;
+        line-height: 1.5;
+        color: #222222;
+        margin-bottom: 48px;
+    }
+    .icons__wrapper__inner + .heading__secondary{
+        margin-bottom: 22px;
+        font-size: 24px;
+    }
+    .icon__wrapper .img__wrapper{
+        margin-bottom: 46px;
+    }
+    .text__wrapper{
+        max-width: 730px;
+        margin: 0 auto;
+    }
+    .text__wrapper p{
+        font-size: 16px;
+        color: #6C6E73;
+        line-height: 28px;
+    }
+    .icons__wrapper__outer{
+        margin: 200px auto 200px;
+        max-width: 895px;
+    }
+    .icon__wrapper{
+        width: 30%;
+        text-align: center;
+    }
+    .icons__wrapper{
+        position: relative;
+        text-align: center;
+    }
+    .icons__wrapper__inner{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 200px;
+    }
+    @media screen and (max-width: 1440px) {
+        .icons__wrapper__inner{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 100px;
+        }
+        .icons__wrapper__outer{
+            margin: 100px auto 100px;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .icons__wrapper__outer h2{
+            font-size: 28px;
+        }
+        .text__wrapper{
+            text-align: center;
+        }
+
+        .icons__wrapper:before{
+            width: 300px;
+        }
+        .icons__wrapper h3{
+            font-size: 24px;
+        }
+        .icons__wrapper__inner{
+            margin-bottom: 60px;
+        }
+        .icons__wrapper__inner{
+            flex-direction: column;
+        }
+        .icon__wrapper{
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        .icon__wrapper + .icon__wrapper{
+            margin-top: 30px;
+        }
+        .icon__wrapper .img__wrapper{
+            margin-bottom: 16px;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "Icons button",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Text block"
+        },
+        {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading"
+        },
+        {
+            "type": "richtext",
+            "id": "text_content",
+            "label": "Text content"
+        },
+        {
+            "type": "header",
+            "content": "Icons block"
+        },
+        {
+            "type": "text",
+            "id": "icons__heading",
+            "label": "Icons heading"
+        },
+        {
+            "type": "image_picker",
+            "id": "icon1",
+            "label": "Icon"
+        },
+        {
+            "type": "textarea",
+            "id": "icon_description1",
+            "label": "Icon text"
+        },
+        {
+            "type": "image_picker",
+            "id": "icon2",
+            "label": "Icon"
+        },
+        {
+            "type": "textarea",
+            "id": "icon_description2",
+            "label": "Icon text"
+        },
+        {
+            "type": "image_picker",
+            "id": "icon3",
+            "label": "Icon"
+        },
+        {
+            "type": "textarea",
+            "id": "icon_description3",
+            "label": "Icon text"
+        },
+        {
+            "type": "header",
+            "content": "Button block"
+        },
+        {
+           "type": "text",
+           "id": "button__heading",
+           "label": "Button heading"
+        },
+        {
+           "type": "text",
+           "id": "button__text",
+           "label": "Button text"
+        },
+        {
+           "type": "url",
+           "id": "button__url",
+           "label": "Button url"
+        }
+    ]
+}
+{% endschema %}

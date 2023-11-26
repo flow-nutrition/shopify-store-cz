@@ -1,0 +1,88 @@
+<div class="small__wrapper">
+    <div class="text__wrapper__inner">
+        <div class="text__wrapper_block">
+            <h2 class="text__heading section__heading">{{section.settings.section__heading}}</h2>
+            <div class="text__content">{{section.settings.section__content}}</div>
+        </div>
+        <div class="text__image__wrapper">
+            <img src="{{section.settings.image | img_url: 'master'}}" alt="{{section.settings.image.alt}}">
+        </div>
+    </div>
+</div>
+
+<style>
+    .text__wrapper__inner h2.text__heading p{
+        font-family: 'Graphik-regular';
+    }
+    .text__image__wrapper{
+        width: 50%;
+    }
+    .text__image__wrapper img{
+        width: 100%;
+    }
+    .text__wrapper_block{
+        margin-right: 70px;
+        width: 50%;
+    }
+    h2.text__heading p{
+        font-size: 32px;
+        line-height: 48px;
+        margin-bottom: 16px;
+        color: #222222;
+    }
+    .text__wrapper__inner{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .text__content p{
+        color: #6C6E73;
+        max-width: 650px;
+    }
+    @media screen and (max-width: 970px) {
+        .text__wrapper_block{
+            margin-right: 0;
+            margin-bottom: 16px;
+        }
+        .text__wrapper__inner{
+            flex-direction: column;
+        }
+        .text__image__wrapper{
+            width: 100%;
+        }
+        .text__wrapper_block{
+            width: 100%;
+        }
+        h2.text__heading p{
+            font-size: 32px;
+        }
+        .text__wrapper__inner{
+            margin: 0 0 100px 0;
+        }
+    }
+</style>
+
+
+{% schema %}
+{
+    "name": "Text block",
+    "settings": [
+        {
+           "type": "richtext",
+           "id": "section__heading",
+           "label": "Section heading"
+        },
+        {
+           "type": "richtext",
+           "id": "section__content",
+           "label": "Content"
+        },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }
+    ]
+}
+{% endschema %}

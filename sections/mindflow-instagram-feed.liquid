@@ -1,0 +1,213 @@
+<div class="instagram-feed-wrapper">
+
+  <div class="page-width instagram-feed">
+    <div class="instagram-title-wrapper">
+      <div class="sub-title">{{ section.settings.sub-title }}</div>
+      <h2>{{ section.settings.title }}<a href="https://www.instagram.com/{{ section.settings.inst-name | remove: '@' }}/" target="_blank">{{ section.settings.inst-name }}</a></h2>
+    </div>
+    <div class="feed-wrapper">
+      {% for block in section.blocks %}
+            <div class="inst-image">
+              <a href="{{ block.settings.button_link }}" target="_blank">
+                <img src="{{ block.settings.image | img_url: '' }}" alt="{{ block.settings.heading }}">
+              </a>
+            </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .instagram-feed-wrapper{
+    padding-top: 50px;
+  }
+  .instagram-title-wrapper{
+    text-align: center;
+  }
+  .instagram-title-wrapper .sub-title{
+    font-size: 14px;
+    line-height: 24px;
+    color: #6C6E73;
+    letter-spacing: 1px;
+    font-family: "Graphik-Regular";
+    text-transform: uppercase;
+    margin-bottom: 19px;
+  }
+  .instagram-title-wrapper h2{
+    font-size: 32px;
+    line-height: 48px;
+    font-family: "Graphik-Regular";
+    color: #222222;
+    margin-bottom: 0;
+  }
+  .instagram-title-wrapper a{
+    color: #FF4438!important;
+    margin-left: 10px;
+  }
+
+  .instagram-feed .feed-wrapper{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 142px;
+    margin-bottom: 70px;
+  }
+  .page-width.instagram-feed{
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .feed-wrapper .inst-image:nth-child(1){
+
+  }
+  .feed-wrapper .inst-image:nth-child(2){
+    margin-top: 104px;
+    margin-left: -74px;
+  }
+  .feed-wrapper .inst-image:nth-child(3){
+    margin-left: -56px;
+    margin-top: -71px;
+  }
+  .feed-wrapper .inst-image:nth-child(4){
+    margin-top: 104px;
+    margin-left: -75px;
+    z-index: 2;
+  }
+  .feed-wrapper .inst-image:nth-child(5){
+    margin-top: -3px;
+    margin-left: -65px;
+  }
+
+  @media (max-width: 749px) {
+    .instagram-feed-wrapper{
+      padding-top: 50px;
+    }
+    .instagram-feed .feed-wrapper{
+      flex-direction: column;
+      align-items: center;
+      margin-top: 80px;
+    }
+    .inst-image img{
+      max-width: 70%;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .feed-wrapper .inst-image:nth-child(1){
+      margin-top: 0px;
+      margin-left: -145px;
+    }
+    .feed-wrapper .inst-image:nth-child(2){
+      margin-top: -98px;
+      margin-left: 0px;
+      margin-right: -130px;
+    }
+    .feed-wrapper .inst-image:nth-child(3){
+      margin-top: 0px;
+      margin-left: 0px;
+    }
+    .feed-wrapper .inst-image:nth-child(4){
+      margin-top: -46px;
+      margin-left: -145px;
+    }
+    .feed-wrapper .inst-image:nth-child(5){
+      margin-top: -67px;
+      margin-left: 97px;
+      z-index: 2;
+    }
+  }
+  @media (max-width: 480px) {
+    .instagram-feed-wrapper{
+      padding-top: 50px;
+    }
+    .instagram-title-wrapper .sub-title{
+      font-size: 13px;
+      line-height: 24px;
+      color: #8B9093;
+      margin-bottom: 16px;
+    }
+    .instagram-title-wrapper h2{
+      font-size: 24px;
+      line-height: 32px;
+      max-width: 319px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .instagram-feed .feed-wrapper{
+      margin-top: 48px;
+    }
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Mindflow instagram feed",
+  "class": "instagram-section",
+  "settings": [
+{
+"type": "text",
+"id": "sub-title",
+"label": "Subtitle"
+},
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+{
+"type": "text",
+"id": "inst-name",
+"label": "Instagram name"
+}
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mindflow instagram feed",
+      "category": "Mindflow",
+      "blocks": [
+        {
+          "type": "text_block"
+        },
+        {
+          "type": "text_block"
+        },
+        {
+          "type": "text_block"
+        },
+		{
+          "type": "text_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

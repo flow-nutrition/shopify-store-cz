@@ -1,0 +1,616 @@
+{% assign rich_text = product.metafields.section.rich_text %}
+<div class="item__wrapper">
+  <div class="richtext-heading accordion2">
+      <p>{{section.settings.acordion1}}</p>
+  </div>
+  <div class="panal">
+    <div class="rich-text" id="popis">
+      {%- comment -%}
+      <div class="rich-text-icons">
+        <a href="https://mindflow-cz.myshopify.com/pages/proc">
+        <div class="rich-text-icons-wrapper">
+          {% for block in rich_text.blocks %}
+            <div class="icon-wrapper">
+              <img src="{{ block.icon | append: '.svg' | asset_url }}" alt="{{ block.heading }} svg">
+              <p>{{ block.heading }}</p>
+            </div>
+          {% endfor %}
+        </div>
+        </a>
+      </div>
+      {%- endcomment -%}
+      {% if rich_text.extra_info != blank %}
+        <div class="extra-info-wrapper" id="slozeni">
+          <div class="section-label">{{ rich_text.extra_info.first.label }}</div>
+          <div class="rich-text__heading">
+            <h2>{{ rich_text.extra_info.first.heading }}</h2>
+          </div>
+          <div class="rich-text__text"><p>{{ rich_text.extra_info.first.text }}</p></div>
+        </div>
+      {% endif %}
+    </div>
+    {% if rich_text.extra_info.first.label %}
+    <div class="text-row heading">
+      <div class="image">
+      </div>
+      <div class="heading-content">
+        <h3>{{ rich_text.extra_info.first.heading }}</h3>
+        <p>{{ rich_text.extra_info.first.text }}</p>
+      </div>
+    </div>
+    {% endif %}
+    {% if rich_text.lists != blank %}
+      {% include 'mindflow-product-section-text-row-revert' %}
+      <div class="rich-text-lists item-1">
+        {% for list in rich_text.lists %}
+          <div class="lists-wrapper rich-text-upper">
+            <p><strong class="l-title">{{ list.heading }}</strong></p>
+            <ul class="l-content">
+              {% for item in list.list %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="container">
+      <div class="effects-bg rich-text-lists">
+        <div class="items-container">
+          <div>
+            <h1>Jak produkty užívat?</h1>
+          </div>
+          <div class="items-container items">
+            {% for effect in rich_text.effects %}
+              <div class="lists-wrapper effects-box">
+                <div class="img-text">
+                  <img class="icons-red" width="82px" height="82px" src="{{ effect.image }}" alt="">
+                  <p><strong class="l-title">{{ effect.heading }}</strong></p>
+                </div>
+                <ul  class="l-content">
+                  {% for effect in effect.info %}
+                    <li>{{ effect }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .rich-text-upper{
+    padding: 0!important;
+  }
+  .items ul li a{
+    color: #000000 !important;
+  }
+  .img-text{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+  }
+  .container{
+    max-width: 100%;
+    background-color: #F5F6F7;
+  }
+  .items-container{
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+  }
+  .items{
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+  }
+  .effects-bg{
+    display: flex;
+    flex-direction: column;
+  }
+  .effects-box {
+    border-radius: 8px;
+    border: #E4E7E9 1px solid;
+    background-color: #ffffff;
+    width: 500px;
+  }
+  .rich-text-lists h1{
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 42px;
+    font-family: Graphik-Regular;
+  }
+  .l-content{
+   color: #000000;
+ }
+  .effects-box li{
+    color: black;
+  }
+
+  .accordion2{
+    width: 100%;
+  }
+  .panal.el_hide{
+    overflow: hidden;
+    transition: all .5s ease-out;
+    max-height: 0;
+  }
+  .panal{
+    overflow: hidden;
+    transition: all .5s ease-out;
+    max-height: fit-content;
+  }
+  .richtext-heading p{
+    color: #000;
+  }
+  .text-row.heading .image img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  .heading-content{
+    margin-left: 128px;
+    width: 50%;
+  }
+
+  .richtext-heading{
+    font-size: 14px;
+    line-height: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    max-width: 1167px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 20px;
+    font-size: 19px;
+    font-weight: 400;
+    font-family: 'Graphik-Regular';
+  }
+  .rich-text {
+  padding: 0 20px;
+  margin-top: 20px;
+}
+
+.rich-text-lists {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  padding: 115px 165px 75px 165px;;
+}
+
+.rich-text-lists .lists-wrapper { padding: 30px; position: relative;}
+
+.rich-text-lists .lists-wrapper ul { padding-left: 2rem; margin-bottom: .5rem; }
+
+.rich-text-lists .lists-wrapper ul li { list-style: disc; font-size: 16px; }
+
+.rich-text-wrapper,
+.extra-info-wrapper {
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+.extra-info-wrapper { max-width: 652px; margin-top: 6rem; padding-bottom: 2rem; }
+
+.extra-info-wrapper .rich-text__heading { padding: 0; }
+
+.rich-text-icons-wrapper {
+  display: flex;
+  justify-content: space-around;
+  max-width: 1120px;
+  margin: 114px auto;
+  text-align: center;
+  padding: 35px 0;
+  border: 1px solid #E4E7E9;
+  border-radius: 8px;
+}
+.rich-text-icons-wrapper .icon-wrapper + .icon-wrapper{
+  border-left: 1px solid #E4E7E9;
+}
+.rich-text-icons-wrapper .icon-wrapper { 
+  width: 33%;
+  
+    /* margin-bottom: 2rem; */
+    padding: 45px 0;
+}
+
+.rich-text-icons-wrapper .icon-wrapper p { margin-top: 12px; color: #FF4438; font-size: 16px;}
+
+.rich-text-icons{
+  padding: 0 20px;
+}
+
+.rich-text__heading {
+  padding: 1.875rem 0;
+}
+
+.rich-text__heading h2 {
+  font-size: 32px;
+  line-height: 48px;
+  color: #222;
+}
+
+.rich-text__text p {
+  color: #6C6E73;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.75rem;
+}
+
+
+/* Mindflow text row */
+.text-row {
+  border-top: 1px solid #ececec;
+  margin: 2rem 0;
+  padding: 2rem 0;
+  display: flex;
+}
+
+.text-row.heading {
+  border-top: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-row .item {
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.text-row .item.section-description p {
+  color: #393939;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.section-label {
+  color: #767676;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.text-row .item h3 {
+  margin-bottom: 0;
+  margin-left: 1rem;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.text-row .item p {
+  color: #696969;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.text-row .item .svg {
+  background-color: #FBF2F3;
+  color: #FF4438;
+  padding: 20px;
+  border-radius: 50%;
+  width: 62px;
+  height: 62px;
+}
+
+.rich-text__heading{
+  padding: 0;
+}
+.rich-text-wrapper.heading__flex > div{
+  width: 50%;
+  text-align: left;
+}
+.rich-text-wrapper.heading__flex{
+  display: flex;
+  column-gap: 25px;
+  align-items: flex-start;
+}
+
+  .rich-text-lists p>strong{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 36px;
+    max-width: 225px;
+    display: block;
+    color: #222222;
+    font-family: "Graphik-Regular";
+  }
+  .rich-text-lists .effects-box ul li a{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    text-decoration-line: underline;
+    color: -moz-default-color;
+  }
+  .rich-text-lists .lists-wrapper ul li a{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    text-decoration-line: underline;
+    color: #FF4438;
+  }
+
+  .rich-text-lists .lists-wrapper ul li{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    position: relative;
+    line-height: 28px;
+    list-style: none;
+    color: #6C6E73;
+  }
+  .rich-text-lists .lists-wrapper ul li:before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: #E9ECEE;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .rich-text-lists .lists-wrapper ul li:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -26px;
+    width: 4px;
+    height: 4px;
+    background: black;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+  }
+
+  .heading-content .section-label{
+    margin-bottom: 15px;
+  }
+  .heading-content h3{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 44px;
+    line-height: 64px;
+    color: #222222;
+  }
+  .heading-content p{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    color: #6C6E73;
+    max-width: 630px;
+  }
+  @media (max-width: 1250px) {
+    .items-container{
+      justify-content: center;
+    }
+    .rich-text-lists.effects-bg{
+      padding-right: 80px;
+      padding-left: 80px;
+    }
+    .rich-text-lists{
+      padding-right: 80px;
+      padding-left: 80px;
+    }
+  }
+  @media (max-width: 970px) {
+    .rich-text-lists.effects-bg{
+      padding-right: 30px;
+      padding-left: 30px;
+    }
+    .rich-text-lists{
+      padding-right: 30px;
+      padding-left: 30px;
+    }
+  }
+  @media (max-width: 1110px) {
+      .text-row.heading .image img {
+        max-width: 100%;
+        border-radius: 0;
+      }
+  }
+
+    @media(max-width:768px){
+      .item-1{
+        margin-bottom: 30px;
+      }
+      .rich-text-upper{
+        padding: 20px!important;
+      }
+      .rich-text-lists h1 {
+        margin: 32px 0;
+      }
+      .rich-text-lists h1{
+        font-size: 24px;
+        line-height: 26px;
+        text-align: left;
+      }
+      .items{
+        gap: 16px;
+      }
+      .img-text{
+        padding: 0;
+      }
+      .icons-red{
+        width: 50px;
+        height: 50px;
+      }
+      .panal{
+        max-height: unset;
+      }
+      .items-container{
+        display: block;
+        width: 100%;
+      }
+      .rich-text-lists.effects-bg{
+        padding: 0 16px 42px 16px;
+      }
+      .items {
+        display: flex;
+        flex-direction: column;
+      }
+      .lists-wrapper{
+        padding: 15px;
+      }
+      .rich-text-lists {
+        flex-direction: column;
+        /* padding: 0 30px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+  .richtext-heading{
+    text-align: center;
+  }
+      .text-row.heading{
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+        margin-bottom: 20px;
+      }
+      .heading-content {
+        margin-top: 32px;
+      }
+      .heading-content {
+        margin: 0 auto;
+        text-align: left;
+      }
+  .rich-text-wrapper.heading__flex{
+    flex-direction: column;
+    align-items: center;
+  }
+  .rich-text-wrapper.heading__flex > div{
+    width: 100%;
+    text-align: left;
+  }
+  .rich-text{
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+  .rich-text__heading h2{
+    font-size: 28px;
+    line-height: 44px;
+    margin-bottom: 16px;
+  }
+  .rich-text-icons{
+    padding: 0;
+  }
+  .rich-text-icons-wrapper{
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 72px auto;
+    margin-bottom: 63px!important;
+  }
+
+  .rich-text-icons-wrapper .icon-wrapper + .icon-wrapper{
+    border-left: 0;
+    border-top: 1px solid #E4E7E9;
+  }
+  .rich-text-icons-wrapper .icon-wrapper{
+    padding: 32px 0;
+  }
+
+  .rich-text-icons-wrapper .icon-wrapper{
+    width: 75%;
+  }
+
+  .rich-text-lists .lists-wrapper{
+    border-top: 1px solid #E4E7E9;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .lists-wrapper p{
+    margin: 0;
+  }
+
+  .rich-text-lists p>strong{
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .rich-text-lists .lists-wrapper ul{
+    margin-top: 16px;
+  }
+
+  .rich-text-icons-wrapper{
+
+  }
+  .rich-text-lists{
+    flex-direction: column;
+    padding: 0 16px;
+  }
+
+      .l-content{
+        display: none;
+      }
+
+      .lists-wrapper p:after {
+        content: url("{{ "dropdown-arrow.svg" | asset_url }}");
+        position: absolute;
+        top: 27px;
+        right: 10px;
+      }
+      .lists-wrapper p.visible:after {
+        content: url("{{ "dropdown-red-arrow.svg" | asset_url }}");
+        font-size: 15px;
+        position: absolute;
+        top: 27px;
+        right: 10px;
+      }
+      .l-content.visible{
+        display: block;
+      }
+
+      .heading-content h3 {
+        font-size: 28px;
+        line-height: 44px;
+        margin-bottom: 0;
+        max-width: 100%;
+      }
+
+}
+
+</style>
+
+<script>
+
+  if ($(window).width() < 749) {
+    var titleTrigger = $('.lists-wrapper p');
+    titleTrigger.click(function (){
+      $(this).closest(".lists-wrapper").find('.l-content').slideToggle(250);
+      if ( $(this).hasClass('visible')){
+        $(this).removeClass('visible');
+      } else {
+        // $('.site-footer-block-title').removeClass('visible');
+        if ($('.lists-wrapper p').not(this).hasClass('visible')){
+          $('.lists-wrapper p.visible ').not(this).closest(".lists-wrapper").find('.l-content').slideToggle(250);
+          $('.lists-wrapper p').not(this).removeClass('visible');
+
+        }
+        $(this).addClass('visible');
+      }
+    });
+  }
+</script>

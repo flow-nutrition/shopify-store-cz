@@ -1,0 +1,314 @@
+<section class="page-width featured-blog">
+  {% if section.settings.title != blank %}
+    <div class="section-header">
+      <h2>{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+
+  {%- assign blog = blogs[section.settings.blog] -%}
+
+  {% unless blog.articles_count == 0 %}
+    <ul class="articles-wrapper grid grid--uniform grid--blog">
+      {% for article in blog.articles limit: 3 %}
+         
+        <li class="grid__item medium-up--one-third">
+          <article aria-labelledby="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+            <div>
+              <a href="{{ article.url }}" class="article__link">
+                {% if article.image %}
+                  {% capture img_id %}ArticleImage-{{ article.image.id }}{% endcapture %}
+                  {% capture img_wrapper_id %}ArticleImageWrapper-{{ article.image.id }}{% endcapture %}
+                  {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+                  {% include 'image-style', image: article.image, height: 235, wrapper_id: img_wrapper_id, img_id: img_id %}
+                  <div id="{{ img_wrapper_id }}" class="article__grid-image-wrapper js">
+                    <div class="article__grid-image-container" style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;" data-image-loading-animation>
+                      <img id="{{ img_id }}"
+                          class="article__grid-image lazyload"
+                          data-src="{{ img_url }}"
+                          data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                          data-aspectratio="{{ article.image.aspect_ratio }}"
+                          data-sizes="auto"
+                          alt="">
+                    </div>
+                  </div>
+                  <noscript>
+                    <div class="article__grid-image-wrapper">
+                      {{ article | img_url: '345x345', scale: 2 | img_tag: article.title, 'article__grid-image' }}
+                    </div>
+                  </noscript>
+                {% endif %}
+              </a>
+            </div>
+              <a href="{{ article.url }}" class="article__link">
+                  <h3 class="article__title" id="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+                      {{ article.title }}
+                  </h3>
+              </a>
+            <div class="article__grid-meta">
+              {% if section.settings.blog_show_excerpt %}
+                <div class="rte article__grid-excerpt">
+                  {% if article.excerpt.size > 0 %}
+                    {{ article.excerpt }}
+                  {% else %}
+                    {{ article.content | strip_html | truncate: 150 }}
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if article.tags.size > 0 %}
+                <div class="article__tags rte">
+                  <ul class="list--inline" aria-label="{{ 'blogs.article.tags' | t }}">
+                    {% for tag in article.tags %}
+                        {% if tag contains "time" or tag contains "product:" %}
+                        {% else %}
+                          <li>
+                            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__grid-tag">{{ tag | capitalize }}</a>
+                          </li>
+                      {% endif %}
+                        {% if tag contains "time" %}
+                            {% assign tag_split = tag | split: ':' %}
+                            <li class="time-count">{{ tag_split[1] }}</li>
+                        {% endif %}
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="grid grid--uniform grid--blog">
+      {% for i in (1..3) %}
+        <div class="grid__item medium-up--one-third">
+          <div class="article__grid-meta">
+            <h3 class="article__title">
+              <a href="#">{{ 'homepage.onboarding.blog_title' | t }}</a>
+            </h3>
+
+            <div class="rte article__grid-excerpt">
+              {{ 'homepage.onboarding.blog_excerpt' | t }}
+            </div>
+
+            <ul class="list--inline article__meta-buttons">
+              <li>
+                <a href="{{ article.url }}" class="btn btn--tertiary btn--small">
+                  {{ 'blogs.article.read_more' | t }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endunless %}
+
+  {% if section.settings.show_view_all %}
+    <div class="text-center read-all-btn">
+      <a href="{{ blog.url }}" class="btn" aria-label="{{ 'blogs.article.view_all_blogs' | t }}">
+        {{ 'blogs.article.view_all' | t }}
+      </a>
+    </div>
+  {% endif %}
+</section>
+
+<style>
+  #shopify-section-mindflow-featured-blog{
+    border: 1px solid #E9ECEE;
+    margin-top: 80px;
+    padding-top: 0;
+    border-radius: 8px;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+    .featured-blog{
+        margin-right: 160px;
+        margin-left: 160px;
+        padding-top: 87px;
+        padding-bottom: 127px;
+    }
+    .articles-wrapper{
+        overflow: hidden;
+    }
+    .featured-blog .section-header{
+        margin-bottom: 0;
+    }
+    .featured-blog .section-header h2{
+        font-size: 32px;
+        line-height: 48px;
+        color: #222222;
+        font-family: "Graphik-Regular";
+        margin-bottom: 86px;
+        text-align: center;
+    }
+    .article__link h3{
+        color: #222222;
+        font-size: 24px;
+        line-height: 36px;
+        font-family: "Graphik-Regular";
+        display: block;
+    }
+    .featured-blog .article__grid-tag{
+        font-size: 12px;
+        line-height: 16px;
+        color: #E62E31;
+        border-radius: 8px;
+        font-family: "Graphik-Regular";
+        border: none!important;
+        text-transform: initial;
+        padding: 4px 8px !important;
+      white-space: normal;
+    }
+    .article__tags .list--inline li .article__grid-tag{
+        background: #FFF2F0;
+    }
+    .time-count{
+        font-size: 12px;
+        line-height: 16px;
+        color: #6C6E73;
+        font-family: "Graphik-Regular";
+        position: relative;
+        display: flex!important;
+        align-items: center;
+    }
+    .time-count:before{
+        content: '';
+        width: 4px;
+        height: 4px;
+        margin-right: 16px;
+        margin-left: 8px;
+        display: inline-block;
+        background: #C4C4C4;
+        border-radius: 50%;
+    }
+    .list--inline{
+        display: flex;
+    }
+    /* .articles-wrapper .grid__item:nth-child(3){
+        padding-right: 20px!important;
+    } */
+    .article__grid-image-wrapper{
+        max-width: 100% !important;
+    }
+    .article__grid-image-wrapper img{
+        max-width: 100% !important;
+        max-height: unset!important;
+    }
+
+    @media (max-width: 1200px){
+        .featured-blog{
+            margin-right: 70px;
+            margin-left: 70px;
+        }
+    }
+    @media (max-width: 996px){
+        .featured-blog {
+            margin-right: 15px;
+            margin-left: 15px;
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        .article__link h3{
+            font-size: 21px;
+            line-height: 29px;
+        }
+
+    }
+    @media (max-width: 768px){
+    #shopify-section-mindflow-featured-blog{
+      border: none;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    }
+    @media (max-width: 480px){
+        .featured-blog{
+            margin-right: 24px;
+            margin-left: 24px;
+            padding: 36px 0 0 0;
+        }
+        .articles-wrapper .grid__item{
+            padding-right: 0!important;
+        }
+        .featured-blog .section-header h2{
+            font-size: 28px;
+            line-height: 44px;
+            margin-bottom: 16px;
+        }
+        .article__link h3{
+            font-size: 20px;
+            line-height: 32px;
+            margin-bottom: 8px;
+        }
+        .featured-blog .article__grid-tag{
+            font-size: 12px;
+            line-height: 16px;
+        }
+    }
+</style>
+
+<script>
+
+        $('.articles-wrapper').slick({
+            dots: false,
+            arrows: false,
+            infinite: true,
+            speed: 300,
+            autoscroll: false,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 750,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+
+
+</script>
+
+{% schema %}
+{
+  "name": "Mindflow blog posts",
+  "class": "index-section non-space",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Blog posts"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog"
+    },
+	{
+      "type": "checkbox",
+      "id": "blog_show_excerpt",
+      "label": "Show excerpt",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' button",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

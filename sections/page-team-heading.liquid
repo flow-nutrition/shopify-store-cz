@@ -1,0 +1,43 @@
+<div class="page-team-heading">
+  <h1>{{ section.settings.heading }}</h1>
+  <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1425px" height="69px" viewBox="0 0 1425 69"><title>031123DF-F81B-43B6-A995-87A7314E9BCB</title><desc>Created with sketchtool.</desc><g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="About" transform="translate(-255.000000, -497.000000)" stroke="#FF4438"><path d="M2600,531.578298 L2595.02768,533.871666 C2503.48925,576.090158 2397.79477,575.237994 2306.95324,531.546405 L2306.95224,531.546405 C2216.1867,487.891692 2110.5882,487.001654 2019.09477,529.120478 L2008.42023,534.035122 C1916.9268,576.154943 1811.3293,575.264905 1720.56276,531.609196 L1720.47477,531.567335 C1629.68324,487.900662 1524.05274,487.023581 1432.54431,529.176292 L1422.45569,533.823825 C1330.94626,575.976536 1225.31576,575.099455 1134.52423,531.432783 L1134.43624,531.389925 C1043.6707,487.735213 938.072205,486.845175 846.578768,528.964996 L835.905234,533.878643 C744.411797,575.997467 638.813297,575.108425 548.047761,531.453713 L548.046761,531.453713 C457.205235,487.762123 351.511748,486.909959 259.971317,529.128452 L255,531.421819" id="Stroke-1"></path></g></g></svg>
+  <div class="container">
+    <div class="item">
+      {% if section.settings.left_col != blank %}
+        {{ section.settings.left_col }}
+      {% endif %}
+    </div>
+    <div class="item">
+      {% if section.settings.right_col != blank %}
+        {{ section.settings.right_col }}
+      {% endif %}
+    </div>
+  </div>
+</div>
+  
+
+
+{% schema %}
+{
+  "name": "Team heading",
+  "class": "page-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Default heading"
+    },
+	{
+      "type": "richtext",
+      "id": "left_col",
+      "label": "Left column"
+    },
+	{
+      "type": "richtext",
+      "id": "right_col",
+      "label": "Right column"
+    }
+  ]
+}
+{% endschema %}

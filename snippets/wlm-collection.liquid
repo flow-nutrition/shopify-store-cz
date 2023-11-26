@@ -1,0 +1,20 @@
+{%- assign w_continue = 'no' -%}
+{% assign wlmHideItem_Collection = false %}{% assign wlmLockedTags210510 = false %}
+{% assign wlmLockedTags210978 = false %}
+{% assign wlmLockedTags210979 = false %}
+
+
+{% assign wlmLockedTags210510 = false %}
+{% assign wlmLockedTags210978 = false %}
+{% assign wlmLockedTags210979 = false %}
+{% for tag in customer.tags %}
+{% if tag == 'Wholesale' %}{% assign wlmLockedTags210510 = true %}{% endif %}
+{% if tag == 'GroupB' %}{% assign wlmLockedTags210978 = true %}{% endif %}
+{% if tag == 'GroupA' %}{% assign wlmLockedTags210979 = true %}{% endif %}
+{% endfor %}
+
+
+
+{% if wlmHideItem_Collection == true %}{% continue %}{% endif %}
+
+{%- if wlm_is_render == 'yes' -%}{{- w_continue -}}{%-endif-%}

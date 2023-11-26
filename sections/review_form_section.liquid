@@ -1,0 +1,196 @@
+<div class="review_form_section">
+    <div class="review_form_position">
+        <div class="rf_content">
+            <h2 class="rf_title">{{ section.settings.title }}</h2>
+            <p class="rf_info">{{ section.settings.info }}</p>
+            {% if section.settings.button_link != blank %}
+                <a class="rf_button" href="#review-form-container">{{ section.settings.button_text }}</a>
+            {% endif %}
+        </div>
+        <div class="rf_image_container">
+                <img class="rf_image" src="https://cdn.shopify.com/s/files/1/0511/0421/9293/files/focus_05.png?v=1682515103">
+                <img class="rf_image_mobile" src="https://cdn.shopify.com/s/files/1/0511/0421/9293/files/focus_mobile.png?v=1682602224">
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .rf_image_mobile{
+        display: none;
+    }
+    .review_form_section{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: -13px;
+    }
+    .review_form_position{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 165px 50px 165px;
+        flex-direction: row;
+    }
+    .rf_content{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        align-items: flex-start;
+        justify-content: center;
+        margin-right: 120px;
+    }
+    .rf_title{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 44px;
+        line-height: 55px;
+        color: #222222;
+        max-width: 305px;
+        margin: 0 0 24px;
+    }
+    .rf_info{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+        margin: 0 0 48px;
+        max-width: 480px;
+    }
+    .rf_button{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FFFFFF;
+        padding: 22px 52px;
+        background: #FF4438;
+        border-radius: 900px;
+    }
+    .rf_button:hover, .rf_button:focus{
+        background: #C01616;
+        color: #FFF !important;
+    }
+    .rf_image_container{
+        width: 100%;
+    }
+    .rf_image{
+        margin-right: 20px;
+        width: 100%;
+    }
+    .rf_image:nth-child(2n+1){
+        margin-bottom: 60px;
+        margin-top: 0;
+    }
+    @media screen and (max-width:1250px) {
+        .review_form_position{
+            padding: 50px 80px 50px 80px;
+        }
+        .rf_content{
+            width: 100%;
+        }
+    }
+    @media screen and (max-width:1110px) {
+        .rf_content{
+            margin-right: 60px;
+        }
+    }
+
+    @media screen and (max-width:970px) {
+        .review_form_position{
+            padding: 50px 30px 50px 30px;
+        }
+    }
+
+    @media screen and (max-width:768px) {
+        .rf_image_mobile{
+            margin-bottom: 70px;
+        }
+        .rf_button{
+            display: none;
+        }
+        .rf_content{
+           margin: 30px 0 10px 0;
+            padding: 0 16px;
+        }
+        .rf_title{
+            font-size: 32px;
+            line-height: 42px;
+            margin: 0 0 18px;
+        }
+        .rf_info{
+            margin: 0 0 34px;
+        }
+        .review_form_position{
+            padding: 0;
+            flex-direction: column;
+        }
+        .rf_image{
+            display: none;
+        }
+        .rf_image_mobile{
+            display: block;
+            width: 100%;
+        }
+        .rf_image_container{
+            width: 100%;
+        }
+    }
+    @media screen and (max-width:350px) {
+        .rf_button{
+            font-size: 14px;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "Review form section",
+    "max_blocks": 3,
+    "settings": [
+        {
+            "id": "title",
+            "type":"text",
+			"label":"Heading"
+        },
+        {
+            "id": "info",
+            "type":"text",
+			"label":"Info"
+        },
+        {
+            "id": "button_text",
+            "type":"text",
+			"label":"Button text"
+        },
+        {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+        }
+    ],
+    "blocks":[
+     {
+         "type": "image",
+         "name": "Image",
+         "settings": [
+             {
+                 "type": "image_picker",
+                 "id": "image",
+                 "label": "Image"
+             }
+         ]
+     }
+   ],
+    "presets": [
+        {
+            "category": "Custom",
+            "name":"Review form section"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,40 @@
+<div class="page-contact">
+  <h3>{{ section.settings.text }}</h3>
+
+  <div class="container">
+    {% for block in section.blocks %}
+      <div class="item">
+        {{ block.settings.content }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Contact",
+  "class": "page-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

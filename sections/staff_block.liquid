@@ -1,0 +1,246 @@
+<div class="staff_block">
+    <div class="staff_block_position">
+        <h2>{{ section.settings.head_st }}</h2>
+        <div class="card_st_block">
+            {% for block in section.blocks %}
+            <div class="staff_card">
+                <img src="{{ block.settings.photo | img_url: 'master' }}">
+                <h4>{{ block.settings.name }}</h4>
+                <h5>{{ block.settings.pos }}</h5>
+                <div class="email-wrapper">
+                    <img src="{{ block.settings.mail_icon | img_url: 'master' }}">
+                    <p class="staff-mail">{{ block.settings.mail }}</p>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .email-wrapper img{
+        margin: 0!important;
+    }
+    .staff-mail{
+        font-family: Graphik-Regular;
+        font-size: 16px;
+        line-height: 28px;
+        font-weight: 500;
+        color: #222;
+        margin-left: 10px;
+    }
+    .email-wrapper{
+        display: flex;
+        margin-top: 4px;
+        align-items: center;
+        margin-right: auto;
+    }
+    .staff_block{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        width: 100%;
+    }
+    .staff_block h2{
+        font-size: 32px;
+        line-height: 42px;
+        color: #222222;
+        margin: 0 0 40px;
+        text-transform: none;
+    }
+    .staff_block h3{
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin: 0 0 22px;
+        color: #8B9093;
+
+    }
+    .staff_block h4{
+        font-size: 24px;
+        line-height: 36px;
+        color: #222222;
+        margin: 0 0 4px
+    }
+    .staff_block h5{
+        font-size: 16px;
+        line-height: 28px;
+        color: #222222;
+        margin: 0;
+    }
+    .staff_block_position{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 300px;
+        padding-left: 165px;
+        padding-right: 165px;
+        margin-bottom: 130px;
+    }
+    .card_st_block{
+        display: grid;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        align-items: flex-start;
+        grid-template-rows: auto auto;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 40px;
+        row-gap: 80px;
+    }
+    .staff_card {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .staff_card img{
+        max-width: 100%;
+        margin-bottom: 12px;
+    }
+    @media screen and (max-width: 1250px){
+        .staff_block_position{
+            margin-top: 150px;
+            padding: 0 80px;
+        }
+
+        }
+        .card_st_block{
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+    @media screen and (max-width: 970px){
+        .card_st_block{
+            grid-template-columns: 1fr 1fr;
+            justify-content: center;
+            align-items: flex-start;
+            row-gap: 20px;
+        }
+        .staff_block_position{
+            margin-top: 50px;
+            padding: 0 30px;
+        }
+    }
+    @media screen and (max-width: 768px){
+        .card_st_block{
+            margin-bottom: 20px;
+            grid-template-columns: 1fr;
+            row-gap: 0;
+        }
+        .staff_card{
+            max-width: 100%;
+            margin: 0;
+            padding-bottom: 30px;
+        }
+        .staff_block_position{
+            width: 100%;
+            margin-top: 50px;
+            padding: 0 16px;
+            margin-bottom: 0;
+        }
+
+        .staff_block h2{
+            font-size: 28px;
+            line-height: 40px;
+            margin: 0 0 20px;
+        }
+        .staff_block h4{
+            font-size: 20px;
+            line-height: 32px;
+        }
+        .staff_block h5{
+            font-size: 14px;
+            line-height: 22px;
+        }
+    }
+    @media screen and (max-width: 480px){
+
+    }
+    @media screen and (max-width: 425px){
+        .staff_block_position{
+            margin-top: 0;
+        }
+        .staff_block h3{
+            margin-left: 32px;
+        }
+        .staff_block h2{
+            margin: 0 0 20px;
+        }
+    }
+
+</style>
+
+{% schema %}
+{
+  "name": "staff",
+  "settings": [
+    {
+      "id": "head_st",
+      "type": "text",
+      "label": "Heading",
+      "default": "Tittle"
+    },
+    {
+      "id": "sub_head_st",
+      "type": "text",
+      "label": "Sub Heading",
+      "default": "Tittle"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "select",
+      "name": "card",
+      "settings": [
+        {
+          "id": "photo",
+          "type": "image_picker",
+          "label": "photo"
+        },
+        {
+          "id": "name",
+          "type": "text",
+          "label": "Name",
+          "default": "Name"
+        },
+        {
+          "id": "pos",
+          "type": "text",
+          "label": "Position at Mindflow",
+          "default": "Text"
+        },
+        {
+          "id": "mail",
+          "type": "text",
+          "label": "email",
+          "default": "Text"
+        },
+        {
+          "id": "mail_icon",
+          "type": "image_picker",
+          "label": "Email icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "staff",
+      "category": "nase",
+      "blocks": [
+        {
+          "type": "select"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

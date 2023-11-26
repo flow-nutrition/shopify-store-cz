@@ -1,0 +1,114 @@
+<div class="page-width quotes" id="recenze">
+  {% if section.settings.title != blank %}
+    <div class="section-header">
+      <h2>{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+
+  {% if section.blocks.size > 0 %}
+    <div class="quotes-wrapper">
+      {% for block in section.blocks %}
+        <blockquote class="quotes-slider__text">
+          {% if block.settings.quote != blank %}
+            <div>{{ block.settings.quote }}</div>
+          {% endif %}
+          {% if block.settings.author != blank %}
+            <strong>{{ block.settings.author | escape }}</strong>
+          {% endif %}
+        </blockquote>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+    {%- capture ariaLabel -%}
+      {{- section.settings.button_label -}}
+      {%- if section.settings.button_link.type == 'frontpage_link' -%}
+        : {{ 'homepage.general.title' | t -}}
+      {%- elsif section.settings.button_link.type == 'catalog_link' -%}
+        : {{ 'collections.catalog.title' | t -}}
+      {%- elsif section.settings.button_link.object.title -%}
+        : {{ section.settings.button_link.object.title -}}
+      {%- endif -%}
+    {%- endcapture -%}
+
+    <div class="quotes-btn">
+      <a href="{{ section.settings.button_link }}"
+        class="wavyBtn"
+        aria-label="{{ ariaLabel }}">
+        {{- section.settings.button_label | escape -}}
+      </a>
+    </div>
+  {% endif %}
+
+  {% if section.blocks.size == 0 %}
+    {% include 'no-blocks' %}
+  {% endif %}
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Mindflow testimonials",
+  "class": "index-section",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Testimonials"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Author's name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mindflow testimonials",
+      "category": "Mindflow",
+      "blocks": [
+        {
+          "type": "quote"
+        },
+        {
+          "type": "quote"
+        },
+        {
+          "type": "quote"
+        },
+        {
+          "type": "quote"
+        } 
+      ]
+    }
+  ]
+}
+{% endschema %}

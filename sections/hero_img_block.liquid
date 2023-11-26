@@ -1,0 +1,179 @@
+<div class="hero_img">
+    <div class="hero_img_block">
+        <div class="hero_banner">
+            <img src="{{ section.settings.banner | img_url: 'master'}}">
+        </div>
+        <div class="hero_img_block_position">
+            <div class="hero_img_head">
+                <h1>{{ section.settings.head }}</h1>
+            <p>{{ section.settings.text }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hero_img{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+    }
+    .hero_img_block_position{
+        width: 50%;
+        max-width: 800px;
+    }
+    .hero_img_head h1{
+        padding-bottom: 30px;
+        font-size: 44px;
+        line-height: 56px;
+        font-weight: normal;
+        margin: auto;
+        color: #222222;
+        font-family: Graphik-Regular;
+    }
+    .hero_img_head p{
+        font-size: 15px;
+        line-height: 28px;
+        font-weight: normal;
+        margin: auto;
+        color: #8B9093;
+        font-family: Graphik-Regular;
+    }
+    .hero_img_head{
+        display: flex;
+        flex-direction: column;
+        margin-right: 50px;
+    }
+    .hero_img_block{
+        display: flex;
+        width: 100%;
+        flex-direction: row-reverse;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 165px 50px 165px;
+    }
+    .hero_banner{
+      padding-top: 30px;
+        width: 50%;
+    }
+    .hero_banner img{
+        width: 100%;
+    }
+
+    .m_hero_banner{
+        display: none;
+    }
+    @media screen and (max-width: 1440px){
+        .hero_img_head h1{
+            padding-bottom: 25px;
+            font-size: 34px;
+            line-height: 46px;
+        }
+        .hero_img_head{
+            display: flex;
+            flex-direction: column;
+            margin-right: 50px;
+        }
+    }
+    @media screen and (max-width: 1250px){
+        .hero_img_block{
+            padding: 80px;
+        }
+    }
+
+    @media screen and (max-width: 970px){
+        .hero_img_head{
+            margin-bottom: 30px;
+            margin-right: 0;
+        }
+        .hero_img_block{
+            flex-direction: column-reverse;
+            padding: 0 30px;
+        }
+        .hero_img_block h1{
+            font-size: 30px;
+            line-height: 40px;
+            padding-top: 30px;
+        }
+        .hero_banner{
+            padding-top: 30px;
+            width: 100%;
+        }
+        .hero_img_block_position{
+            width: 100%;
+        }
+        .hero_img_block_position{
+            max-width: 100%;
+        }
+        img{
+            margin: auto;
+        }
+        .hero_banner{
+            max-width: 100%;
+        }
+        }
+    @media screen and (max-width: 768px){
+        .hero_img_head{
+            margin-bottom: 10px;
+        }
+        .hero_img_block{
+            padding: 16px;
+        }
+    }
+    @media screen and (max-width: 425px){
+        .hero_img_block h1{
+            font-size: 22px;
+            line-height: 30px;
+            margin-top: 60px;
+        }
+        .hero_banner{
+            max-width: 100%;
+        }
+        .hero_img_block_position{
+            width: 100%;
+            margin-top: -63px;
+            margin-right: 0;
+        }
+        .hero_img_head{
+            margin-left: 0;
+            max-width: 375px;
+            padding: 0;
+        }
+        hero_banner img{
+            width: 100%;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "hero_img",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "banner",
+            "label": "Banner"
+        },
+        {
+            "type": "image_picker",
+            "id": "m_banner",
+            "label": "Mobile Banner"
+        },
+        {
+            "id": "head",
+            "type":"text",
+			"label":"Heading",
+			"default":"Tittle"
+        },
+        {
+            "id": "text",
+            "type":"text",
+			"label":"Text",
+			"default":"Some description"
+        }
+    ]
+}
+{% endschema %}

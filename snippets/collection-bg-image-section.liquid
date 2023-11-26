@@ -1,0 +1,198 @@
+<div class="collection-bg-image-wrapper" data-section-id="{{ section.id }}" data-section-type="hero-section">
+    <div class="">
+        {%- assign slide_width = 1090 -%}
+        {%- assign min_aspect_ratio = section.settings.sec2-image.aspect_ratio | default: 2.0 -%}
+        <div class="hero-fixed-width hero--adapt"
+             id="Hero-{{ section.id }}"
+             data-layout="{{ section.settings.hero_layout }}"
+             data-image-loading-animation>
+            {%- assign img_url = section.settings.sec2-image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            {%- assign img_url-mobile = section.settings.sec2-image-mobile | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            {%- if section.settings.sec2-image.width < max_width -%}
+                {%- assign slide_width = section.settings.sec2-image.width -%}
+            {%- endif -%}
+            <div class="hero-fixed-width__content">
+                <div class="page-width text-center">
+                    {%- if section.settings.sec2-title != blank -%}
+                        <h2 class="h1 mega-title">{{ section.settings.sec2-title | escape }}</h2>
+                    {%- endif -%}
+                    {%- if section.settings.sec2-text != blank -%}
+                        <div class="rte-setting mega-subtitle">{{ section.settings.sec2-text }}</div>
+                    {%- endif -%}
+                    {%- if section.settings.sec2-button_label != blank and section.settings.sec2-button_link != blank -%}
+                        <div class="hero-buttons-wrapper">
+                            <a href="{{ section.settings.sec2-button_link }}"
+                               class="hero__btn transparent"
+                               aria-label="{{ ariaLabel }}">
+                                {{- section.settings.sec2-button_label | escape -}}
+                            </a>
+                        </div>
+                    {%- endif -%}
+                </div>
+            </div>
+            {%- if section.settings.sec2-image != blank -%}
+                <img class="hero-fixed-width__image lazyload lazypreload"
+                     data-src="{{ img_url }}"
+                     data-widths="[180, 360, 470, 600, 770, 970, 1060, 1280, 1512, 1728, 2048]"
+                     data-aspectratio="{{ section.settings.sec2-image.aspect_ratio }}"
+                     data-sizes="auto"
+                     style="{%- if slide_width <= max_width -%}
+                     {%- assign min_width = slide_width | times: 100 | divided_by: max_width -%}
+                             min-width: {{ min_width }}%;
+                     {%- endif -%}
+                             object-position: {{ section.settings.alignment }};"
+                     alt="{{ section.settings.sec2-image.alt | escape }}">
+            {%- endif -%}
+
+            {%- if section.settings.sec2-image-mobile != blank -%}
+                <img class="mobile hero-fixed-width__image lazyload lazypreload"
+                     data-src="{{ img_url-mobile }}"
+                     data-widths="[180, 360, 470, 600, 770, 970, 1060, 1280, 1512, 1728, 2048]"
+                     data-aspectratio="{{ section.settings.sec2-image-mobile.aspect_ratio }}"
+                     data-sizes="auto"
+                     style="{%- if slide_width <= max_width -%}
+                     {%- assign min_width = slide_width | times: 100 | divided_by: max_width -%}
+                             min-width: {{ min_width }}%;
+                     {%- endif -%}
+                             object-position: {{ section.settings.alignment }};"
+                     alt="{{ section.settings.sec2-image-mobile.alt | escape }}">
+            {%- endif -%}
+            {%- if section.settings.sec2-image == blank -%}
+                <div class="placeholder-background">
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+
+</div>
+
+<style>
+    /* .collection-bg-image-wrapper{
+        margin-right: -120px;
+        margin-left: -120px;
+    } */
+
+    .hero-fixed-width::before{
+        display: none!important;
+    }
+    .hero-fixed-width__content{
+        position: absolute;
+    }
+    .hero-fixed-width__content{
+        display: flex;
+        justify-content: flex-start;
+    }
+    .hero-fixed-width__content .page-width.text-center{
+        max-width: 550px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 0 0 0 45px;
+        text-align: left!important;
+    }
+
+    .hero-fixed-width__content .rte-setting p{
+        color: #6C6E73;
+        max-width: 400px;
+    }
+    .hero-fixed-width__content h2.mega-title{
+        font-style: normal;
+        font-weight: 100;
+        font-size: 32px;
+        line-height: 48px;
+        color: #222222;
+        text-shadow: none;
+        max-width: 350px;
+        margin: 0;
+    }
+    .hero-fixed-width__content .rte-setting.mega-subtitle{
+        max-width: 100%;
+        color: #6C6E73;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 19px;
+        line-height: 32px;
+        text-shadow: none;
+        margin: 0 0 20px;
+    }
+    .hero-buttons-wrapper{
+        display: flex;
+    }
+    .hero-fixed-width__content .hero-buttons-wrapper .hero__btn.transparent{
+        background: #FF4438;
+        min-width: 203px;
+        min-height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 900px;
+        font-style: normal;
+       font-family: 'Graphik-Medium';
+        font-size: 16px;
+        line-height: 20px;
+        color: #fff;
+        border: 1px solid #6C6E73;
+        margin: 0;
+    }
+
+    .mobile.hero-fixed-width__image{
+        display: none;
+    }
+
+    .hero-fixed-width__image{
+        height: 280px;
+    }
+
+    @media (max-width: 1152px) {
+        .collection-bg-image-wrapper{
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+        .hero-fixed-width__content .page-width.text-center{
+            margin-left: 50px;
+        }
+    }
+    @media (max-width: 996px) {
+        .hero-fixed-width__content .rte-setting.mega-subtitle{
+            margin-bottom: 35px;
+        }
+    }
+
+    @media (max-width: 767px){
+        .hero-fixed-width__image{
+            display: none;
+        }
+        .mobile.hero-fixed-width__image{
+            display: block;
+        }
+        .hero-fixed-width__content{
+            justify-content: center;
+        }
+        .hero-fixed-width__content .page-width.text-center{
+            margin-left: 0;
+            align-items: center;
+        }
+        .hero-fixed-width__content h2.mega-title{
+            font-size: 26px;
+        }
+        .hero-fixed-width__content .rte-setting.mega-subtitle{
+            margin-bottom: 10px;
+        }
+    }
+    @media (max-width: 480px){
+        .hero-fixed-width__content .rte-setting p{
+            text-align: center;
+        }
+
+        .hero-fixed-width__content h2.mega-title {
+            font-size: 20px;
+            line-height: 32px;
+        }
+        .hero-fixed-width__content{
+            justify-content: flex-start;
+        }
+
+    }
+</style>

@@ -1,0 +1,153 @@
+<div class="collection-product-item product{% unless product.available %} grid-view-item--sold-out{% endunless %}">
+  <div class="image-wrapper">
+    <a href="{{  product.url }}">
+      <img src="{{  product | img_url: 'master' }}" alt="">
+    </a>
+    <div class="add-to-cart-wrapper mobile">
+      <form action="/cart/add" method="post" enctype="multipart/form-data"
+            id="add-to-cart-{{ product.handle }}-{{ collection.handle }}-{{ section.id }}">
+        <input type="hidden" name="form_type" value="product">
+        <input type="hidden" name="quantity" value="1" min="1">
+        <input type="hidden" name="id" value="{{ product.variants[0].id }}">
+        <div class="">
+          <div
+                  name="add"
+                  data-add-to-cart
+                  class="js-go-cart-add-to-cart">
+            <img src="{{ 'add-btn-mobile.svg' | asset_url }}" alt="">
+          </div>
+        </div>
+      </form>
+    </div>
+
+      {% for tag in product.tags %}
+      {% if tag contains 'Novinka' or tag contains 'novinka' %}
+    <div class="product-tag">
+        Novinka
+    </div>
+      {% endif %}
+    {% if tag contains 'Nejprodávanější' or tag contains 'nejprodávanější' %}
+      <div class="product-tag">
+        Nejprodávanější
+      </div>
+    {% endif %}
+        {% if tag contains 'Okamžitý účinek' or tag contains 'okamžitý účinek' %}
+          <div class="product-tag">
+            Okamžitý účinek
+          </div>
+        {% endif %}
+        {% if tag contains 'Dlouhodobý efekt' or tag contains 'dlouhodobý efekt' %}
+          <div class="product-tag">
+            Dlouhodobý efekt
+          </div>
+        {% endif %}
+      {% endfor %}
+
+  </div>
+  <div class="product-content">
+      <a href="{{  product.url }}">
+        {{ product.title }}
+      </a>
+    <p>{{ product.metafields.collection.intro }}</p>
+    <ul class="feature-list">
+      {% comment %}{{ product.metafields.collection.features }}{% endcomment %}
+      {% assign features = product.metafields.collection.features | split: "," %}
+      {% for feature in features %}
+        <li>
+          <img src="{{ 'list-circle.svg' | asset_url }}" alt="list svg">
+          {{ feature | strip_html }}
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="bottom-content">
+      <div class="product-price">{{ product.price | money }}</div>
+      <div class="add-to-cart-wrapper">
+        <form action="/cart/add" method="post" enctype="multipart/form-data"
+              id="add-to-cart-{{ product.handle }}-{{ collection.handle }}-{{ section.id }}">
+          <input type="hidden" name="form_type" value="product">
+          <input type="hidden" name="quantity" value="1" min="1">
+          <input type="hidden" name="id" value="{{ product.variants[0].id }}">
+          <div class="">
+            <div
+                    name="add"
+                    data-add-to-cart
+                    class="js-go-cart-add-to-cart">
+              <img src="{{ 'add-button.svg' | asset_url }}" alt="">
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+
+  
+
+</style>
+{% comment %}
+    Renders a product card using "Grid" style
+    Accepts:
+    - max_height: {Number} Maximum height of the product's image (required)
+    - product: {Object} Product Liquid object (required)
+    - show_vendor: {Boolean} Show the product's vendor depending on the section setting (optional)
+
+    Usage:
+    {% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+{% comment %}
+<div class="grid-view-item{% unless product.available %} grid-view-item--sold-out{% endunless %} product-card">
+  <a class="grid-view-item__link grid-view-item__image-container full-width-link" href="{{ product.url | within: collection }}">
+    <span class="visually-hidden">{{ product.title }}</span>
+  </a>
+
+  {% capture img_id %}ProductCardImage-{{ section.id }}-{{ product.id }}{% endcapture %}
+  {% capture wrapper_id %}ProductCardImageWrapper-{{ section.id }}-{{ product.id }}{% endcapture %}
+  {%- assign preview_image = product.featured_media.preview_image -%}
+  {%- assign img_url = preview_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+  {% unless preview_image == blank %}
+    {% include 'image-style', image: preview_image, height: max_height, wrapper_id: wrapper_id, img_id: img_id %}
+  {% endunless %}
+
+  <div class="product-card__image-with-placeholder-wrapper" data-image-loading-animation>
+    <div id="{{ wrapper_id }}" class="grid-view-item__image-wrapper product-card__image-wrapper js">
+      <div style="padding-top:{% unless preview_image == blank %}{{ 1 | divided_by: preview_image.aspect_ratio | times: 100 }}%{% else %}100%{% endunless %};">
+        <img id="{{ img_id }}"
+              class="grid-view-item__image lazyload"
+              alt="{{ preview_image.alt }}"
+              data-src="{{ img_url }}"
+              data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+              data-aspectratio="{{ preview_image.aspect_ratio }}"
+              data-sizes="auto"
+              data-image>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    {% capture image_size %}{{ max_height }}x{{ max_height }}{% endcapture %}
+    <img class="grid-view-item__image" src="{{ preview_image | img_url: image_size, scale: 2 }}" alt="{{ preview_image.alt }}" style="max-width: {{ max_height | times: preview_image.aspect_ratio }}px;">
+  </noscript>
+
+  <div class="h4 grid-view-item__title product-card__title" aria-hidden="true">{{ product.title }}</div>
+
+  <div class="product-card__description">
+    {{ product.metafields.collection.intro }}
+  </div>
+
+  <div class="product-card__buttom">
+    {% include 'product-price-listing', product: product, show_vendor: show_vendor %}
+    <a href="{{ product.url | within: collection }}">Koupit produkt</a>
+  </div>
+
+</div>
+{% endcomment %}
+
+<style>
+  .js-go-cart-add-to-cart:hover{
+    background-color: #F5F6F7;
+    border-radius: 50%;
+  }
+</style>

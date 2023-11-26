@@ -1,0 +1,82 @@
+<section class="text-and-button-wrapper">
+    <div class="page-width">
+        <div class="text-block">{{ section.settings.text }}</div>
+        <a href="{{ section.settings.button_url }}"
+           class="hero__btn transparent">
+            {{- section.settings.button_label | escape -}}
+        </a>
+    </div>
+</section>
+
+<style>
+
+    .text-and-button-wrapper{
+        height: 100%;
+        border: 1px solid #E4E7E9;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+    }
+    .text-block{
+        font-size: 24px;
+        line-height: 36px;
+        text-align: center;
+        color: #222222;
+        margin-bottom: 22px;
+    }
+    .text-and-button-wrapper .hero__btn.transparent{
+        background: #FF4438;
+        max-width: 217px;
+        min-height: 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 900px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #ffffff;
+        margin: 0 auto;
+        font-family: 'Graphik-Medium';
+        transition: 0.2s;
+    }
+    .text-and-button-wrapper .hero__btn.transparent:hover{
+        background: #C01616!important;
+    }
+    @media (max-width: 767px){
+
+        .text-block{
+            font-size: 20px;
+            line-height: 32px;
+            margin-bottom: 22px;
+        }
+    }
+    @media (max-width: 750px) {
+        .text-and-button-wrapper{
+            min-height: 400px;
+        }
+    }
+    @media (max-width: 600px) {
+        .text-and-button-wrapper {
+            min-height: 300px;
+        }
+    }
+    @media (max-width: 480px){
+        .text-and-button-wrapper {
+            min-height: 220px;
+            border: none;
+        }
+        .text-block{
+            max-width: 80%!important;
+            margin: 0 auto;
+            margin-bottom: 16px;
+        }
+        .text-and-button-wrapper .hero__btn.transparent{
+            max-width: 201px;
+            min-height: 48px;
+            background: transparent;
+            border: 1px solid #E4E7E9;
+            color: #FF4438;
+        }
+    }
+</style>
+

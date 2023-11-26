@@ -1,0 +1,38 @@
+{% section 'review_form_section' %}
+{% include 'custom-reviews' %}
+{% section 'mindflow-in-numbers' %}
+{% section 'image-and-text' %}
+{% section 'mindflow-logo-bar' %}
+{% section 'images-slider' %}
+{% section 'mindflow-logo-bar-partners' %}
+{% section 'footer-newsletter' %}
+<style>
+    .main-content .shopify-section:first-child{
+        padding-bottom: 0;
+        border: none;
+    }
+    .header{
+        padding-right: 165px;
+        flex-direction: row;
+    }
+    .text-and-button-wrapper{}
+
+    @media (max-width: 1250px) {
+        .header{
+            padding-right: 80px;
+        }
+    }
+    @media (max-width: 970px) {
+        .header{
+            padding-right: 30px;
+        }
+    }
+    @media (max-width: 480px) {
+        .text-and-button-wrapper{
+            margin-bottom: 25px !important;
+        }
+        .review_arrow_left{
+            margin-right: 10px;
+        }
+    }
+</style>

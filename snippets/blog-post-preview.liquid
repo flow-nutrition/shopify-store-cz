@@ -1,0 +1,261 @@
+{% assign article = articles[section.settings.article] %}
+
+<div class="page-width product-section section-text-row blog-featured">
+    <div class="grid">
+        <div class="text-row heading">
+            <div class="image">
+                <a href="{{ article.url }}"><img src="{{ article.image.src | img_url: 'master' }}"></a>
+            </div>
+            <div class="heading-content">
+                <div class="section-label">
+                    Doporučujeme
+                </div>
+                <a href="{{ article.url }}"><h3>{{ article.title }}</h3></a>
+                {% if article.tags.size > 0 %}
+                    <div class="article__tags rte">
+                        <ul class="list--inline" aria-label="{{ 'blogs.article.tags' | t }}">
+                            {% for tag in article.tags %}
+                                {% if tag contains "time" or tag contains "product:" %}
+                                {% else %}
+                                    <li>
+                                        <a href="{{ blog.url }}/tagged/{{ tag | handle }}"
+                                           class="article__grid-tag">{{ tag }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {% for tag in article.tags %}
+                            {% if tag contains "time" %}
+                                {% assign tag_split = tag | split: ':' %}
+                                <li class="time-count">{{ tag_split[1] }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <a href="{{ article.url }}">
+                    <div class="article-text">
+                        {{ article.excerpt | strip_html | truncate: 166 }}
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .image-text-wrapper {
+        border-bottom: 1px solid #E4E7E9;
+    }
+
+    .section-text-row.page-width.product-section {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
+    .text-row.heading {
+        align-items: center;
+    }
+
+    .text-row.heading .image img {
+        max-width: 639px;
+        border-radius: 8px;
+    }
+
+    .section-text-row .section-label {
+        font-size: 14px;
+        line-height: 24px;
+        color: #6C6E73;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+        font-weight: 400;
+    }
+
+    .heading-content h3 {
+        font-size: 44px;
+        line-height: 64px;
+        color: #222222;
+        margin-bottom: 16px;
+        max-width: 450px;
+    }
+
+    .heading-content {
+        margin-left: 100px;
+        width: 100%;
+    }
+
+    .heading-content p {
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+        min-height: 84px;
+        margin-bottom: 60px;
+        max-width: 293px;
+    }
+
+    .heading-content a {
+        color: #FF4438;
+        font-size: 16px;
+        line-height: 20px;
+        border-bottom: 2px solid #FF4438;
+    }
+
+    .text-row {
+        border-top: 1px solid #E4E7E9;
+        margin: 0;
+        padding: 80px 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .article__tags {
+        margin-bottom: 32px;
+    }
+
+    .article__tags .list--inline li {
+        margin-bottom: 10px;
+        margin-right: 5px;
+    }
+
+    .article-text {
+        font-size: 16px;
+        line-height: 28px;
+        color: #222222;
+    }
+
+    .page-width.product-section.section-text-row {
+        padding: 0 !important;
+    }
+
+    @media (max-width: 1110px) {
+        .text-row.heading .image img {
+            max-width: 100%;
+        }
+
+        .text-row .item.content {
+            min-width: unset;
+        }
+
+        .text-row .item h3 {
+            max-width: unset;
+            margin-right: 15px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .text-row .item p {
+            line-height: 32px;
+        }
+
+        .text-row.heading {
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+
+        .heading-content {
+            margin: 0 auto !important;
+            text-align: left;
+        }
+
+        .text-row.heading .image {
+            margin-left: -32px;
+            margin-right: -32px;
+            margin-bottom: 20px;
+        }
+
+        .text-row.heading .image img {
+            max-width: 100%;
+            border-radius: 0;
+        }
+
+        .section-text-row .section-label {
+            font-size: 14px;
+            line-height: 24px;
+            color: #8B9093;
+            margin-bottom: 24px;
+        }
+
+        .heading-content h3 {
+            font-size: 32px;
+            line-height: 48px;
+            margin-bottom: 0;
+
+        }
+
+        .text-row .item .svg {
+            width: 56px;
+            height: 56px;
+            min-width: unset;
+            min-height: unset;
+            padding: 18px 16px;
+        }
+
+        .text-row .item h3 {
+            font-size: 20px;
+            line-height: 32px;
+        }
+
+        .text-row .item.content {
+            font-size: 16px;
+            line-height: 32px;
+        }
+    }
+
+    @media (max-width: 749px) {
+        .text-row {
+            flex-direction: column;
+            padding: 16px 0 32px 0;
+        }
+
+        .text-row:last-of-type {
+            padding-bottom: 46px;
+        }
+
+        .text-row .item.title {
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+            margin-bottom: 0;
+        }
+
+        .text-row .item.content {
+            width: 100%;
+            margin-top: 32px;
+        }
+
+        .text-row .item h3 {
+            margin-left: 16px;
+            margin-right: 18px;
+        }
+
+        .item.content {
+            display: none;
+        }
+
+        .item.title:after {
+            content: url("{{ "dropdown-arrow.svg" | asset_url }}");
+            position: absolute;
+            top: calc(50% - 10px);
+            right: 10px;
+        }
+
+        .item.title.visible:after {
+            content: url("{{ "dropdown-red-arrow.svg" | asset_url }}");
+
+            font-size: 15px;
+            position: absolute;
+            top: calc(50% - 10px);
+            right: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .heading-content h3 {
+                max-width: 60%
+            }
+
+            .text-row .item h3 {
+                max-width: 195px;
+            }
+        }
+    }
+</style>

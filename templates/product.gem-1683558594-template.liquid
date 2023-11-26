@@ -1,0 +1,114 @@
+{% comment %}
+  The contents of the product.liquid template can be found in /sections/product-template.liquid
+{% endcomment %}
+
+{{ product.collection_id }}
+{% section 'breadcrumbs' %}
+{% section 'product-template' %}
+{% if product.tags contains 'Produkt' %}
+{% section 'about-product' %}
+  
+{% include 'custom-reviews' %}
+  {% section 'product_products-slider' %}
+  {% section 'product_mindflow-featured-blog' %}
+  {% include 'mindflow-product-section-faq' %}
+  {% section 'footer-newsletter' %}
+{% endif %}
+{% if product.tags contains "Balíček"%}
+   {% include 'mindflow-product-section-rich-text' %}
+   {% section 'product_products-slider' %}
+   {% include 'mindflow-product-section-feature-row-reverse' %}
+   {% include 'custom-reviews' %}
+   {% include 'mindflow-product-section-faq' %} 
+   {% section 'footer-newsletter' %}
+
+{% endif %}
+{% if product.tags contains "Wear"%}
+    {% include 'mindflow-product-section-rich-text' %}
+   {% include 'mindflow-product-section-text-row' %}
+   {% section 'product_products-slider' %}
+   {% include 'custom-reviews' %}
+   {% section 'footer-newsletter' %}
+    <style>
+        .richtext-heading,.rich-text{
+            display: none;
+        }
+
+    </style>
+{% endif %}
+
+
+{% section 'product-recommendations' %}
+
+{% if collection %}
+  <div class="text-center return-link-wrapper page-width">
+    <a href="{{ collection.url }}" class="btn btn--secondary btn--has-icon-before return-link">
+      {% include 'icon-arrow-left' %}
+      {{ 'products.product.back_to_collection' | t: title: collection.title }}
+    </a>
+  </div>
+{% endif %}
+<style>
+
+    @media only screen and (max-width: 749px){
+        .template-product .main-content {
+             padding-top: 0;
+        }
+        .breadcrumb{
+            flex-direction: inherit;
+        }
+        a[title="Home"]{
+            display: none;
+        }
+    }
+
+</style>
+<script>
+  // Override default values of shop.strings for each template.
+  // Alternate product templates can change values of
+  // add to cart button, sold out, and unavailable states here.
+  theme.productStrings = {
+    addToCart: {{ 'products.product.add_to_cart' | t | json }},
+    soldOut: {{ 'products.product.sold_out' | t | json }},
+    unavailable: {{ 'products.product.unavailable' | t | json }}
+  }
+</script>
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ shop.url | append: product.url | json }},
+  {%- if product.featured_media -%}
+    {%- assign media_size = product.featured_media.preview_image.width | append: 'x' -%}
+    "image": [
+      {{ product.featured_media | img_url: media_size | prepend: "https:" | json }}
+    ],
+  {%- endif -%}
+  "description": {{ product.description | strip_html | json }},
+  {%- if current_variant.sku != blank -%}
+    "sku": {{ current_variant.sku | json }},
+  {%- endif -%}
+  "brand": {
+    "@type": "Thing",
+    "name": {{ product.vendor | json }}
+  },
+  "offers": [
+    {%- for variant in product.variants -%}
+      {
+        "@type" : "Offer",
+        {%- if variant.sku != blank -%}
+          "sku": {{ variant.sku | json }},
+        {%- endif -%}
+        "availability" : "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+        "price" : {{ variant.price | divided_by: 100.00 | json }},
+        "priceCurrency" : {{ cart.currency.iso_code | json }},
+        "url" : {{ shop.url | append: variant.url | json }}
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>

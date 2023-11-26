@@ -1,0 +1,1100 @@
+{% if section.settings.message %}
+    <style>
+        {% if section.settings.logo != blank %}
+        .site-header__logo-image {
+            max-width: {{ section.settings.logo_max_width | escape }}px;
+        }
+        {% endif %}
+
+        {% if section.settings.align_logo == 'left' %}
+        .site-header__logo-image {
+            margin: 0;
+        }
+        {% endif %}
+    </style>
+{% endif %}
+
+{% comment %}{% include 'search-drawer' %}{% endcomment %}
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section" data-header-section>
+    {% if section.settings.message %}
+        {% if section.settings.home_page_only == false or request.page_type == 'index' %}
+            <style>
+                .announcement-bar {
+                    background-color: {{ section.settings.color_bg }};
+                }
+
+                .announcement-bar__link:hover {
+                {% assign brightness = section.settings.color_bg | color_brightness %}
+
+                {% if brightness <= 192 %}
+                {% assign lightenAmount = 255 | minus: brightness | divided_by: 255 | times: 16 %}
+                    background-color: {{ section.settings.color_bg | color_lighten: lightenAmount }};
+                {% else %}
+                {% assign darkenAmount = 255 | divided_by: brightness | times: 8 %}
+                    background-color: {{ section.settings.color_bg | color_darken: darkenAmount }};
+                {% endif %}
+                }
+
+                .announcement-bar__message {
+                    color: {{ section.settings.color_text }};
+                }
+            </style>
+
+            <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement_bar_label' | t }}">
+            {%- unless section.settings.message_link == blank -%}
+                <a href="{{ section.settings.message_link }}" class="announcement-bar__link">
+                    {%- endunless -%}
+                    <p class="announcement-bar__message">{{ section.settings.message_text | escape }}</p>
+                    {%- unless section.settings.message_link == blank -%}
+                </a>
+                {%- endunless -%}
+            </div>
+
+        {% endif %}
+    {% endif %}
+
+    <header class="site-header{% if section.settings.align_logo == 'left' %} border-bottom logo--left{% else %} logo--center{% endif %}" role="banner">
+        <div class="grid grid--no-gutters grid--table site-header__mobile-nav">
+            {% if section.settings.align_logo == 'center' %}
+                {%- assign logo_classes = 'medium-up--one-third medium-up--push-one-third logo-align--center' -%}
+            {% else %}
+                {%- assign logo_classes = 'medium-up--one-quarter logo-align--left' -%}
+            {% endif %}
+
+            <div class="grid__item site-header__logo-wrapper {{ logo_classes }}">
+                {% comment %}
+                  Use the uploaded logo from theme settings if enabled.
+                  Site name gets precedence with H1 tag on homepage, div on other pages.
+                {% endcomment %}
+            {% if request.page_type == 'index' %}
+                <h1 class="h2 site-header__logo">
+
+                    {% else %}
+
+
+
+                    <div class="h2 site-header__logo">
+                        {% endif %}
+                        {% if section.settings.logo %}
+                            {%- assign img_url = section.settings.logo | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                            <a href="{{ routes.root_url }}" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}" data-image-loading-animation>
+                                {% capture logo_alt %}{{ section.settings.logo.alt | default: shop.name }}{% endcapture %}
+                                <img class="lazyload js"
+                                     src="{{ section.settings.logo | img_url: '300x300' }}"
+                                     data-src="{{ img_url }}"
+                                     data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                                     data-aspectratio="{{ section.settings.logo.aspect_ratio }}"
+                                     data-sizes="auto"
+                                     alt="{{ logo_alt | escape }}"
+                                     style="max-width: {{ section.settings.logo_max_width }}px">
+                                <noscript>
+                                    {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+                                    <img src="{{ section.settings.logo | img_url: image_size }}"
+                                         srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+                                         alt="{{ section.settings.logo.alt | default: shop.name }}"
+                                         style="max-width: {{ section.settings.logo_max_width }}px;">
+                                </noscript>
+                            </a>
+                        {% else %}
+                            <a class="site-header__logo-link" href="{{ routes.root_url }}">{{section.settings.logosvg | replace: '<svg', '<svg class="stlogo"' }}</a>
+                            {% comment %}<a class="site-header__logo-link" href="{{ routes.root_url }}">{{ shop.name }}</a>{% endcomment %}
+                        {% endif %}
+
+
+
+                        {% if request.page_type == 'index' %}
+                </h1>
+                {% else %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if section.settings.align_logo == 'left' %}
+            <nav class="header-menu-items-wrapper grid__item medium-up--one-half" id="AccessibleNav" role="navigation">
+                {% include "megamenu" %}
+            </nav>
+        {% endif %}
+
+        <div class="grid__item {% if section.settings.align_logo == 'left' %}medium-up--one-quarter{% else %}medium-up--one-third medium-up--push-one-third{% endif %} text-right site-header__icons{% if shop.customer_accounts_enabled %} site-header__icons--plus{% endif %}">
+            <div class="site-header__icons-wrapper">
+
+                <button type="button" class="btn--link site-header__icon site-header__search-toggle js-drawer-open-top" data-predictive-search-open-drawer>
+                    {% include 'icon-search' %}
+                    <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+                </button>
+
+                {% include 'search-drawer' %}
+
+
+                {% if shop.customer_accounts_enabled %}
+                    {% if customer %}
+                        <a href="{{ routes.account_url }}" class="site-header__icon site-header__account">
+                            {% include 'icon-login' %}
+                            <span class="icon__fallback-text">{{ 'layout.customer.account' | t }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ routes.account_login_url }}" class="site-header__icon site-header__account">
+                            {% include 'icon-not-login' %}
+                            <span class="icon__fallback-text">{{ 'layout.customer.log_in' | t }}</span>
+                        </a>
+                    {% endif %}
+                {% endif %}
+
+                {% comment %}
+                       <a href="{{ routes.cart_url }}" class="site-header__icon site-header__cart">
+                         {% include 'icon-cart' %}
+                         <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+                         <div id="CartCount" class="site-header__cart-count{% if cart.item_count == 0 %} hide{% endif %} critical-hidden" data-cart-count-bubble>
+                           <span data-cart-count>{{ cart.item_count }}</span>
+                           <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+                         </div>
+                       </a>
+                {%endcomment%}
+                {%- include "go-cart-button" -%}
+                {% render 'language-button' %}
+                {% unless linklists[section.settings.main_linklist] == blank %}
+                    <button type="button" class="btn--link site-header__icon site-header__menu js-mobile-nav-toggle mobile-nav--open" aria-controls="MobileNav"  aria-expanded="false" aria-label="{{ 'layout.navigation.menu' | t }}">
+                        {% include 'icon-hamburger' %}
+                        {% include 'icon-close' %}
+                    </button>
+                {% endunless %}
+            </div>
+
+        </div>
+
+
+
+        <nav class="mobile-nav-wrapper critical-hidden" role="navigation">
+            {% include 'mobile-menu' %}
+        </nav>
+    </header>
+
+    {% if section.settings.align_logo == 'center' %}
+        <nav class="small--hide border-bottom" id="AccessibleNav" role="navigation">
+            {% include 'site-nav', linklist: section.settings.main_linklist, wrapper_class: 'site-nav--centered' %}
+        </nav>
+    {% endif %}
+</div>
+
+<style>
+    {% if request.page_type == 'cart' %}
+    .go-cart__trigger.js-go-cart-trigger {
+        display: none !important;
+    }
+
+    .site-header__mobile-nav {
+        justify-content: space-between;
+    }
+
+    .site-header__mobile-nav::after {
+        content: none;
+    }
+    {% endif %}
+    header.site-header{
+        position: relative;
+    }
+
+    .top-menu .category > .dropdown-menu-item, .h2.site-header__logo,.site-header__icons-wrapper{
+        padding-bottom: 20px;
+        margin-bottom: 0;
+    }
+    @media (max-width: 480px) {
+        .top-menu .category > .dropdown-menu-item, .h2.site-header__logo,.site-header__icons-wrapper{
+            margin-bottom: 0;
+        }
+    }
+    .grid.grid--no-gutters.grid--table.site-header__mobile-nav, .header-menu-items-wrapper  {
+        padding-bottom: unset;
+        padding-left: 165px;
+        padding-right: 165px;
+    }
+    #_desktop_top_menu #top-menu > li.open-sub-menu .sub-menu {
+        transition: opacity 0.5s;
+        transition-delay: 0.1s;
+    }
+    .site-header .site-nav{
+        justify-content: center;
+        padding: 0;
+    }
+    .site-header .site-header__mobile-nav {
+        align-items: center;
+        display: flex;
+    }
+    .site-header .site-header__mobile-nav .top-menu {
+        margin: 0 -23px;
+        width: calc(100% + 23px * 2);
+    }
+    .site-header .site-header__logo-wrapper {
+        width: auto;
+    }
+    .site-header .header-menu-items-wrapper {
+        width: auto;
+        margin-left: 66px;
+    }
+    .site-header .site-header__logo {
+        display: block;
+        /*height: auto !important;*/
+        width: 144px;
+    }
+    .site-header .site-header__logo-link {
+        display: flex;
+        width: 100%;
+    }
+    .site-header .site-header__logo svg {
+        height: auto !important;
+        width: 100%;
+    }
+    @media (min-width: 1536px) {
+        .site-header .site-header__logo {
+            width: 180px;
+        }
+    }
+    .site-header .site-header__icons {
+        margin-left: auto;
+        width: auto;
+    }
+
+    .site-header nav.grid__item{
+        padding: 0!important;
+    }
+    .site-nav__label{
+        font-size:16px;
+        color: #222222;
+        line-height: 28px;
+    }
+    .icon.icon-cart,.icon.icon-login{
+        width: 41px;
+        height: 40px;
+    }
+    .site-header__icons-wrapper .site-header__icon{
+        padding: 0;
+    }
+
+    .site-header__account{
+        margin-right: 15px;
+    }
+    .site-header.border-bottom{
+        border: none!important;
+    }
+
+
+
+
+    @media (max-width: 910px) {
+        .header-menu-items-wrapper{
+            display: none!important;
+        }
+        .grid__item.logo-align--left{
+            width: 70%;
+        }
+        .site-header__icon.site-header__account{
+            display: none;
+        }
+        .btn--link.site-header__icon.site-header__menu svg{
+
+        }
+        .site-header__icon.js-mobile-nav-toggle{
+            border-left: 1px solid #E9EEF7;
+            padding-left: 18px;
+        }
+        .go-cart__trigger.js-go-cart-trigger{
+            padding-right: 18px;
+        }
+
+
+        .site-header__icon.site-header__cart{
+            padding-right: 9px;
+            border-right: 1px solid #E9EEF7;
+        }
+        .site-header__menu{
+            display: block!important;
+        }
+    }
+
+    @media (max-width: 1250px) {
+        .grid.grid--no-gutters.grid--table.site-header__mobile-nav, .header-menu-items-wrapper  {
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+    }
+    @media (max-width: 970px) {
+        .grid.grid--no-gutters.grid--table.site-header__mobile-nav, .header-menu-items-wrapper  {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+    }
+    @media (max-width: 768px) {
+        .grid.grid--no-gutters.grid--table.site-header__mobile-nav, .header-menu-items-wrapper  {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+    }
+    @media (max-width: 480px) {
+
+        .site-header__logo-link svg{
+            max-width: 166px;
+            max-height: 22px;
+        }
+
+        .grid__item.logo-align--left {
+            /*width: 50%*/
+            width: auto;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .go-cart__trigger.js-go-cart-trigger {
+            padding-right: 5px;
+        }
+        .site-header__icon.js-mobile-nav-toggle {
+            padding-left: 5px;
+            margin-top: 7px;
+        }
+        .site-header__logo-link svg {
+            max-width: 130px;
+        }
+        p.announcement-bar__message {
+            font-size: 11px;
+        }
+        a.language-selector__dropdown-item {
+            padding: 5px 5.5px;
+            font-size: 11px;
+        }
+        .language-selector__button {
+            height: 35px;
+            padding: 4px 5px;
+            font-size: 11px;
+        }
+    }
+
+</style>
+
+<script type="application/ld+json">
+{
+"@context": "http://schema.org",
+"@type": "Organization",
+"name": {{ shop.name | json }},
+{% if section.settings.logo %}
+{% assign image_size = section.settings.logo.width | append:'x' %}
+  "logo": {{ section.settings.logo | img_url: image_size | prepend: "https:" | json }},
+{% endif %}
+"sameAs": [
+  {{ settings.social_twitter_link | json }},
+  {{ settings.social_facebook_link | json }},
+  {{ settings.social_pinterest_link | json }},
+  {{ settings.social_instagram_link | json }},
+  {{ settings.social_tumblr_link | json }},
+  {{ settings.social_snapchat_link | json }},
+  {{ settings.social_youtube_link | json }},
+  {{ settings.social_vimeo_link | json }}
+],
+"url": {{ shop.url | append: page.url | json }}
+}
+</script>
+
+<script>
+    $('.site-header__search-toggle').click(function () {
+        $('#SearchDrawer').css("top", "102px")
+        $('#SearchDrawer').addClass("drawer--open");
+        const overlay = $('<div id="remove-overlay" class="bg-overlay"></div>')
+        overlay.insertBefore($('#SearchDrawer'))
+        overlay.click(function () {
+            console.log("Doběhlo")
+            $('#SearchDrawer').css("top", "0")
+            $('#SearchDrawer').removeClass("drawer--open");
+            $('#remove-overlay').remove()
+        });
+    });
+
+
+    /*$(document).click(function (e) {
+        const drawer = $('#SearchDrawer');
+        console.log(e)
+        if (!drawer ||(e.composedPath && e.composedPath().indexOf(drawer) === -1)) {
+            $('.predictive-search-wrapper').removeClass('predictive-search-wrapper--visible');
+        }
+    });*/
+
+
+    let menuTimer
+
+    $('.menu > .top-menu > .category > .dropdown-menu-item').on('mouseenter', function(){
+
+
+        // document.querySelectorAll('.category').forEach(element => {
+        //   element.classList.remove('open-sub-menu')
+        // })
+        // document.querySelectorAll('.dropdown-menu-item svg').forEach(element => {
+        //   element.classList.remove('active_svg')
+        // })
+
+        let that = $(this).closest('.category')
+
+        menuTimer = setTimeout(() => {
+
+            $('.category').find('.dropdown-menu-item svg').removeClass('active_svg')
+            $(".category").removeClass('open-sub-menu');
+            that.addClass('open-sub-menu');
+            that.find('.dropdown-menu-item svg').addClass('active_svg');
+        }, 750)
+    });
+
+    $('.dropdown-menu-item').on('mouseleave', function(){
+
+        clearTimeout(menuTimer);
+    });
+
+    $('.menu > .top-menu > .category').on('click', function(){
+        if( $(this).hasClass('open-sub-menu')){
+            $('.category').find('.dropdown-menu-item svg').removeClass('active_svg')
+            $(".category").removeClass('open-sub-menu');
+        }else{
+            $('.category').find('.dropdown-menu-item svg').removeClass('active_svg')
+            $(".category").removeClass('open-sub-menu');
+            $(this).addClass('open-sub-menu');
+            $(this).find('.dropdown-menu-item svg').addClass('active_svg');
+
+        }
+    })
+</script>
+
+<style>
+    .drawer--position{
+        top: 102px;
+    }
+    .active_svg{
+        transform: rotate(180deg);
+        transition: all .0s linear;
+        transition-delay: .5s;
+    }
+    .active_svg path{
+        fill: rgb(255, 68, 56);
+        transition: all .0s linear;
+        transition-delay: .5s;
+    }
+    .bg-overlay{
+        position:fixed;
+        width:100%;
+        height:100%;
+        z-index:100;
+        opacity: 0.7;
+        background-color: #000;
+        transition: all 0.45s cubic-bezier(0.29, 0.63, 0.44, 1);
+        top: 0;
+        left: 0;
+    }
+</style>
+
+{% if request.page_type == 'index' %}
+    {% assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" %}
+    <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": {{ shop.name | json }},
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {{ potential_action_target | json }},
+      "query-input": "required name=search_term_string"
+    },
+    "url": {{ shop.url | append: page.url | json }}
+  }
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": {
+    "cs": "Záhlaví",
+    "da": "Overskrift",
+    "de": "Titel",
+    "en": "Header",
+    "es": "Encabezado",
+    "fi": "Ylätunniste",
+    "fr": "En-tête",
+    "it": "Header",
+    "ja": "ヘッダー",
+    "ko": "헤더",
+    "nb": "Header",
+    "nl": "Koptekst",
+    "pl": "Nagłówek",
+    "pt-BR": "Cabeçalho",
+    "pt-PT": "Cabeçalho",
+    "sv": "Rubrik",
+    "th": "ส่วนหัว",
+    "tr": "Üstbilgi",
+    "vi": "Đầu trang",
+    "zh-CN": "标头",
+    "zh-TW": "標頭"
+  },
+  "settings": [
+    {
+      "type": "radio",
+      "id": "align_logo",
+      "label": {
+        "cs": "Zarovnání loga",
+        "da": "Logojustering",
+        "de": "Logo-Ausrichtung",
+        "en": "Logo alignment",
+        "es": "Alineación de logo",
+        "fi": "Logon tasaus",
+        "fr": "Alignement du logo",
+        "it": "Allineamento logo",
+        "ja": "ロゴアラインメント",
+        "ko": "로고 정렬",
+        "nb": "Logojustering",
+        "nl": "Logo-uitlijning",
+        "pl": "Wyrównanie logo",
+        "pt-BR": "Alinhamento do logotipo",
+        "pt-PT": "Alinhamento do logótipo",
+        "sv": "Logojustering",
+        "th": "การจัดวางโลโก้",
+        "tr": "Logo hizalaması",
+        "vi": "Căn chỉnh logo",
+        "zh-CN": "logo 对齐方式",
+        "zh-TW": "商標對齊"
+      },
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": {
+            "cs": "Doleva",
+            "da": "Venstre",
+            "de": "Links",
+            "en": "Left",
+            "es": "Izquierda",
+            "fi": "Vasen",
+            "fr": "Gauche",
+            "it": "Sinistra",
+            "ja": "左",
+            "ko": "왼쪽",
+            "nb": "Venstre",
+            "nl": "Links",
+            "pl": "Do lewej",
+            "pt-BR": "Esquerda",
+            "pt-PT": "Esquerda",
+            "sv": "Vänster",
+            "th": "ด้านซ้าย",
+            "tr": "Sol",
+            "vi": "Bên trái",
+            "zh-CN": "左侧",
+            "zh-TW": "左方"
+          }
+        },
+        {
+          "value": "center",
+          "label": {
+            "cs": "Na střed",
+            "da": "Centreret",
+            "de": "Mittig",
+            "en": "Centered",
+            "es": "Centrada",
+            "fi": "Keskitetty",
+            "fr": "Centré",
+            "it": "Centrato",
+            "ja": "中央揃え",
+            "ko": "센터 맞추기",
+            "nb": "Sentrert",
+            "nl": "Gecentreerd",
+            "pl": "Wyśrodkowane",
+            "pt-BR": "Centralizado",
+            "pt-PT": "Centrado",
+            "sv": "Centrera",
+            "th": "ตรงกลาง",
+            "tr": "Orta",
+            "vi": "Giữa",
+            "zh-CN": "居中",
+            "zh-TW": "置中"
+          }
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": {
+        "cs": "Obrázek loga",
+        "da": "Logobillede",
+        "de": "Logo-Foto",
+        "en": "Logo image",
+        "es": "Logo",
+        "fi": "Logokuva",
+        "fr": "Image du logo",
+        "it": "Immagine del logo",
+        "ja": "ロゴ画像",
+        "ko": "로고 이미지",
+        "nb": "Logobilde",
+        "nl": "Afbeelding van logo",
+        "pl": "Obraz logo",
+        "pt-BR": "Imagem do logotipo",
+        "pt-PT": "Imagem do logótipo",
+        "sv": "Logobild",
+        "th": "รูปภาพโลโก้",
+        "tr": "Logo görseli",
+        "vi": "Hình ảnh logo",
+        "zh-CN": "logo 图片",
+        "zh-TW": "標誌圖片"
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "logosvg",
+      "label": "SVG Logo Code",
+      "info": "Right click on logo file. Open with any text editor and copy all code. Paste code in above box."
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": {
+        "cs": "Šířka vlastního loga",
+        "da": "Tilpasset logobredde",
+        "de": "Logobreite",
+        "en": "Custom logo width",
+        "es": "Ancho del logo personalizado",
+        "fi": "Mukautetun logon leveys",
+        "fr": "Largeur personnalisée du logo",
+        "it": "Larghezza logo personalizzato",
+        "ja": "ロゴの幅をカスタマイズする",
+        "ko": "사용자 지정 로고 폭",
+        "nb": "Tilpasset logobredde",
+        "nl": "Aangepaste logo-breedte",
+        "pl": "Niestandardowa szerokość logo",
+        "pt-BR": "Largura do logotipo personalizado",
+        "pt-PT": "Largura de logótipo personalizada",
+        "sv": "Anpassad logotypsbredd",
+        "th": "ความกว้างของโลโก้แบบกำหนดเอง",
+        "tr": "Özel logo genişliği",
+        "vi": "Chiều rộng logo tùy chỉnh",
+        "zh-CN": "自定义 logo 宽度",
+        "zh-TW": "自訂商標寬度"
+      },
+      "min": 50,
+      "max": 250,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "link_list",
+      "id": "main_linklist",
+      "label": {
+        "cs": "Nabídka",
+        "da": "Menu",
+        "de": "Menü",
+        "en": "Menu",
+        "es": "Menú",
+        "fi": "Valikko",
+        "fr": "Menu",
+        "it": "Menu",
+        "ja": "メニュー",
+        "ko": "메뉴",
+        "nb": "Meny",
+        "nl": "Menu",
+        "pl": "Menu",
+        "pt-BR": "Menu",
+        "pt-PT": "Menu",
+        "sv": "Meny",
+        "th": "เมนู",
+        "tr": "Menü",
+        "vi": "Menu",
+        "zh-CN": "菜单",
+        "zh-TW": "選單"
+      },
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": {
+        "cs": "Panel oznámení",
+        "da": "Meddelelseslinje",
+        "de": "Ankündigungsbereich",
+        "en": "Announcement bar",
+        "es": "Barra de anuncios",
+        "fi": "Ilmoituspalkki",
+        "fr": "Barre d'annonces",
+        "it": "Barra degli annunci",
+        "ja": "告知バー",
+        "ko": "공지 표시줄",
+        "nb": "Kunngjøringslinje",
+        "nl": "Aankondigingsbalk",
+        "pl": "Pasek ogłoszeń",
+        "pt-BR": "Barra de avisos",
+        "pt-PT": "Barra de comunicado",
+        "sv": "Meddelandefält",
+        "th": "แถบประกาศ",
+        "tr": "Duyuru çubuğu",
+        "vi": "Thanh thông báo",
+        "zh-CN": "公告栏",
+        "zh-TW": "公告列"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "message",
+      "label": {
+        "cs": "Zobrazit oznámení",
+        "da": "Vis meddelelse",
+        "de": "Ankündigung anzeigen",
+        "en": "Show announcement",
+        "es": "Mostrar anuncio",
+        "fi": "Näytä ilmoitus",
+        "fr": "Afficher l'annonce",
+        "it": "Mostra annuncio",
+        "ja": "告知を表示する",
+        "ko": "공지 표시",
+        "nb": "Vis kunngjøring",
+        "nl": "Aankondiging weergeven",
+        "pl": "Pokaż ogłoszenie",
+        "pt-BR": "Exibir comunicado",
+        "pt-PT": "Mostrar comunicado",
+        "sv": "Visa tillkännagivande",
+        "th": "แสดงประกาศ",
+        "tr": "Duyuruyu göster",
+        "vi": "Hiển thị thông báo",
+        "zh-CN": "显示公告",
+        "zh-TW": "顯示公告"
+      },
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": {
+        "cs": "Jen domovská stránka",
+        "da": "Kun startside",
+        "de": "Nur Startseite",
+        "en": "Home page only",
+        "es": "Solo página de inicio",
+        "fi": "Vain etusivu",
+        "fr": "Page d'accueil uniquement",
+        "it": "Solo home page",
+        "ja": "ホームページのみ",
+        "ko": "홈페이지만",
+        "nb": "Kun på startsiden",
+        "nl": "Alleen homepage",
+        "pl": "Tylko strona główna",
+        "pt-BR": "Apenas na página inicial",
+        "pt-PT": "Apenas a página inicial",
+        "sv": "Endast hemsida",
+        "th": "หน้าแรกเท่านั้น",
+        "tr": "Yalnızca ana sayfa",
+        "vi": "Chỉ trang chủ",
+        "zh-CN": "仅主页",
+        "zh-TW": "僅限首頁"
+      },
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "message_text",
+      "label": {
+        "cs": "Text",
+        "da": "Tekst",
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fi": "Teksti",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "ko": "텍스트",
+        "nb": "Tekst",
+        "nl": "Tekst",
+        "pl": "Tekst",
+        "pt-BR": "Texto",
+        "pt-PT": "Texto",
+        "sv": "Text",
+        "th": "ข้อความ",
+        "tr": "Metin",
+        "vi": "Văn bản",
+        "zh-CN": "文本",
+        "zh-TW": "文字"
+      },
+      "default": {
+        "cs": "Tady můžete zadat oznámení",
+        "da": "Meddel noget her",
+        "de": "Hier etwas ankündigen",
+        "en": "Announce something here",
+        "es": "Anuncia algo aquí",
+        "fi": "Ilmoita jotakin tässä",
+        "fr": "Annoncez quelque chose ici",
+        "it": "Annuncia qualcosa qui",
+        "ja": "ここで告知してください",
+        "ko": "여기에 공지하십시오",
+        "nb": "Kunngjør noe her",
+        "nl": "Kondig hier iets aan",
+        "pl": "Ogłoś coś tutaj",
+        "pt-BR": "Anuncie algo aqui",
+        "pt-PT": "Anunciar algo aqui",
+        "sv": "Meddela något här",
+        "th": "ประกาศข้อความที่นี่",
+        "tr": "Buraya bir duyuru ekleyin",
+        "vi": "Thông báo điều gì đó tại đây",
+        "zh-CN": "在此处进行公告",
+        "zh-TW": "在此公告資訊"
+      }
+    },
+    {
+      "type": "url",
+      "id": "message_link",
+      "label": {
+        "cs": "Odkaz",
+        "da": "Link",
+        "de": "Link",
+        "en": "Link",
+        "es": "Enlace",
+        "fi": "Linkki",
+        "fr": "Lien",
+        "it": "Link",
+        "ja": "リンク",
+        "ko": "링크",
+        "nb": "Kobling",
+        "nl": "Link",
+        "pl": "Link",
+        "pt-BR": "Link",
+        "pt-PT": "Ligação",
+        "sv": "Länk",
+        "th": "ลิงก์",
+        "tr": "Bağlantı",
+        "vi": "Liên kết",
+        "zh-CN": "链接",
+        "zh-TW": "連結"
+      },
+      "info": {
+        "cs": "Volitelné",
+        "da": "Valgfri",
+        "de": "Optional",
+        "en": "Optional",
+        "es": "Opcional",
+        "fi": "Valinnainen",
+        "fr": "Facultatif",
+        "it": "Facoltativo",
+        "ja": "オプション",
+        "ko": "선택 사항",
+        "nb": "Valgfritt",
+        "nl": "Optioneel",
+        "pl": "Opcjonalnie",
+        "pt-BR": "Opcional",
+        "pt-PT": "Opcional",
+        "sv": "Valfritt",
+        "th": "ไม่จำเป็น",
+        "tr": "İsteğe bağlı",
+        "vi": "Không bắt buộc",
+        "zh-CN": "可选",
+        "zh-TW": "(選填)"
+      }
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": {
+        "cs": "Panel",
+        "da": "Bjælke",
+        "de": "Zeile",
+        "en": "Bar",
+        "es": "Barra",
+        "fi": "Palkki",
+        "fr": "Barre",
+        "it": "Barra",
+        "ja": "バー",
+        "ko": "바",
+        "nb": "Felt",
+        "nl": "Balk",
+        "pl": "Pasek",
+        "pt-BR": "Barra",
+        "pt-PT": "Barra",
+        "sv": "Fält",
+        "th": "แถบ",
+        "tr": "Çubuk",
+        "vi": "Thanh",
+        "zh-CN": "栏",
+        "zh-TW": "橫條"
+      },
+      "default": "#3a3a3a"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": {
+        "cs": "Text",
+        "da": "Tekst",
+        "de": "Text",
+        "en": "Text",
+        "es": "Texto",
+        "fi": "Teksti",
+        "fr": "Texte",
+        "it": "Testo",
+        "ja": "テキスト",
+        "ko": "텍스트",
+        "nb": "Tekst",
+        "nl": "Tekst",
+        "pl": "Tekst",
+        "pt-BR": "Texto",
+        "pt-PT": "Texto",
+        "sv": "Text",
+        "th": "ข้อความ",
+        "tr": "Metin",
+        "vi": "Văn bản",
+        "zh-CN": "文本",
+        "zh-TW": "文字"
+      },
+      "default": "#ffffff"
+    },
+
+    {
+      "type":"header",
+      "content":"Mobile menu content"
+    },
+    {
+      "id": "number",
+      "type":"text",
+      "label":"Phone number"
+    },
+    {
+      "id": "work-time",
+      "type":"richtext",
+      "label":"Work time"
+    },
+    {
+      "id": "messenger_c",
+      "type":"text",
+      "label":"Messenger"
+    },
+    {
+      "id": "email",
+      "type":"text",
+      "label":"Email:"
+    },
+    {
+      "id": "mess_url",
+      "type": "url",
+      "label": "Messenger Link"
+    },
+
+    {
+      "type":"header",
+      "content":"Text and button"
+    },
+    {
+      "id": "mob-menu-text",
+      "type":"text",
+      "label":"Text:"
+    },
+    {
+      "id": "mob-menu-btn",
+      "type":"text",
+      "label":"Button label:"
+    },
+    {
+      "id": "mob-menu-btn-url",
+      "type":"url",
+      "label":"Button url:"
+    },
+    {
+      "id": "account-login-text",
+      "type":"text",
+      "label":"Account login text"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "menu-and-collection",
+      "name": "Menu and collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Top Heading"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Top Heading Link"
+        },
+        {
+          "type": "text",
+          "id": "menu-title",
+          "label": "Menu title"
+        },
+        {
+          "type": "link_list",
+          "id": "navbar",
+          "label": "Left menu"
+        },
+        {
+          "type": "text",
+          "id": "menu-btn-label",
+          "label": "Left menu button label"
+        },
+        {
+          "type": "url",
+          "id": "menu-btn-url",
+          "label": "Left menu button url"
+        },
+        {
+          "type": "text",
+          "id": "collection-title",
+          "label": "Collection Title"
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Select collection"
+        },
+
+        {
+          "type": "text",
+          "id": "collection-text-block",
+          "label": "Collection text block"
+        },
+        {
+          "type": "text",
+          "id": "collection-btn-label",
+          "label": "Collection button label"
+        },
+        {
+          "type": "url",
+          "id": "collection-btn-url",
+          "label": "Collection button url"
+        }
+      ]
+    },
+    {
+      "type": "menu-and-image",
+      "name": "Menu and image",
+      "settings": [
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Top Heading"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Top Heading Link"
+        },
+        {
+          "type": "text",
+          "id": "menu-title",
+          "label": "Menu title"
+        },
+        {
+          "type": "link_list",
+          "id": "navbar",
+          "label": "Left menu"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "menu-image",
+          "label": "Menu image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

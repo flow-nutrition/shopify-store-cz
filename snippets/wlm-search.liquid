@@ -1,0 +1,25 @@
+{%- assign w_continue = 'no' -%}
+{% assign wlmHideItem_Search = false %}{% assign wlmLockedTags210510 = false %}
+{% assign wlmLockedTags210978 = false %}
+{% assign wlmLockedTags210979 = false %}
+{% for tag in customer.tags %}
+{% if tag == 'Wholesale' %}{% assign wlmLockedTags210510 = true %}{% endif %}
+{% if tag == 'GroupB' %}{% assign wlmLockedTags210978 = true %}{% endif %}
+{% if tag == 'GroupA' %}{% assign wlmLockedTags210979 = true %}{% endif %}
+{% endfor %}
+
+{%  if wlm-search.object_type == 'product' %}
+{% if wlm-search.id == 7517913776285 or wlm-search.id == 8522291183952 or wlm-search.id == 7473957339293 or wlm-search.id == 8544927809872 or wlm-search.id == 8542072668496 or wlm-search.id == 8554477224272 or wlm-search.id == 8539375829328 or wlm-search.id == 8539434189136 or wlm-search.id == 7517976199325 or wlm-search.id == 8539400208720 or wlm-search.id == 8545173766480 or wlm-search.id == 8522176627024 or wlm-search.id == 7638865641629 or wlm-search.id == 7984306127136 or wlm-search.id == 8554462314832 or wlm-search.id == 8169074688288 or wlm-search.id == 8523254038864 or wlm-search.id == 7638786048157 or wlm-search.id == 8028705489184 or wlm-search.id == 8554435182928 or wlm-search.id == 6689680490653 or wlm-search.id == 7528651423901 or wlm-search.id == 7528648474781 or wlm-search.id == 8028617572640 or wlm-search.id == 8023571628320 or wlm-search.id == 7177895739549 or wlm-search.id == 8539417706832 or wlm-search.id == 8576226427216 or wlm-search.id == 8523192402256 or wlm-search.id == 8523210457424 or wlm-search.id == 7520883703965 or wlm-search.id == 8522278797648 or wlm-search.id == 8617309733200 or wlm-search.id == 8578074607952 or wlm-search.id == 8578067595600 or wlm-search.id == 8542048321872 or wlm-search.id == 8523262984528 or wlm-search.id == 8539447722320 or wlm-search.id == 8539472200016 or wlm-search.id == 8522277781840 or wlm-search.id == 8551805550928 or wlm-search.id == 8551779500368 or wlm-search.id == 8522325000528 or wlm-search.id == 6690460729501 or wlm-search.id == 6689413562525 or wlm-search.id == 6689685307549 or wlm-search.id == 6689674789021 or wlm-search.id == 6690482159773 or wlm-search.id == 6689682882717 or wlm-search.id == 6689660207261 or wlm-search.id == 6689678819485 or wlm-search.id == 6690438283421 or wlm-search.id == 8551777763664 or wlm-search.id == 8551728054608 or wlm-search.id == 8551835205968 or wlm-search.id == 8539378319696 or wlm-search.id == 8523227758928 or wlm-search.id == 8539391721808 or wlm-search.id == 8539368423760 or wlm-search.id == 8522276962640 or wlm-search.id == 8522189275472 or wlm-search.id == 8617305571664 or wlm-search.id == 8681208316240 or wlm-search.id == 8028882141472 or wlm-search.id == 8617307439440 %} 
+ {% if customer %}
+{% if wlmLockedTags210510 %}{% assign wlmHideItem_Search = true %}
+{% else %}{% assign wlmHideItem_Search = false %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+
+
+
+{% if wlmHideItem_Search == true %}{% continue %}{% endif %}
+
+{%- if wlm_is_render == 'yes' -%}{{- w_continue -}}{%-endif-%}

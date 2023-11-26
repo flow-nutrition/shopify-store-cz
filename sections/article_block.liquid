@@ -1,0 +1,157 @@
+<div class="article_block">
+    <div class="article_block_position">
+        <div class="art">
+            <h2>{{ section.settings.head }}</h2>
+            <p>{{ section.settings.artcl }}</p>
+        </div>
+        <div class="art_img">
+            <img src="{{ section.settings.art_img | img_url: 'master'}}">
+        </div>
+    </div>
+</div>
+
+<style>
+    .article_block_position {
+        display: flex;
+        max-width: 100%;
+        justify-content: flex-end;
+        align-items: center;
+        margin: auto;
+        padding-left: 165px;
+        padding-right: 165px;
+        flex-direction: row-reverse;
+    }
+    .art {
+        display: flex;
+        max-width: 600px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-left: 70px;
+        width: 50%;
+    }
+    .art h2{
+        font-weight: normal;
+        font-size: 32px;
+        line-height: 42px;
+        color: #000000;
+        font-family: Graphik-Regular;
+    }
+    .art p{
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 28px;
+        color: #8B9093;
+        font-family: Graphik-Regular;
+    }
+    .art_img{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+    .art_img img {
+        max-width: 100%;
+    }
+    .m_art_img{
+        display: none;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @media screen and (max-width: 1250px){
+        .article_block_position{
+            padding: 0 80px;
+        }
+    }
+    @media screen and (max-width: 970px){
+        .art {
+            width: 100% !important;
+            margin: 30px 0;
+            max-width: 100%;
+        }
+        .art_img{
+            width: 100%;
+        }
+        .article_block_position{
+            flex-direction: column;
+            padding: 0 30px;
+        }
+        .art h2{
+            font-size: 30px;
+            line-height: 40px;
+        }
+    }
+    @media screen and (max-width: 768px){
+        .article_block_position{
+            max-width: 100%;
+            padding: 0 16px 30px 16px;
+        }
+        .article_block{
+            max-width: 100%;
+        }
+    }
+    @media screen and (max-width: 600px){
+        .article_block{
+            margin-top: 8px;
+        }
+        .article_block_position{
+            justify-content: center;
+            align-items: center;
+        }
+        .art{
+            margin-right: 32px;
+            margin-left: auto;
+        }
+        .art h3{
+            margin: 0 0 58px;
+        }
+        .art_img{
+            width: 100%;
+        }
+        .art_img img{
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: 425px){
+        .article_block{
+            margin-top: 8px;
+        }
+        .article_block_position{
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0;
+        }
+        .art h3{
+            margin: 0 0 58px;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "article",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "art_img",
+            "label": "Image"
+        },
+        {
+            "id": "artcl",
+            "type":"text",
+			"label":"Article",
+			"default":"Tittle"
+        },
+        {
+            "id": "head",
+            "type":"text",
+            "label":"Heading",
+            "default":"Heading"
+        }
+    ]
+}
+{% endschema %}

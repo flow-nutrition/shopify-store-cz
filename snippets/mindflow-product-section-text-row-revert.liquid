@@ -1,0 +1,284 @@
+{% assign text_row = product.metafields.section.text_row %}
+
+<div class="page-width product-section section-text-row">
+  <div class="grid">
+
+    
+    <div class="text-row heading">
+      <div class="content-img">
+        <h2 class="heading-row">{{ text_row.heading }}</h2>
+        <p>{{ text_row.text }}</p>
+      </div>
+      <div class="image">
+        <img src="{{ text_row.image }}">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .content-img h2{
+    font-size: 32px;
+    line-height: 42px;
+    font-family: Graphik-Regular;
+    color: #222222;
+  }
+  .content-img p{
+    font-size: 16px;
+    line-height: 26px;
+    font-family: Graphik-Regular;
+    color: #6C6E73;
+  }
+  .image{
+    width: 50%;
+    padding-right: 165px;
+  }
+  .content-img{
+    margin-left: 0!important;
+    margin-right: 128px;
+    width: 50%;
+  }
+  .content-img p{
+    max-width: 700px;
+  }
+  .rich-text-icons-wrapper{
+    margin-bottom:0!important;
+    padding-bottom: 0!important;
+  }
+  .content-img{
+    max-width: 100%!important;
+    padding-left: 165px;
+    padding-right: 165px;
+    margin: auto;
+  }
+  .text-row.heading{
+    align-items: center;
+    margin-bottom: 96px;
+  }
+  .section-text-row .section-label{
+    font-size: 14px;
+    line-height: 24px;
+    color: #6C6E73;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+  .heading-row{
+    font-size: 32px;
+    line-height: 42px;
+    color: #222222;
+    max-width: 331px;
+  }
+  .content-img{
+    margin-left: 128px;
+  }
+  .text-row{
+    border-top: 1px solid #E4E7E9;
+    margin: 0;
+    padding: 24px 0 72px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .text-row .item p{
+    font-size: 16px;
+    line-height: 28px;
+    color: #6C6E73;
+  }
+  .text-row .item p span{
+    color: #FF4438;
+  }
+  .text-row .item p strong{
+    font-family: 'Graphik-Medium';
+  }
+  .text-row .item .svg{
+    min-width: 64px;
+    min-height: 64px;
+    width: unset;
+    height: unset;
+    padding: 20px 20px;
+    background-color: #FFF2F0;
+    font-size: 14px;
+    line-height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Graphik-Regular';
+  }
+  .text-row .item h3{
+    font-size: 24px;
+    line-height: 36px;
+    color: #222222;
+    max-width: 293px;
+    font-weight: 400;
+    margin-left: 29px;
+  }
+  .text-row:last-of-type{
+    padding-bottom: 117px;
+  }
+  .text-row .item.title{
+    max-width: 386px;
+  }
+  .text-row .item.content{
+    min-width: 642px;
+  }
+  .text-row .item div{
+    margin-bottom: 0;
+  }
+  @media (max-width: 1250px) {
+    .content-img{
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+    .image{
+      padding-right: 80px;
+    }
+  }
+  @media (max-width: 1110px) {
+    .text-row.heading .image img{
+      max-width: 100%;
+    }
+    .text-row .item.content {
+      min-width: unset;
+    }
+    .text-row .item h3{
+      max-width: unset;
+      margin-right: 15px;
+    }
+  }
+  @media (max-width: 970px) {
+    .content-img{
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+    .image{
+      padding-right: 30px;
+    }
+  }
+  @media (max-width: 767px) {
+    .text-row heading{
+      flex-direction: column;
+    }
+    .image{
+      width: 100%;
+      padding: 0;
+    }
+    .content-img{
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-bottom: 30px;
+      text-align: left;
+      width: 100%;
+    }
+    .section-text-row .text-row.heading{
+      padding-top: 20px;
+      flex-direction: column;
+    }
+    .text-row .item p{
+      line-height: 32px;
+    }
+    .text-row.heading{
+      flex-direction: column-reverse;
+      margin-bottom: 0;
+    }
+    .text-row.heading .image{
+      margin-left: -32px;
+      margin-right: -32px;
+      margin-bottom: 32px;
+    }
+    .section-text-row .section-label{
+      font-size: 14px;
+      line-height: 24px;
+      color: #8B9093;
+      margin-bottom: 16px;
+    }
+    .heading-row{
+      font-size: 28px;
+      line-height: 44px;
+      margin-bottom: 0;
+    }
+    .text-row .item .svg{
+      width: 56px;
+      height: 56px;
+      min-width: unset;
+      min-height: unset;
+      padding: 18px 16px;
+    }
+    .text-row .item h3 {
+      font-size: 20px;
+      line-height: 32px;
+    }
+    .text-row .item.content {
+      font-size: 16px;
+      line-height: 32px;
+    }
+  }
+  @media (max-width: 749px) {
+    .text-row{
+      flex-direction: column;
+      padding: 16px 0 32px 0;
+    }
+    .text-row:last-of-type {
+      padding-bottom: 46px;
+    }
+    .text-row .item.title{
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+      margin-bottom: 0;
+    }
+    .text-row .item.content{
+      width: 100%;
+      margin-top: 32px;
+    }
+    .text-row .item h3{
+      margin-left: 16px;
+      margin-right: 18px;
+    }
+    .item.content{
+      display: none;
+    }
+
+    .item.title:after {
+      content: url("{{ "dropdown-arrow.svg" | asset_url }}");
+      position: absolute;
+      top: calc(50% - 10px);
+      right: 10px;
+    }
+    .item.title.visible:after {
+      content: url("{{ "dropdown-red-arrow.svg" | asset_url }}");
+
+      font-size: 15px;
+      position: absolute;
+      top: calc(50% - 10px);
+      right: 10px;
+    }
+    @media (max-width: 480px) {
+      .text-row .item h3{
+        max-width: 195px;
+      }
+    }
+  }
+</style>
+
+<script>
+  if ($(window).width() < 749) {
+    var titleTrigger = $('.item.title');
+    titleTrigger.click(function (){
+      $(this).next('.item.content').slideToggle(250);
+      if ( $(this).hasClass('visible')){
+        $(this).removeClass('visible');
+      } else {
+        // $('.site-footer-block-title').removeClass('visible');
+        if ($('.item.title').not(this).hasClass('visible')){
+          $('.item.title.visible ').not(this).next('.item.content').slideToggle(250);
+          $('.item.title ').not(this).removeClass('visible');
+
+        }
+
+        $(this).addClass('visible');
+      }
+    });
+  }
+</script>

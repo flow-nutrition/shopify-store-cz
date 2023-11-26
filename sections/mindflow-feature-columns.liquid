@@ -1,0 +1,124 @@
+<div style="background-color: {{ section.settings.background_color }}; padding: 8rem 0 4rem 0;">
+  <div class="page-width feature-columns">
+    <div class="header">
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}">
+          {{ section.settings.button_label }}
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="9px" height="14px" viewBox="0 0 9 14"><title>ic_arrow</title><desc>Created with Sketch.</desc><g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Home_Design-v1" transform="translate(-1536.000000, -1682.000000)" fill="#FF4438"><g id="Group-16" transform="translate(1536.000000, 1682.000000)"><polygon id="ic_arrow" points="0 12.355 5.56275304 7 0 1.645 1.71255061 0 9 7 1.71255061 14"></polygon></g></g></g></svg>
+        </a>
+      {% endif %}
+    </div>
+    <div class="feature-products">
+      {% for block in section.blocks %}
+        <div class="product">
+          {% if block.settings.image != blank %}
+            <div class="image-wrapper"><a href="{{ block.settings.button_link }}"><img src="{{ block.settings.image | img_url: '600x600' }}" alt="{{ block.settings.heading }}"></a></div>
+          {% endif %}
+          <h3><a href="{{ block.settings.button_link }}">{{ block.settings.heading }}</a></h3>
+          {{ block.settings.text }}
+          <ul class="feature-list">
+            {% assign features = block.settings.features | split: "," %}
+            {% for feature in features %}
+              <li>
+                <img src="{{ 'list.svg' | asset_url }}" alt="list svg"> 
+                {{ feature | strip_html }}
+              </li>
+           	{% endfor %}
+          </ul>
+          {% if block.settings.button_label != blank %}
+            <button><a href="{{ block.settings.button_link }}">{{ block.settings.button_label }}<i aria-hidden="true" class="fas fa-angle-right"></i></a></button>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Mindflow product columns",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+	{
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+		  "default": "Default heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+		{
+          "type": "richtext",
+          "id": "features",
+          "label": "Features",
+		  "info": "Use ',' to separate each feature."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mindflow product columns",
+      "category": "Mindflow",
+      "blocks": [
+        {
+          "type": "text_block"
+        },
+        {
+          "type": "text_block"
+        },
+        {
+          "type": "text_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

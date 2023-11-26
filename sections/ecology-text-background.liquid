@@ -1,0 +1,80 @@
+<div class="wrapper">
+    <div class="wrpper__background">
+        <div class="wrapper__inner_background">
+            <div class="content__wrapper">
+                <h5 class="subheading">{{section.settings.subgeading}}</h5>
+                <div class="content">{{section.settings.content}}</div>
+                <div class="description">{{section.settings.description}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .description p{
+        font-size: 14px;
+        color: #6C6E73;
+        line-height: 1.5;
+    }
+    .content p{
+        color: #222;
+        font-size: 24px;
+        margin: 30px 0 40px;
+    }
+    .subheading{
+        color: #FF4438;
+        font-size: 14px;
+        letter-spacing: 1px;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+    .wrapper__inner_background{
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 48px 20px 70px;
+    }
+    .content__wrapper{
+        max-width: 430px;
+    }
+    @media screen and (max-width: 768px) {
+        .wrapper__inner_background{
+            padding: 80px 20px;
+        }
+    }
+    .wrpper__background{
+        background-image: url({{section.settings.background_image | img_url: 'master'}});
+    }
+    @media screen and (min-width:1440px) {
+        .wrpper__background{
+            background-size: cover;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "Background with text",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "background_image",
+            "label": "Background image"
+        },
+        {
+            "type": "text",
+            "id": "subgeading",
+            "label": "Subheading"
+        },
+        {
+            "type": "richtext",
+            "id": "content",
+            "label": "Main text"
+        },
+        {
+            "type": "richtext",
+            "id": "description",
+            "label": "Description"
+        }
+    ]
+}
+{% endschema %}

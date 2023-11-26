@@ -1,0 +1,889 @@
+{% paginate blog.articles by 12 %}
+    {% include 'breadcrumbs' %}
+    <div class="page-width">
+        <header class="blog-header">
+            <div class="blog-title-wrapper section-header text-center">
+                <h1>{{ page_title }}</h1>
+                <div class="mobile-category-toggle js-toggle-menu"><p class="blog-category">Kategorie</p></div>
+            </div>
+            <div class="blog-btn-group-wrapper">
+                <div class="category-menu-toggle">Kategorie</div>
+                <div class="blog-btn-group">
+
+
+                    {% for block in section.blocks %}
+
+                        <a {% if block.settings.blog-tag == 'all' %}href="{{ blog.url }}"
+                           {% else %}href="{{ blog.url }}/tagged/{{ block.settings.blog-tag | replace: ' ', '-' }} {% endif %}"
+                           data-url="{{ blog.tags }}" data-handle="{{ block.settings.blog-tag | replace: ' ', '-' }}"
+                           class="{% if block.settings.blog-title == blog.title %}current{% endif %}">{{ block.settings.blog-title }}</a>
+
+
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="category-mobile-menu">
+                <nav class="mobile-nav-wrap" role="navigation">
+                    <div class="mobile-header-nav">
+                        <div class="caregory-menu-header">
+                            <div class="title">Kategorie</div>
+                            <div class="mobile-category-toggle js-toggle-menu">{% include 'category-close' %}</div>
+                        </div>
+                        <div class="category-items-wrapper">
+                            {% for block in section.blocks %}
+                                {% for article in blog.articles %}
+                                    {% comment %} {{  article.tags }} {% endcomment %}
+                                {% endfor %}
+                                <a class="category-item {% if block.settings.blog-title == blog.title %}current{% endif %}"
+                                        {% if block.settings.blog-tag == "all" %}
+                                            href="{{ blog.url }}"
+                                        {% else %}
+                                            href="{{ blog.url }}/tagged/{{ block.settings.blog-tag | replace: ' ', '-' }}"
+                                        {% endif %}
+                                > {{ block.settings.blog-title }}
+                                    {% include 'right-arrow' %}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+        </header>
+        {% include "blog-post-preview" %}
+    </div>
+
+
+
+
+
+    {% if section.settings.layout == 'grid' %}
+        <div class="page-width">
+            <ul class="grid grid--uniform grid--blog">
+                {% for article in blog.articles %}
+                    <li class="grid__item medium-up--one-third">
+                        <article aria-labelledby="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+                            <div>
+                                <a href="{{ article.url }}" class="article__link">
+                                    {% if article.image %}
+                                        {% capture img_id %}ArticleImage-{{ article.image.id }}{% endcapture %}
+                                        {% capture img_wrapper_id %}ArticleImageWrapper-{{ article.image.id }}{% endcapture %}
+                                        {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+                                        {% include 'image-style', image: article.image, height: 500, width: 500, wrapper_id: img_wrapper_id, img_id: img_id %}
+                                        <div id="{{ img_wrapper_id }}" class="article__grid-image-wrapper js">
+                                            <div class="article__grid-image-container"
+                                                 style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;"
+                                                 data-image-loading-animation>
+                                                <img id="{{ img_id }}"
+                                                     class="article__grid-image lazyload"
+                                                     data-src="{{ img_url }}"
+                                                     data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                                                     data-aspectratio="{{ article.image.aspect_ratio }}"
+                                                     data-sizes="auto"
+                                                     alt="">
+                                            </div>
+                                        </div>
+                                        <noscript>
+                                            <div class="article__grid-image-wrapper">
+                                                {{ article | img_url: '345x345', scale: 2 | img_tag: article.title, 'article__grid-image' }}
+                                            </div>
+                                        </noscript>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <a href="{{ article.url }}" class="article__link">
+                                <h3 class="article__title" id="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+                                    {{ article.title }}
+                                </h3>
+                            </a>
+                            <div class="article__grid-meta">
+                                {% if section.settings.blog_show_excerpt %}
+                                    <div class="rte article__grid-excerpt">
+                                        {% if article.excerpt.size > 0 %}
+                                            {{ article.excerpt }}
+                                        {% else %}
+                                            {{ article.content | strip_html | truncate: 150 }}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+
+                                {% if article.tags.size > 0 %}
+                                    <div class="article__tags rte">
+                                        <ul class="list--inline" aria-label="{{ 'blogs.article.tags' | t }}">
+                                            {% for tag in article.tags %}
+                                                {% if tag contains "time" or tag contains "product:" %}
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ blog.url }}/tagged/{{ tag | handle }}"
+                                                           class="article__grid-tag">{{ tag | capitalize }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                        {% for tag in article.tags %}
+                                            {% if tag contains "time" %}
+                                                {% assign tag_split = tag | split: ':' %}
+                                                <div class="time-count">{{ tag_split[1] }}</div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </article>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <ul class="blog-list-view">
+            {% for article in blog.articles %}
+                <li class="border-top">
+                    <div class="page-width">
+                        <div class="grid">
+                            <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+                                <div class="article-listing">
+                                    <h2 class="article__title h3"><a href="{{ article.url }}">{{ article.title }}</a>
+                                    </h2>
+                                    {% if section.settings.blog_show_author %}
+                                        <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+                                    {% endif %}
+
+                                    {% if section.settings.blog_show_date %}
+                                        <span class="article__date">
+            {{ article.published_at | time_tag: format: 'date' }}
+          </span>
+                                    {% endif %}
+
+                                    {% if article.image %}
+                                        {% capture img_id %}ArticleImage-{{ article.image.id }}{% endcapture %}
+                                        {% capture img_wrapper_id %}ArticleImageWrapper-{{ article.image.id }}{% endcapture %}
+                                        {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+                                        {% include 'image-style', image: article.image, height: 600, wrapper_id: img_wrapper_id, img_id: img_id %}
+
+                                        <div id="{{ img_wrapper_id }}" class="article__list-image-wrapper js">
+                                            <a href="{{ article.url }}"
+                                               style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;"
+                                               class="article__list-image-container" data-image-loading-animation>
+                                                <img id="{{ img_id }}"
+                                                     class="article__list-image lazyload"
+                                                     data-src="{{ img_url }}"
+                                                     data-widths="[180, 360, 540, 720, 905, 1090, 1296, 1512, 1728, 2048]"
+                                                     data-aspectratio="{{ article.image.aspect_ratio }}"
+                                                     data-sizes="auto"
+                                                     alt="">
+                                            </a>
+                                        </div>
+
+                                        <noscript>
+                                            <p>
+                                                <a href="{{ article.url }}">
+                                                    {{ article | img_url: '455x300', scale: 2 | img_tag: article.title }}
+                                                </a>
+                                            </p>
+                                        </noscript>
+                                    {% endif %}
+
+                                    <div class="rte">
+                                        {% if article.excerpt.size > 0 %}
+                                            {{ article.excerpt }}
+                                        {% else %}
+                                            {{ article.content | strip_html | truncate: 150 }}
+                                        {% endif %}
+                                    </div>
+
+                                    {% if article.tags.size > 0 %}
+                                        <div class="article__tags article__tags--list rte">
+                                            {{ 'blogs.article.posted_in' | t }}
+                                            {% for tag in article.tags %}
+                                                <a
+                                                href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+
+                                    <ul class="list--inline article__meta-buttons">
+                                        <li>
+                                            <a href="{{ article.url }}" class="btn btn--tertiary btn--small"
+                                               aria-label="{{ 'blogs.article.read_more_title' | t: title: article.title }}">
+                                                {{ 'blogs.article.read_more' | t }}
+                                            </a>
+                                        </li>
+
+                                        {% if blog.comments_enabled? and article.comments_count > 0 %}
+                                            <li>
+                                                <a href="{{ article.url }}#comments"
+                                                   class="article__comment-count btn btn--tertiary btn--small">
+                                                    {{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {%- if paginate.pages > 1 -%}
+
+        {% include 'pagination-load-more', paginate: paginate %}
+
+    {%- endif -%}
+
+{% endpaginate %}
+
+
+<style>
+    .image-container {
+        width: 100%;
+    }
+
+    .image-container img {
+        max-width: 100%;
+    }
+
+    #shopify-section-blog-template .page-width {
+        padding: 0 165px;
+    }
+
+    .js-load-more {
+        margin: 0 0 220px 0;
+        padding: 21px 100px;
+        border-radius: 50px;
+        border: 1px solid #E4E7E9;
+        background: transparent;
+        color: #FF4438;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        font-family: 'Graphik-Medium';
+        text-transform: inherit;
+        letter-spacing: inherit;
+    }
+
+    .js-load-more:hover {
+        background: #F5F6F7 !important;
+        color: #FF4438 !important;
+
+        border: 1px solid #E4E7E9 !important;
+    }
+
+    .blog-header {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 70px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .blog-title-wrapper {
+        margin-bottom: 0 !important;
+    }
+
+    .blog-title-wrapper h1 {
+        font-size: 44px;
+        line-height: 56px;
+        color: #222222;
+        font-family: "Graphik-Regular";
+        text-align: left;
+        margin-bottom: 10px !important;
+    }
+
+    .blog-btn-group-wrapper {
+        margin-top: 11px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .blog-btn-group {
+        width: 100%;
+    }
+
+    .category-menu-toggle {
+        position: relative;
+        padding-left: 52px;
+        font-size: 12px;
+        line-height: 16px;
+        color: #6C6E73;
+        margin-bottom: 27px;
+        letter-spacing: 0.1px;
+    }
+
+    .category-menu-toggle:before {
+        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='65' height='2' viewBox='0 0 65 2' fill='none'%3E%3Cpath d='M65 1H0' stroke='%236C6E73'/%3E%3C/svg%3E");
+        position: absolute;
+        top: -3.5px;
+        left: -32px;
+        display: inline-block;
+        z-index: 9;
+        width: 65px;
+    }
+
+    .blog-category {
+        margin-left: 20px;
+    }
+
+    .blog-btn-group a {
+        font-size: 14px;
+        line-height: 20px;
+        color: #E62E31;
+        padding: 6px 16px;
+        background: #FFF2F0;
+        border-radius: 8px;
+        font-family: 'Graphik-Medium';
+        display: inline-block;
+        margin-right: 11px;
+        margin-bottom: 11px;
+    }
+
+    .page-width.product-section.section-text-row .text-row {
+        border: none;
+        padding: 0;
+        padding-bottom: 80px;
+    }
+
+    .article__link h3 {
+        color: #222222;
+        font-size: 24px;
+        line-height: 36px;
+        font-family: "Graphik-Regular";
+    }
+
+    .article__grid-tag {
+        font-size: 12px;
+        line-height: 16px;
+        color: #E62E31;
+        border-radius: 8px;
+        font-family: "Graphik-Regular";
+        border: none !important;
+        text-transform: initial;
+        padding: 4px 8px !important;
+        letter-spacing: 0.1px;
+        white-space: nowrap;
+    }
+
+    .article__tags .list--inline li .article__grid-tag {
+        background: #FFF2F0;
+    }
+
+    .time-count {
+        font-size: 12px;
+        line-height: 16px;
+        color: #6C6E73;
+        font-family: "Graphik-Regular";
+        position: relative;
+        display: flex !important;
+        align-items: center;
+    }
+
+    .blog-btn-group a.current {
+        border: 1px solid #e62e31;
+
+    }
+
+    .time-count:before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        margin-right: 16px;
+        margin-left: 8px;
+        display: inline-block;
+        background: #C4C4C4;
+        border-radius: 50%;
+    }
+
+    .article__grid-meta {
+        margin-bottom: 62px;
+    }
+
+    .list--inline {
+        display: flex;
+        flex-wrap: wrap;
+        display: flex;
+    }
+
+    .articles-wrapper .grid__item:nth-child(3) {
+        padding-right: 32px !important;
+    }
+
+    #shopify-section-blog-template .grid__item {
+        padding-right: 32px;
+    }
+
+    .grid.grid--uniform.grid--blog {
+        margin-right: -32px;
+    }
+
+    .mobile-category-toggle {
+        display: none;
+        font-size: 14px;
+        line-height: 20px;
+        font-family: 'Graphik-Medium';
+        letter-spacing: 0.1px;
+        color: #FF4438;
+        cursor: pointer;
+    }
+
+    .caregory-menu-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .category-items-wrapper {
+        padding: 0 32px;
+    }
+
+    .category-item {
+        display: block;
+        padding: 22px 0;
+        border-bottom: 1px solid #E9ECEE;
+        font-size: 16px;
+        line-height: 28px;
+        color: #222222;
+        position: relative;
+    }
+
+    #shopify-section-blog-template .grid--blog {
+        margin-bottom: unset;
+    }
+
+    .category-item.current {
+        font-size: 14px;
+        line-height: 20px;
+        color: #FF4438;
+        font-family: 'Graphik-Medium';
+        padding: 24px 0;
+    }
+
+    .category-item svg {
+        position: absolute;
+        right: 0px;
+        top: 50%;
+        transform: translate(0px, -50%);
+    }
+
+    .category-item:last-of-type {
+        border-bottom: none;
+    }
+
+    .caregory-menu-header {
+        padding: 30px 27px 30px 32px;
+        border: 1px solid #E9ECEE;
+    }
+
+    .caregory-menu-header .title {
+        font-size: 14px;
+        line-height: 20px;
+        color: #222222;
+        font-family: 'Graphik-Medium';
+        letter-spacing: 0.1px;
+    }
+
+    .mobile-header-nav {
+        background-color: #f5f6f7;
+        display: none;
+        margin: 0;
+        padding: 0;
+        position: fixed;
+        width: 100%;
+        top: 0px;
+        z-index: 9999999999999;
+        left: 0px;
+        overflow: scroll;
+        height: 100%;
+    }
+
+    @media (max-width: 1250px) {
+        #shopify-section-blog-template .page-width {
+            padding: 0 80px;
+        }
+
+    }
+
+    @media (max-width: 1192px) {
+
+        .text-row.heading .heading-content {
+            margin-left: 60px;
+        }
+
+    }
+
+    @media (max-width: 1150px) {
+        .blog-header {
+            margin-top: 70px;
+        }
+    }
+
+    @media (max-width: 970px) {
+        #shopify-section-blog-template .page-width {
+            padding: 0 30px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        #shopify-section-blog-template .page-width {
+            padding: 0 16px;
+        }
+    }
+
+    @media (max-width: 749px) {
+        .mobile-category-toggle {
+            display: block;
+        }
+
+        .blog-btn-group-wrapper {
+            display: none;
+        }
+
+        .blog-title-wrapper {
+            max-width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin: 0;
+            width: 100%;
+        }
+
+        .blog-header {
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        .article__link {
+            text-align: center;
+        }
+
+        .article__grid-meta {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+
+        .list--inline {
+            margin-bottom: 50px !important;
+        }
+
+        .page-width.product-section.section-text-row .text-row {
+            padding-bottom: 20px;
+        }
+
+        .article__grid-image-container img {
+            margin: 0;
+            padding: 0;
+        }
+
+        .mobile-header-nav {
+            padding-top: 66px;
+        }
+
+        .blog-title-wrapper h1 {
+            font-size: 36px;
+            line-height: 48px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .page-width.product-section.section-text-row {
+            display: none;
+        }
+
+        .js-load-more {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 20px;
+            /* identical to box height, or 125% */
+
+
+            /* Red/Primary */
+
+            color: #FF4438;
+            padding: 13px 71px;
+            text-transform: capitalize;
+
+            white-space: nowrap;
+        }
+
+        .grid.grid--blog li:last-of-type .list--inline {
+            margin-bottom: 12px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .blog-header {
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+
+        .blog-title-wrapper h1 {
+            max-width: 200px;
+        }
+
+        .article__title {
+            margin-bottom: 12px;
+        }
+
+        .list--inline {
+            margin-bottom: 32px !important;
+        }
+
+        .article__grid-meta {
+            justify-content: flex-start;
+        }
+
+        #shopify-section-blog-template {
+            margin-top: 50px;
+        }
+
+        #shopify-section-blog-template .mobile-header-nav {
+            padding-top: 150px !important;
+        }
+
+        #shopify-section-blog-template .caregory-menu-header {
+            border-top: none;
+        }
+    }
+</style>
+
+<script>
+    $('.js-load-more').on('click', function () {
+        var $this = $(this), totalPages = parseInt($('[data-total-pages]').val()),
+            currentPage = parseInt($('[data-current-page]').val());
+        $this.attr('disabled', true);
+        $this.find('[load-more-text]').addClass('hide');
+        $this.find('[loader]').removeClass('hide');
+        currentPage = currentPage + 1;
+        var nextUrl = $('[data-next-url]').val().replace(/page=[0-9]+/, 'page=' + currentPage);
+        $('[data-current-page]').val(currentPage);
+        $.ajax({
+            url: nextUrl,
+            type: 'GET',
+            dataType: 'html',
+            success: function (responseHTML) {
+                $('.grid--blog').append($(responseHTML).find('.grid--blog').html());
+                if (totalPages === currentPage) {
+                    $('.js-load-more').hide();
+                }
+            },
+            complete: function () {
+                if (currentPage <= totalPages) {
+                    $this.attr('disabled', false);
+                    $this.find('[load-more-text]').removeClass('hide');
+                    $this.find('[loader]').addClass('hide');
+                }
+            }
+        })
+    });
+</script>
+<script>
+    // open mobile menu
+    $('.js-toggle-menu').click(function (e) {
+        e.preventDefault();
+        $('.mobile-header-nav').slideToggle();
+        $(this).toggleClass('open');
+    });
+
+    $('.blog-btn-group a[data-handle="' + decodeURIComponent(location.pathname).split('/tagged/')[1] + '"]').addClass('current')
+</script>
+
+
+{% schema %}
+{
+  "name": {
+    "cs": "Stránky blogu",
+    "da": "Blogsider",
+    "de": "Blogseiten",
+    "en": "Blog pages",
+    "es": "Páginas del blog",
+    "fi": "Blogisivut",
+    "fr": "Pages du blog",
+    "it": "Pagine del blog",
+    "ja": "ブログページ",
+    "ko": "블로그 페이지",
+    "nb": "Bloggsider",
+    "nl": "Blogpagina's",
+    "pl": "Strony blogu",
+    "pt-BR": "Páginas do blog",
+    "pt-PT": "Páginas do blogue",
+    "sv": "Bloggsidor",
+    "th": "หน้าบล็อก",
+    "tr": "Blog sayfaları",
+    "vi": "Trang blog",
+    "zh-CN": "博客页面",
+    "zh-TW": "部落格頁面"
+  },
+  "settings": [
+    {
+      "type": "article",
+      "id": "article",
+      "label": "Recommended article"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": {
+        "cs": "Rozvržení",
+        "da": "Layout",
+        "de": "Layout",
+        "en": "Layout",
+        "es": "Diseño",
+        "fi": "Asettelu",
+        "fr": "Mise en page",
+        "it": "Layout",
+        "ja": "レイアウト",
+        "ko": "레이아웃",
+        "nb": "Oppsett",
+        "nl": "Opmaak",
+        "pl": "Układ",
+        "pt-BR": "Layout",
+        "pt-PT": "Esquema",
+        "sv": "Layout",
+        "th": "เลย์เอาต์",
+        "tr": "Düzen",
+        "vi": "Bố cục",
+        "zh-CN": "布局",
+        "zh-TW": "版面配置"
+      },
+      "default": "list",
+      "options": [
+        {
+          "value": "grid",
+          "label": {
+            "cs": "Mřížka",
+            "da": "Gitter",
+            "de": "Raster",
+            "en": "Grid",
+            "es": "Cuadrícula",
+            "fi": "Ruudukko",
+            "fr": "Grille",
+            "it": "Griglia",
+            "ja": "グリッド",
+            "ko": "그리드",
+            "nb": "Rutenett",
+            "nl": "Raster",
+            "pl": "Siatka",
+            "pt-BR": "Grade",
+            "pt-PT": "Grelha",
+            "sv": "Rutnät",
+            "th": "กริด",
+            "tr": "Izgara",
+            "vi": "Lưới",
+            "zh-CN": "网格",
+            "zh-TW": "網格"
+          }
+        },
+        {
+          "value": "list",
+          "label": {
+            "cs": "Seznam",
+            "da": "Liste",
+            "de": "Liste",
+            "en": "List",
+            "es": "Lista",
+            "fi": "Luettelo",
+            "fr": "Liste",
+            "it": "Elenco",
+            "ja": "リスト",
+            "ko": "목록",
+            "nb": "Liste",
+            "nl": "Lijst",
+            "pl": "Lista",
+            "pt-BR": "Lista",
+            "pt-PT": "Lista",
+            "sv": "Lista",
+            "th": "รายการ",
+            "tr": "Liste",
+            "vi": "Danh sách",
+            "zh-CN": "列表",
+            "zh-TW": "清單"
+          }
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_author",
+      "label": {
+        "cs": "Zobrazit autora",
+        "da": "Vis forfatter",
+        "de": "Autor anzeigen",
+        "en": "Show author",
+        "es": "Mostrar autor",
+        "fi": "Näytä tekijä",
+        "fr": "Afficher l'auteur",
+        "it": "Mostra autore",
+        "ja": "執筆者を表示する",
+        "ko": "작성자 표시",
+        "nb": "Vis forfatter",
+        "nl": "Auteur weergeven",
+        "pl": "Pokaż autora",
+        "pt-BR": "Exibir autor",
+        "pt-PT": "Mostrar autor",
+        "sv": "Visa författare",
+        "th": "แสดงผู้เขียน",
+        "tr": "Yazarı göster",
+        "vi": "Hiển thị tác giả",
+        "zh-CN": "显示作者",
+        "zh-TW": "顯示作者"
+      },
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_date",
+      "label": {
+        "cs": "Zobrazit datum",
+        "da": "Vis dato",
+        "de": "Datum anzeigen",
+        "en": "Show date",
+        "es": "Mostrar fecha",
+        "fi": "Näytä päivämäärä",
+        "fr": "Afficher la date",
+        "it": "Mostra data",
+        "ja": "日付を表示する",
+        "ko": "날짜 표시",
+        "nb": "Vis dato",
+        "nl": "Datum weergeven",
+        "pl": "Pokaż datę",
+        "pt-BR": "Exibir data",
+        "pt-PT": "Mostrar data",
+        "sv": "Visa datum",
+        "th": "แสดงวันที่",
+        "tr": "Tarihi göster",
+        "vi": "Hiển thị ngày",
+        "zh-CN": "显示日期",
+        "zh-TW": "顯示日期"
+      },
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "blog_item",
+      "name": "Blocks",
+      "settings": [
+        {
+          "type": "text",
+          "id": "blog-title",
+          "label": "Blog title"
+        },
+        {
+          "type": "text",
+          "id": "blog-tag",
+          "label": "Filter tag"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

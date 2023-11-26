@@ -1,0 +1,502 @@
+<div data-section-id="{{ section.id }}" data-section-type="megamenu-section" class="megamenu-section">
+    <div id="_desktop_top_menu" class="menu" role="navigation">
+        {% assign i = 1 %}
+        <ul class="top-menu" id="top-menu">
+            {% if section.blocks.size > 0 %}
+                {% for block in section.blocks %}
+                    {%- case block.type -%}
+                        {%- when 'menu-and-collection' -%}
+                            <li class="category">
+                                {% if block.settings.title != blank %}
+                                    {% if block.settings.button_link != blank %}
+                                        <a href="{{ block.settings.button_link }}" class="dropdown-menu-item">
+                                            <h3 class="title">{{ block.settings.title | escape }}</h3>
+                                            {% if block.settings.navbar != blank %}
+                                                {% include 'icon-chevron-down' %}
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        <div class="dropdown-menu-item">
+                                            <h3 class="title">{{ block.settings.title | escape }}</h3>
+                                            {% if block.settings.navbar != blank %}
+                                                {% include 'icon-chevron-down' %}
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if block.settings.navbar != blank %}
+                                    {% assign a = 0 %}
+                                    <div class="popover sub-menu js-sub-menu collapse" id="_n_child-one{{ i }}">
+                                        <ul class="top-menu mainmenu-dropdown">
+                                            {% if block.settings.navbar != blank %}
+                                                <li class="sub-category">
+                                                    {%- assign navbar = block.settings.navbar -%}
+                                                    {% if block.settings.navbar != blank %}
+                                                        {% if block.settings.button_link %}
+                                                            <a href="{{ block.settings.button_link }}" class="dropdown-menu-item dropdown-submenu">
+                                                        {% endif %}
+                                                        <h3 class="inner-title">{{ block.settings.menu-title }}</h3>
+                                                        {% if block.settings.button_link %}
+                                                            </a>
+                                                        {% endif %}
+                                                        <div class="top-menu collapse" id="_n_grand-child-one{{ i }}">
+                                                            <ul class="top-menu">
+                                                                {% for link in linklists[navbar].links %}
+                                                                    <li class="category">
+                                                                        <a href="{{ link.url }}"
+                                                                           class="dropdown-menu-item">{{ link.title }}</a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </div>
+                                                        {% assign a = a | plus: 1 %}
+                                                    {% endif %}
+                                                </li>
+                                            {% endif %}
+                                            <div class="menu-btns-wrapper">
+                                                <a class="left-menu-bottom-button"
+                                                   href="{{ block.settings.menu-btn-url }}">{{ block.settings.menu-btn-label }}</a>
+                                                {% if settings.test_button_link and settings.test_button_label %}
+                                                    <a target="_blank" class="left-menu-bottom-button transparent"
+                                                       href="{{ settings.test_button_link }}">{{ settings.test_button_label }}</a>
+                                                {% endif %}
+                                            </div>
+                                        </ul>
+                                        <div class="menu-collection-wrapper">
+                                            <div class="close-btn">
+                                                &#x2715
+                                            </div>
+                                            <div class="menu-collection-content">
+                                                <h3 class="inner-title">{{ block.settings.collection-title }}</h3>
+                                                {%- assign collection = collections[block.settings.collection] -%}
+                                                <div class="menu-collection">
+                                                    {% for product in collection.products %}
+                                                        <a href="{{ product.url }}" class="product-item">
+                                                            <div class="home-card_img">
+                                                                <img src="{{ product.featured_image | img_url: '52x52' }}"
+                                                                     alt="">
+                                                            </div>
+                                                            <div>{{ product.title }} {% include 'chevron-right' %}</div>
+                                                        </a>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% assign i = i | plus: 1 %}
+                            </li>
+                        {%- when 'menu-and-image' -%}
+                            <li class="category">
+                                {% if block.settings.title != blank %}
+                                    {% if block.settings.button_link != blank %}
+                                        <a href="{{ block.settings.button_link }}" class="dropdown-menu-item">
+                                            <h3 class="title">{{ block.settings.title | escape }}</h3>
+                                            {% if block.settings.navbar != blank %}
+                                                {% include 'icon-chevron-down' %}
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        <div class="dropdown-menu-item">
+                                            <h3 class="title">{{ block.settings.title | escape }}</h3>
+                                            {% if block.settings.navbar != blank %}
+                                                {% include 'icon-chevron-down' %}
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if block.settings.navbar != blank %}
+                                    {% assign a = 0 %}
+                                    <div class="popover sub-menu js-sub-menu collapse" id="_n_child-one{{ i }}">
+                                        <ul class="top-menu mainmenu-dropdown">
+                                            {% if block.settings.navbar != blank %}
+                                                <li class="sub-category">
+                                                    {%- assign navbar = block.settings.navbar -%}
+                                                    {% if block.settings.navbar != blank %}
+                                                        <span class="float-xs-right hidden-lg-up">
+                                                            {% if linklists[navbar].links != blank %}
+                                                                <span data-target="#_n_grand-child-one{{ i }}"
+                                                                      data-toggle="collapse"
+                                                                      class="navbar-toggler collapse-icons clearfix collapsed">
+                                                                </span>
+                                                            {% endif %}
+                                                        </span>
+                                                        <a href="{{ block.settings.button_link }}"
+                                                           class="dropdown-menu-item dropdown-submenu">
+                                                            <h3 class="inner-title">{{ block.settings.menu-title }}</h3>
+                                                        </a>
+                                                        <div class="top-menu collapse" id="_n_grand-child-one{{ i }}">
+                                                            <ul class="top-menu">
+                                                                {% for link in linklists[navbar].links %}
+                                                                    <li class="category">
+                                                                        <a href="{{ link.url }}"
+                                                                           class="dropdown-menu-item">{{ link.title }}</a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </div>
+                                                        {% assign a = a | plus: 1 %}
+                                                    {% endif %}
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                        <div class="menu-image-wrapper">
+                                            <div class="close-btn">
+                                                &#x2715
+                                            </div>
+                                            <img src="{{ block.settings.menu-image | img_url: 'master' }}">
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% assign i = i | plus: 1 %}
+                            </li>
+                    {%- endcase -%}
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+
+<style>
+    #_desktop_top_menu {
+        width: 100%;
+    }
+
+    #top-menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #top-menu .category {
+        display: inherit;
+        padding: 0 23px;
+        white-space: nowrap;
+    }
+
+    a.dropdown-menu-item {
+        text-decoration: none;
+    }
+
+    .megamenu-section {
+        display: flex;
+        justify-content: center;
+        background: #fff;
+
+    }
+
+    .megamenu-section .top-menu {
+        list-style: none;
+        padding: 0;
+    }
+
+    #top-menu > li > a .title, #top-menu > li > div .title {
+        color: #222222;
+        display: inline-block;
+        font-size: 16px;
+        line-height: 28px;
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+
+    .dropdown-menu-item .icon {
+        max-width: 12px;
+    }
+
+    #_desktop_top_menu #top-menu > li .sub-menu.collapse {
+        background-color: #fff;
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        display: flex;
+        text-align: left;
+        top: 170%;
+        left: 0px;
+        margin: 0px;
+        padding: 0;
+        z-index: 18;
+        visibility: hidden;
+        opacity: 0;
+        border: 0;
+    }
+
+    #_desktop_top_menu #top-menu > li.open-sub-menu .sub-menu {
+        visibility: visible;
+        top: 100%;
+        opacity: 1;
+        width: 100vw;
+        position: absolute;
+    {% comment %} height: 120vh; {% endcomment %} border-bottom: 1px solid #E4E7E9;
+        overflow-y: scroll;
+    }
+
+    #_n_grand-child-one1 {
+        margin-bottom: 75px;
+    }
+
+    @media (min-width: 1375px) {
+        #_desktop_top_menu #top-menu > li.open-sub-menu .sub-menu {
+            left: -25px;
+        }
+    }
+
+    .top-menu .collapse {
+        display: inherit;
+    }
+
+    .top-menu .popover {
+        max-width: inherit;
+    }
+
+    .top-menu.mainmenu-dropdown {
+        width: 50%;
+        max-width: 513px;
+        padding: 90px 96px 80px 160px;
+        border-right: 1px solid #E4E7E9;
+        background: #F5F6F7;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu-collection-wrapper {
+        width: 100%;
+        max-width: 928px;
+        background: #f5f6f7;
+    }
+
+    .menu-collection-wrapper .close-btn,
+    .menu-image-wrapper .close-btn {
+        text-align: right;
+        position: absolute;
+        right: 35px;
+        top: 20px;
+        font-size: 24px;
+        font-weight: normal;
+        color: #8b9093;
+        cursor: pointer;
+    }
+
+    .menu-collection {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .inner-title {
+        position: relative;
+        padding-left: 52px;
+        font-size: 32px;
+        font-family: 'Graphik-Regular';
+        line-height: 16px;
+        color: #6C6E73;
+        margin-bottom: 27px;
+        letter-spacing: 0.1px;
+        font-weight: 100;
+    }
+
+    .inner-title:before {
+        content: url("{{ 'grey-line.svg' | asset_url }}");
+        position: absolute;
+        top: -10px;
+        left: 0;
+        display: block;
+        z-index: 9;
+    }
+
+    .sub-category .top-menu .category {
+        color: #222222;
+        font-size: 14px;
+        line-height: 14px;
+        padding: 15px 0 !important;
+        border-bottom: 1px solid #E4E7E9;
+    }
+
+    .sub-category .top-menu .category:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+    {% comment %} margin-bottom: 105px; {% endcomment %}
+    }
+
+    .menu-btns-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        margin-top: -4rem;
+    }
+
+    .left-menu-bottom-button {
+        padding: 22px 20px;
+        background: #FF4438;
+        border-radius: 900px;
+        color: #FFFFFF;
+        font-size: 16px;
+        line-height: 20px;
+        font-family: 'Graphik-Medium';
+        margin-bottom: 1.5rem;
+        transition: 0.2s;
+        width: 100%;
+        text-align: center;
+    }
+
+    .left-menu-bottom-button:hover {
+        color: #FFFFFF !important;
+        background: #C01616 !important;
+    }
+
+    .left-menu-bottom-button.transparent {
+        color: #FF4438;
+        background: #F5F6F7;
+        border: 1px solid #CCD0D2;
+    }
+
+    .left-menu-bottom-button.transparent:hover {
+        color: #FF4438 !important;
+        background: inherit !important;
+        border: 1px solid #FF4438;
+    }
+
+    .menu-collection-content {
+        padding: 90px 0 72px 50px;
+        background: #F5F6F7;
+    }
+
+    .product-item div:hover {
+        color: #222222 !important;
+    }
+
+    .menu-collection .product-item {
+        width: 38%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 44px;
+        margin-right: 90px;
+    }
+
+    .menu-collection .product-item:hover svg path {
+        fill: #FF4438;
+    }
+
+    .home-card_img img {
+        max-width: 52px;
+        margin-right: 14px;
+    }
+
+    .product-item div {
+        color: #222222;
+        font-size: 16px;
+        line-height: 28px;
+        margin: 0;
+        font-family: 'Graphik-Medium';
+        align-items: center;
+        display: flex;
+    }
+
+    .product-item div svg {
+        margin-left: 21px;
+    }
+
+    .collection-bottom-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 101px 160px 98px 128px;
+    }
+
+    .collection-menu-content {
+        color: #222222;
+        font-size: 19px;
+        line-height: 32px;
+    }
+
+    .collection-menu-button {
+        border-radius: 900px;
+        border: 1px solid #E4E7E9;
+        padding: 22px 58px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FF4438;
+        font-family: 'Graphik-Medium';
+        white-space: nowrap;
+        transition: 0.2s;
+    }
+
+    .collection-menu-button:hover {
+        background: #F5F6F7 !important;
+        border: 1px solid #E4E7E9;
+    }
+
+    .menu-image-wrapper {
+        padding: 100px 160px 100px 128px;
+        background: #F5F6F7;
+        width: 100%;
+    }
+
+    .menu-image-wrapper img {
+        max-width: 640px;
+    }
+
+    @media (max-width: 1350px) {
+        .top-menu.mainmenu-dropdown {
+            padding: 50px 60px 80px 80px;
+            white-space: nowrap;
+        }
+
+        .menu-collection-content {
+            padding: 50px 60px 72px 60px;
+        }
+
+        .menu-collection .product-item {
+            width: 50%;
+            margin-right: 0px;
+        }
+
+        .collection-bottom-content {
+            padding: 101px 0px 98px 15px;
+            justify-content: center;
+        }
+
+        .collection-menu-content {
+            margin-right: 32px;
+        }
+
+        .menu-image-wrapper {
+            padding: 50px 60px 80px 80px;
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .menu-collection-content {
+            padding: 50px 30px 72px 30px;
+        }
+
+        .collection-bottom-content {
+            flex-direction: column;
+            padding: 50px 0px 50px 15px;
+        }
+
+        .collection-menu-content {
+            margin-right: 0;
+            margin-bottom: 32px;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .menu-collection-wrapper {
+            max-width: 100%;
+        }
+    }
+
+</style>
+
+<script>
+    //to distinguish category tree id from the main menu.
+    $('.category-tree').each(function () {
+        function myFunction() {
+            var str = document.getElementById("top-menu").innerHTML;
+            var res = str.replace(/_n_/g, "_m_");
+            document.getElementById("top-menu").innerHTML = res;
+        }
+
+        myFunction();
+    });
+
+</script>

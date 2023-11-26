@@ -1,0 +1,128 @@
+{% comment %} by Digismoothie {% endcomment %}
+<script>
+   let cutOffTime =  document.querySelector(".cutOffTime").dataset.cutoff;
+   luxon.Settings.defaultLocale = "cs";
+   let dt = luxon.DateTime.local();
+   let deliveryDate;
+   let beforeCutOff = document.querySelector(".deliveryBeforeCut0ff").dataset.beforecutoff;
+    let afterCutOff = document.querySelector(".deliveryAfterCutOff").dataset.aftercutoff;
+   /* custom holidays */
+   const isEasterFriday2023 = function(inst) {
+    const matchesYear = inst.year === 2023;
+    const matchesMonth = inst.month === 4;
+    const matchesDay = inst.day === 7;
+    return matchesMonth && matchesDay && matchesYear;
+	};
+   
+   const isEasterMonday2023 = function(inst) {
+    const matchesYear = inst.year === 2023;
+    const matchesMonth = inst.month === 4;
+    const matchesDay = inst.day === 10;
+    return matchesMonth && matchesDay && matchesYear;
+	};
+   
+  const isEasterFriday2024 = function(inst) {
+    const matchesYear = inst.year === 2024;
+    const matchesMonth = inst.month === 3;
+    const matchesDay = inst.day === 29;
+    return matchesMonth && matchesDay && matchesYear;
+	};
+   
+   const isEasterMonday2024 = function(inst) {
+    const matchesYear = inst.year === 2024;
+    const matchesMonth = inst.month === 4;
+    const matchesDay = inst.day === 1;
+    return matchesMonth && matchesDay && matchesYear;
+	};
+
+  const isEasterFriday2025 = function(inst) {
+    const matchesYear = inst.year === 2025;
+    const matchesMonth = inst.month === 4;
+    const matchesDay = inst.day === 18;
+    return matchesMonth && matchesDay && matchesYear;
+	};
+   
+  const isEasterMonday2025 = function(inst) {
+    const matchesYear = inst.year === 2025;
+    const matchesMonth = inst.month === 4;
+    const matchesDay = inst.day === 21;
+    return matchesMonth && matchesDay && matchesYear;
+	};
+
+
+  const denVitezstvi = function(inst) {
+    const matchesMonth = inst.month === 5;
+    const matchesDay = inst.day === 8;
+    return matchesMonth && matchesDay;
+	};
+
+  const denCyrilaAMetodeje = function(inst) {
+    const matchesMonth = inst.month === 7;
+    const matchesDay = inst.day === 5;
+    return matchesMonth && matchesDay;
+	};
+
+  const denJanaHusa = function(inst) {
+    const matchesMonth = inst.month === 7;
+    const matchesDay = inst.day === 6;
+    return matchesMonth && matchesDay;
+	};
+
+  const denCeskeStatnosti = function(inst) {
+    const matchesMonth = inst.month === 9;
+    const matchesDay = inst.day === 28;
+    return matchesMonth && matchesDay;
+	};
+   
+  const denVznikuCSK = function(inst) {
+    const matchesMonth = inst.month === 10;
+    const matchesDay = inst.day === 28;
+    return matchesMonth && matchesDay;
+	};
+
+  const denBoje = function(inst) {
+    const matchesMonth = inst.month === 11;
+    const matchesDay = inst.day === 17;
+    return matchesMonth && matchesDay;
+	};
+
+  const stedryDen = function(inst) {
+    const matchesMonth = inst.month === 12;
+    const matchesDay = inst.day === 24;
+    return matchesMonth && matchesDay;
+	};
+
+  const isSecondChristmasDay = function(inst) {
+    const matchesMonth = inst.month === 12;
+    const matchesDay = inst.day === 26;
+    return matchesMonth && matchesDay;
+	};
+
+	const myHolidays = [
+      dt.availableHolidayMatchers.isNewYearsDay,
+      isEasterFriday2023, isEasterMonday2023, isEasterFriday2024, isEasterMonday2024, isEasterFriday2025, isEasterMonday2025,
+      dt.availableHolidayMatchers.isLaborDay,
+      dt.availableHolidayMatchers.isChristmasDay, isSecondChristmasDay, stedryDen,
+      denVitezstvi, 
+      denCyrilaAMetodeje,
+      denJanaHusa,
+      denCeskeStatnosti,
+      denVznikuCSK,
+      denBoje
+  ];
+
+  dt.setupBusiness({ holidayMatchers: myHolidays });
+
+  if (cutOffTime < dt.toLocaleString(DateTime.TIME_SIMPLE)) {
+      deliveryDate = dt.plusBusiness({ days: afterCutOff }).toLocaleString(DateTime.DATE_FULL);
+     document.querySelectorAll(".delivery-estimator").forEach(estimate => {
+       estimate.innerText = deliveryDate;
+     })
+  } else {
+    deliveryDate = dt.plusBusiness({ days: beforeCutOff }).toLocaleString(DateTime.DATE_FULL);
+     document.querySelectorAll(".delivery-estimator").forEach(estimate => {
+       estimate.innerText = deliveryDate;
+     })
+  }
+
+</script>

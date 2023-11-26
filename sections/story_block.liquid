@@ -1,0 +1,169 @@
+<div class="story_block">
+    <div class="story_block_position">
+        <div class="research">
+            <h2>{{ section.settings.head_st }}</h2>
+            <div class="tbl_none"><h4>{{ section.settings.inf_st }}</h4></div>
+        </div>
+        <div class="tale">
+            <img src="{{ section.settings.story_img | img_url: 'master' }}">
+            <div class="dsk_none"><h4>{{ section.settings.inf_st }}</h4></div>
+            <h3>{{ section.settings.text-box_st }}</h3>
+        </div>
+    </div>
+</div>
+
+<style>
+    .story_block{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        max-width: 1440px;
+        margin: auto;
+    }
+    .story_block_position{
+        display: flex;
+        width: 80%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-top: 142px;
+    }
+    .research{
+        display: flex;
+        max-width: 480px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .research h2{
+        font-weight: normal;
+        font-size: 32px;
+        line-height: 48px;
+        text-transform: none;
+        margin: 0 0 57px;
+    }
+    .story_block h4{
+        font-size: 16px;
+        line-height: 28px;
+        font-weight: normal;
+        color: #6C6E73;
+    }
+    .tale{
+        display: flex;
+        max-width: 545px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-left: 138px;
+    }
+    .tale h3{
+        font-size: 19px;
+        line-height: 32px;
+        font-weight: normal;
+        color: #222222;
+        margin: 0;
+    }
+    .tale img{
+        margin-bottom: 80px;
+        max-width: 545px;
+    }
+    .dsk_none{
+        display: none;
+    }
+    @media screen and (max-width: 1300px){
+        .story_block_position{
+            flex-direction: column;
+        }
+        .tale{
+            margin-left: auto;
+        }
+    }
+    @media screen and (max-width: 768px){
+        .story_block_position{
+            width: 90%;
+            margin-top: 81px;
+        }
+        .research h2{
+            font-size: 28px;
+            line-height: 44px;
+        }
+        .tale img{
+            width: 100%;
+            margin-bottom: 42px;
+        }
+        .dsk_none{
+            display: flex;
+            max-width: 250px;
+            margin-left: auto;
+            margin-bottom: 68px;
+        }
+        .tbl_none{
+            display: none;
+        }
+        .story_block h4{
+            margin: 0;
+        }
+    }
+    @media screen and (max-width: 425px){
+        .story_block_position{
+            width: 100%;
+            align-items: center;
+        }
+        .research{
+            width: 100%;
+            padding: 0 32px;
+        }
+        .research h2{
+            font-size: 20px;
+            line-height: 32px;
+            margin-bottom: 0 0 32px;
+        }
+        .tale img{
+            width: 100%;
+            padding: 0 16px;
+        }
+        .tale h3{
+            padding: 0 60px 0 32px;
+        }
+        .dsk_none{
+            max-width: 230px;
+            margin-right: 23px;
+        }
+        .dsk_none h4{
+            margin: 0;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "story",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "story_img",
+            "label": "Description Image"
+        },
+        {
+            "id": "head_st",
+            "type":"text",
+			"label":"Heading",
+			"default":"Tittle"
+        },
+        {
+            "id": "inf_st",
+            "type":"text",
+			"label":"Info",
+			"default":"Text"
+        },
+        {
+            "id": "text-box_st",
+            "type":"text",
+			"label":"Info",
+			"default":"Information"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,117 @@
+<section class="minflow-in-numbers-wrapper">
+    <div class="in-numbers-content-wrapper">
+        {% for block in section.blocks %}
+        <div class="in-numbers-item">
+            <div class="number">{{ block.settings.number }}</div>
+            <div class="num-content">{{ block.settings.num-content}}</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+    .minflow-in-numbers-wrapper{
+        padding-top: 110px;
+        padding-bottom: 0;
+        background-color: {{ section.settings.bg-color }};
+    }
+    .minflow-in-numbers-wrapper .title{
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #8B9093;
+        font-size: 14px;
+        line-height: 24px;
+        margin-bottom: 51px;
+        text-align: center;
+    }
+    .in-numbers-content-wrapper{
+        display: flex;
+        max-width: 863px;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
+    .in-numbers-item{
+        text-align: center;
+    }
+    .in-numbers-item .number{
+        color: #222222;
+        font-size: 44px;
+        line-height: 64px;
+    }
+    .in-numbers-item .num-content{
+        color: #6C6E73;
+        font-size: 16px;
+        line-height: 28px;
+    }
+    @media (max-width: 996px) {
+        .minflow-in-numbers-wrapper {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+    }
+    @media (max-width: 768px) {
+        .minflow-in-numbers-wrapper {
+            padding-top: 60px;
+            padding-bottom: 60px;
+            background-color: #F5F5F5;
+        }
+    }
+    @media (max-width: 600px) {
+        .minflow-in-numbers-wrapper{
+            padding-top: 60px;
+            padding-bottom: 42px;
+        }
+        .in-numbers-content-wrapper{
+            flex-direction: column;
+        }
+        .minflow-in-numbers-wrapper .title{
+            margin-bottom: 72px;
+        }
+        .in-numbers-item{
+            margin-bottom: 66px;
+        }
+    }
+    @media (max-width: 480px) {
+        .in-numbers-item .number{2;
+            font-size: 32px;
+            line-height: 64px;
+        }
+    }
+
+
+</style>
+{% schema %}
+{
+"name": "In numbers",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Heading"
+},
+{
+"type": "color",
+"id": "bg-color",
+"label": "Background color"
+}
+],
+"blocks": [
+{
+"type": "in-numbers-item",
+"name": "Number item",
+"settings": [
+{
+"type": "text",
+"id": "number",
+"label": "Number"
+},
+{
+"type": "text",
+"id": "num-content",
+"label": "Content"
+}
+]
+}
+]
+}
+{% endschema %}

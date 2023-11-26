@@ -1,0 +1,157 @@
+<div class="main_block">
+        <div class="head_block">
+            <div class="text_block">
+                <div class="head"><h1>{{ section.settings.head | newline_to_br}}</h1></div>
+                <div class="info"><p>{{ section.settings.text-box }}</p></div>
+            </div>
+            <div class="img_block">
+                <div class="img"><img src="{{ section.settings.background | img_url: 'master' }}"></div>
+            </div>
+        </div>
+</div>
+
+<style type="text/css">
+    h1{
+        font-size: 44px;
+        font-family: "Graphik-Regular";
+        line-height: 55px;
+        font-weight: normal;
+    }
+    .main_block{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        padding-top: 50px;
+    }
+    .head_block{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 165px;
+        padding-left: 165px;
+        padding-bottom: 70px;
+    }
+    .text_block{
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        max-width: 800px;
+    }
+    .head_block p{
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+        font-weight: normal;
+    }
+    .img_block{
+        margin-left: 130px;
+        width: 50%;
+    }
+
+    @media screen and (max-width: 1300px){
+        .img_block {
+            margin-left: 35px;
+        }
+    }
+
+    @media screen and (max-width: 1250px){
+        h1 {
+            font-size: 40px;
+            font-family: "Graphik-Regular";
+            line-height: 60px;
+        }
+        .head_block{
+            padding-right: 80px;
+            padding-left: 80px;
+        }
+    }
+    @media screen and (max-width: 1000px){
+        h1 {
+            font-size: 30px;
+            font-family: "Graphik-Regular";
+            line-height: 40px;
+        }
+    }
+    @media screen and (max-width: 970px){
+
+        .head_block{
+            padding: 0 30px 30px 30px;
+            flex-direction: column;
+        }
+        .text_block{
+            padding: 0 0 30px 0;
+            width: 100%;
+            max-width: 100%;
+        }
+        h1{
+            font-size: 30px;
+            line-height: 40px;
+        }
+        .main_block{
+            background-image: none;
+            width: 100%;
+        }
+        .img_block{
+            margin: auto;
+            width: 100%;
+        }
+        .img img {
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: 768px){
+        .main_block{
+            padding-top: 0;
+        }
+        .text_block {
+            padding:  16px 0;
+        }
+        .head_block{
+            padding-right: 16px;
+            padding-left: 16px;
+        }
+    }
+    @media screen and (max-width: 425px){
+        .head_block{
+            padding-top: 22px;
+        }
+        .info{
+            padding-bottom: 30px;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "main",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "background",
+            "label": "Background Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "m_banner",
+            "label": "Banner mModile"
+        },
+        {
+            "id": "head",
+            "type":"text",
+			"label":"Heading",
+			"default":"Tittle"
+        },
+        {
+            "id": "text-box",
+            "type":"text",
+			"label":"Info",
+			"default":"Information"
+        }
+    ]
+}
+{% endschema %}

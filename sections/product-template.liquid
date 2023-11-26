@@ -1,0 +1,1830 @@
+<div
+  class="product-template__container page-width"
+  id="ProductSection-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="product"
+  data-enable-history-state="true"
+  data-ajax-enabled="{{ settings.enable_ajax }}"
+>
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign product_image_zoom_size = '1024x1024' -%}
+  {%- assign product_image_scale = '2' -%}
+  {%- assign enable_image_zoom = section.settings.enable_image_zoom -%}
+  {%- assign compare_at_price = current_variant.compare_at_price -%}
+  {%- assign price = current_variant.price -%}
+
+  {% case section.settings.media_size %}
+    {% when 'small' %}
+      {%- assign product_media_width = 'medium-up--one-third' -%}
+      {%- assign product_description_width = 'medium-up--two-thirds' -%}
+      {%- assign height = 345 -%}
+    {% when 'medium' %}
+      {%- assign product_media_width = 'medium-up--one-half' -%}
+      {%- assign product_description_width = 'medium-up--one-half' -%}
+      {%- assign height = 530 -%}
+    {% when 'large' %}
+      {%- assign product_media_width = 'medium-up--two-thirds' -%}
+      {%- assign product_description_width = 'medium-up--one-third' -%}
+      {%- assign height = 720 -%}
+    {% when 'full' %}
+      {%- assign product_media_width = '' -%}
+      {%- assign product_description_width = '' -%}
+      {%- assign height = 1090 -%}
+      {%- assign enable_image_zoom = false -%}
+  {% endcase %}
+
+  <div class="grid product-single{% if section.settings.enable_payment_button %} product-single--{{ section.settings.media_size }}-media{% endif %}">
+    <div
+      class="grid__item product-single__media-group {{ product_media_width }}{% if section.settings.media_size == 'full' %} product-single__media-group--full{% endif %}"
+      data-product-single-media-group
+    >
+      {%- assign featured_media = product.selected_or_first_available_variant.featured_media
+        | default: product.featured_media
+      -%}
+      <div class="image_container">
+        {%- for media in product.media -%}
+          {% include 'media',
+            media: media,
+            featured_media: featured_media,
+            height: height,
+            enable_image_zoom: enable_image_zoom,
+            image_zoom_size: product_image_zoom_size,
+            image_scale: product_image_scale
+          %}
+        {%- endfor -%}
+      </div>
+      <noscript>
+        {% capture product_image_size %}{{ height }}x{% endcapture %}
+        <img
+          src="{{ featured_media | img_url: product_image_size, scale: product_image_scale }}"
+          alt="{{ featured_media.alt }}"
+          id="FeaturedMedia-{{ section.id }}"
+          class="product-featured-media sss"
+          style="max-width: {{ height }}px;"
+        >
+      </noscript>
+
+      {% assign first_3d_model = product.media | where: 'media_type', 'model' | first %}
+
+      {%- if first_3d_model -%}
+        <button
+          aria-label="{{ 'products.product.view_in_space_label' | t }}"
+          class="product-single__view-in-space"
+          data-shopify-xr
+          data-shopify-model3d-id="{{ first_3d_model.id }}"
+          data-shopify-title="{{ product.title | escape }}"
+          data-shopify-xr-hidden
+        >
+          {% include 'icon-3d-badge-full-color' -%}
+          <span class="product-single__view-in-space-text">{{ 'products.product.view_in_space' | t }}</span>
+        </button>
+      {%- endif -%}
+
+      {% if product.media.size > 1 %}
+        {% if product.media.size > 1 %}
+          {%- assign enable_thumbnail_slides = true -%}
+        {% endif %}
+
+        <div data-thumbnail-slider>
+          <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} slider-active{% endif %}" data-slider>
+            {% if enable_thumbnail_slides == true %}
+              <button
+                type="button"
+                class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__prev thumbnails-slider__prev--{{ section.id }}"
+                data-slider-button
+              >
+                {% include 'icon-chevron-left' %}
+                <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+              </button>
+            {% endif %}
+
+            <ul class="product-single__thumbnails product-single__thumbnails-{{ section.id }}" data-slider-container>
+              {% if enable_thumbnail_slides == true %}
+                <div class="product-single__thumbnails-slider-track" data-slider-track>
+              {% endif %}
+
+              {% for media in product.media %}
+                <li
+                  class="product-single__thumbnails-item product-single__thumbnails-item--{{ section.settings.media_size }} {% if enable_thumbnail_slides == true %} product-single__thumbnails-item-slide{% endif %} js"
+                  {% if enable_thumbnail_slides == true %}
+                    data-slider-slide-index="{{ forloop.index0 }}" data-slider-item
+                  {% endif %}
+                >
+                  <a
+                    href="{{ media.preview_image | img_url: product_image_zoom_size, scale: product_image_scale }}"
+                    class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                    data-thumbnail-id="{{ section.id }}-{{ media.id }}"
+                    {% if enable_thumbnail_slides == true %}
+                      data-slider-item-link
+                    {% endif %}
+                    {% if enable_image_zoom %}
+                      data-zoom="{{ media.preview_image | img_url: product_image_zoom_size, scale: product_image_scale }}"
+                    {% endif %}
+                  >
+                    {%- capture thumbnailAlt -%}
+                        {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                          {{ 'sections.featured_product.video_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+                        {%- elsif media.media_type == 'model' -%}
+                          {{ 'sections.featured_product.model_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+                        {%- else -%}
+                          {{ 'sections.featured_product.gallery_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+                        {%- endif -%}
+                      {%- endcapture -%}
+
+                    <img
+                      class="product-single__thumbnail-image"
+                      src="{{ media.preview_image | img_url: '110x110', scale: 2 }}"
+                      alt="{{ thumbnailAlt }}"
+                    >
+                    {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                      <div class="product-single__thumbnail-badge">
+                        {% include 'icon-video-badge-full-color' %}
+                      </div>
+                    {%- endif -%}
+                    {%- if media.media_type == 'model' -%}
+                      <div class="product-single__thumbnail-badge">
+                        {% include 'icon-3d-badge-full-color' %}
+                      </div>
+                    {%- endif -%}
+                  </a>
+                </li>
+              {% endfor %}
+
+              {% if enable_thumbnail_slides == true %}
+                </div>
+              {% endif %}
+            </ul>
+            {% if enable_thumbnail_slides == true %}
+              <button
+                type="button"
+                class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__next thumbnails-slider__next--{{ section.id }}"
+                data-slider-button
+                data-slider-button-next
+              >
+                {% include 'icon-chevron-right' %}
+                <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="grid__item {{ product_description_width }}">
+      <div class="product-single__meta">
+        <h1 class="product-single__title">{{ product.title }}</h1>
+
+        <div class="review-top-wrapper">
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          <span class="review-counts"><a href="#shopify-section-review-slider">Přečíst 103 recenzí</a></span>
+        </div>
+
+        <script>
+          window.performance.mark('debut:product:title_visible');
+        </script>
+
+        <div class="product-single__description rte">
+          {{ product.description }}
+          {% if product.tags contains 'Produkt' %}
+            <a href="#shopify-section-about-product">Více o produktu</a>
+          {% else %}
+            <a href="#more-info">Více o produktu</a>
+          {% endif %}
+        </div>
+        {% capture "form_classes" -%}
+          product-form product-form-{{ section.id }}
+          {%- if section.settings.enable_payment_button and product.has_only_default_variant %} product-form--payment-button-no-variants {%- endif -%}
+          {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
+        {%- endcapture %}
+
+        {% form 'product', product, class: form_classes, novalidate: 'novalidate', data-product-form: '' %}
+          {% unless product.has_only_default_variant %}
+            <div class="product-form__controls-group">
+              {% for option in product.options_with_values %}
+                <div class="selector-wrapper js product-form__item">
+                  {% for value in option.values %}
+                    {% assign variantInfo = value | split: '|' %}
+                    <div class="selector-container">
+                      <input
+                        type="radio"
+                        id="{{ value | escap | handle }}"
+                        data-price="{{ product.variants[forloop.index0].price | amount_no_decimals }}"
+                        value="{{ value | escape }}"
+                        name="variant"
+                        data-index="option1"
+                        class="single-option-selector-{{ section.id }}"
+                        {% if forloop.first %}
+                          checked
+                        {% endif %}
+                      >
+                      <label for="{{ value | escape | handle }}">
+                        <div class="title-description">
+                          <div class="variant-title">{{ variantInfo[0] }}</div>
+                          <div class="variant-text">{{ variantInfo[1] }}</div>
+
+                          <div class="variant-discount">
+                            {% if product.variants[forloop.index0].compare_at_price != blank %}
+                              Ušetříte&nbsp;
+                              {% if product.variants[forloop.index0].compare_at_price
+                                  > product.variants[forloop.index0].price
+                              %}
+                                {{
+                                  product.variants[forloop.index0].compare_at_price
+                                  | minus: product.variants[forloop.index0].price
+                                  | money_without_trailing_zeros
+                                }}
+                              {% else %}
+                                {{ product.variants[forloop.index0].compare_at_price | money_without_trailing_zeros }}
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+
+                        <div class="variant-price">{{ product.variants[forloop.index0].price | money }}</div>
+                      </label>
+                    </div>
+                    <style>
+                      {% if variantInfo[1]!= blank %}
+                      .variant-title:after {
+                          content: '';
+                          width: 4px;
+                          height: 4px;
+                          display: inline-block;
+                          background: #E4E7E9;
+                          border-radius: 50%;
+                          margin-right: 8px;
+                          margin-left: 8px;
+                          margin-bottom: 2px;
+                      }
+                      {% endif %}
+                    </style>
+                  {% endfor %}
+                  {% comment %}
+                    <!--                   <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input"
+                       id="SingleOptionSelector-{{ forloop.index0 }}"
+                       data-index="option{{ forloop.index }}"
+                     >
+                       {% for value in option.values %}
+                         <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                       {% endfor %}
+                     </select> -->
+                  {% endcomment %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endunless %}
+
+          <select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants no-js">
+            {% for variant in product.variants %}
+              <option
+                value="{{ variant.id }}"
+                {%- if variant == current_variant %}
+                  selected="selected"
+                {%- endif -%}
+              >
+                {{ variant.title }}
+                {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+              </option>
+            {% endfor %}
+          </select>
+
+          <div class="price-qty-container">
+            <div class="price-quantity">
+              <div class="product__price">
+                {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
+              </div>
+
+              <div class="qtydiv">
+                {% if section.settings.show_quantity_selector %}
+                  <div class="qtybox">
+                    <span class="btnqty qtyminus icon icon-minus">{% include 'minus-icon' %}</span>
+                    <input
+                      type="text"
+                      id="quantity"
+                      name="quantity"
+                      value="1"
+                      min="1"
+                      class="quantity-selector quantity-input"
+                      readonly=""
+                      data-quantity-input
+                    >
+                    <span class="btnqty qtyplus icon icon-plus">{% include 'plus-icon' %}</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div
+              class="product-form__error-message-wrapper product-form__error-message-wrapper--hidden{% if section.settings.enable_payment_button %} product-form__error-message-wrapper--has-payment-button{% endif %}"
+              data-error-message-wrapper
+              role="alert"
+            >
+              <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+              {% include 'icon-error' %}
+              <span class="product-form__error-message" data-error-message>
+                {{- 'products.product.quantity_minimum_message' | t -}}
+              </span>
+            </div>
+
+            <div class="product-form__controls-group product-form__controls-group--submit">
+              <div
+                class="
+                  product-form__item product-form__item--submit
+                  {%- if section.settings.enable_payment_button %} product-form__item--payment-button {%- endif -%}
+                  {%- if product.has_only_default_variant %} product-form__item--no-variants {%- endif -%}
+                "
+              >
+                <button
+                  type="submit"
+                  name="add"
+                  type="submit"
+                  name="add"
+                  data-add-to-cart
+                  {% unless current_variant.available %}
+                    aria-disabled="true"
+                  {% endunless %}
+                  aria-label="{% unless current_variant.available %}{{ 'products.product.sold_out' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endunless %}"
+                  class="btn product-form__cart-submit js-go-cart-add-to-cart{% if section.settings.enable_payment_button and product.selling_plan_groups == empty %} btn--secondary-accent{% endif %}"
+                  {% if settings.enable_ajax %}
+                    aria-haspopup="dialog"
+                  {% endif %}
+                  data-add-to-cart
+                >
+                  <span data-add-to-cart-text>
+                    {% unless current_variant.available %}
+                      {{ 'products.product.sold_out' | t }}
+                    {% else %}
+                      {{ 'products.product.add_to_cart' | t }}
+                    {% endunless %}
+                  </span>
+                  <span class="hide" data-loader>
+                    {% include 'icon-spinner' %}
+                  </span>
+                </button>
+                {% if section.settings.enable_payment_button %}
+                  {{ form | payment_button }}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endform %}
+
+        {%- comment -%}
+          Live region for announcing updated price and availability to screen readers
+        {%- endcomment -%}
+        <p
+          class="visually-hidden"
+          data-product-status
+          aria-live="polite"
+          role="status"
+        ></p>
+
+        {%- comment -%}
+          Live region for announcing that the product form has been submitted and the
+          product is in the process being added to the cart
+        {%- endcomment -%}
+        <p
+          class="visually-hidden"
+          data-loader-status
+          aria-live="assertive"
+          role="alert"
+          aria-hidden="true"
+        >
+          {{ 'products.product.loader_label' | t }}
+        </p>
+
+        <div
+          class="product-single__store-availability-container"
+          data-store-availability-container
+          data-product-title="{{ product.title | escape }}"
+          data-has-only-default-variant="{{ product.has_only_default_variant }}"
+          data-base-url="{{ shop.url }}{{ routes.root_url }}"
+        ></div>
+
+        {% if product.available %}
+          <div class="product-shipping-delivery">
+            <div class="in-stock stock"><span>Skladem</span>Odesíláme do 2 dnů</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% assign rich_text = product.metafields.section.rich_text %}
+    <div class="product-shared-content mobile-show">
+      <div class="container">
+        {% for block in rich_text.blocks %}
+          <div class="item">
+            <img width="30px" height="30px" loading="lazy" src="{{ block.icon }}">
+            <p>{{ block.heading }}</p>
+            {% if block.tooltip %}
+              <a href="{{ block.href }}">
+                <div class="tooltip">
+                  {{ block.tooltip }}
+                </div>
+              </a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+  <script type="application/json" id="ModelJson-{{ section.id }}">
+    {{ product.media | where: 'media_type', 'model' | json }}
+  </script>
+{% endunless %}
+
+<style>
+      .qtydiv{
+         margin-right: 60px;
+         margin-left: 60px;
+      }
+      .price-quantity{
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+      }
+      .grid__item.product-single__media-group.medium-up--one-half{
+          float: none;
+      }
+      .grid__item.medium-up--one-half{
+          flex-grow: 1;
+          float: none;
+      }
+      .selected-variant{
+          display: none;
+          margin-bottom: 12px;
+          font-size: 14px;
+          line-height: 20px;
+          font-family: Graphik-Medium;
+      }
+      .elementor-element{
+          margin-bottom: 15px;
+      }
+      .spr-badge-caption a{
+          color: #6C6E73;
+      }
+      .price-container{
+          display: flex;
+          text-align: right;
+          align-items: center;
+          gap: 20px;
+      }
+      .freeShipMsg{
+          padding-bottom: 20px;
+      }
+      .cart{
+          margin-left: 34px;
+      }
+      .product-shared-content .container{
+          background-color: #ffffff!important;
+      }
+      .in-stock{
+          text-align: left;
+      }
+      .product-single__meta{
+          padding-left: 70px;
+      }
+      .container .item{
+          width: 200px;
+          height: 200px;
+      }
+      .grid__item {
+          width: 50%;
+      }
+    .product-single__description a{
+      color: #FF4438;
+      text-decoration: underline;
+    }
+    .product-shared-content{
+      display: flex;
+      justify-content: center;
+    }
+    .qtydiv .btnqty.qtyplus:hover{
+      background-color: #FF4438;
+    }
+
+    .qtydiv .btnqty.qtyminus:hover{
+      background-color: #FF4438;
+    }
+    .qtyminus:hover path{
+      fill: #fff;
+    }
+    .qtyplus:hover path{
+      fill: #fff;
+    }
+
+    .review-counts{
+        text-align: right;
+    }
+
+  .js-go-cart-add-to-cart:hover{
+      background-color: #F5F6F7;
+      border-radius: 50%;
+    }
+    .product-single__thumbnails-slider-track{
+        display: flex;
+        flex-direction: row;
+        max-width: 5%;
+        margin-top: 10px;
+    }
+      .product-template__container.page-width{
+          padding-left: 165px;
+          padding-right: 165px;
+      }
+
+    .spr-icon{
+      width: unset;
+    }
+
+    .title-description{
+      display: flex;
+      align-items: center;
+    }
+    .product-template__container.page-width{
+      max-width: 100%;
+    }
+    .mobile-show{
+        display: none;
+    }
+   .product-single__media-wrapper {
+     width: 100%;
+   }
+   .variant-discount{
+       margin-right: 10px;
+       color: #FF4438;
+       font-size: 14px;
+       line-height: 22px;
+   }
+
+      @media(max-width: 1635px){
+       .price-qty-container {
+           align-items: flex-start;
+           justify-content: left;
+           margin-top: 50px;
+           flex-direction: column;
+           margin-bottom: 50px;
+       }
+       .price-quantity{
+           margin-bottom: 12px;
+       }
+       .qtydiv{
+           margin-left: 60px;
+           margin-right: 0;
+       }
+    .variant-discount{
+      font-size: 12px !important;
+        margin-right: 10px;
+    }
+    .selector-container label .variant-text{
+      font-size: 12px !important;
+    }
+   }
+      @media(max-width: 1440px){
+          .price-qty-container{
+              margin-top: 20px!important;
+          }
+      }
+    @media(max-width: 1250px){
+        .product-template__container.page-width{
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+        .icons{
+            grid-template-rows: 1fr 1fr;
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+   }
+    @media only screen and (max-width: 1165px) {
+        .price-qty-container{
+            justify-content: center;
+        }
+    }
+    @media only screen and (max-width: 970px) {
+        .product-single__meta h1{
+            font-size: 28px;
+            line-height: 44px;
+        }
+        .freeShipMsg{
+            text-align: center;
+        }
+        .in-stock{
+            text-align: center;
+        }
+        .product-template__container.page-width{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .product-single__meta{
+            padding-top: 15px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .icons{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .product-shipping-delivery{
+            text-align: center;
+        }
+    }
+
+   .product-single__meta{
+     width: 100%;
+   }
+
+   .thumbnails-wrapper.thumbnails-slider--active {
+
+   }
+   .product-single__thumbnails-item {
+     flex: 0 0 100% !important;
+   }
+
+    .item:hover .tooltip {
+        opacity: 1;
+        display: block;
+    }
+    .product-shared-content .container .item{
+        position: relative;
+    }
+    .tooltip p{
+        max-width: unset !important;
+    }
+    .item  .tooltip{
+        border: 1px solid #e7e7e7;
+          width: 375px;
+          background: #fff;
+          cursor: auto;
+          padding: 32px 23px 32px 32px;
+          display: none;
+          top: -100px;
+          transition: 0.2s;
+          font-size: 16px;
+          line-height: 28px;
+          color: #222222;
+          left: -10px;
+      }
+    .js-go-cart-add-to-cart:hover{
+        border-radius: 900px;
+    }
+     .item  .tooltip a{
+          color: #FF4438;
+          font-size: 14px;
+          line-height: 20px;
+          margin-top: 16px;
+          font-family: 'Graphik-Medium';
+      }
+    /*.item  .tooltip:before{*/
+    /*      content: '';*/
+    /*      width: 11px;*/
+    /*      height: 11px;*/
+    /*      display: block;*/
+    /*      background: #fff;*/
+    /*      position: absolute;*/
+    /*      top: -6px;*/
+    /*      left: 53px;*/
+    /*      transform: rotate(45deg);*/
+    /*  }*/
+   .product-single__thumbnail-image{
+     max-width: 74px;
+       max-height: 74px;
+     display: block;
+     /*margin-left: auto;*/
+     padding: 0;
+     border-radius: 8px;
+     filter: drop-shadow(0px 6.4px 12.8px rgba(34, 34, 34, 0.05));
+     border: 1px solid #E9ECEE;
+       opacity: 0.8;
+   }
+    .product-single__thumbnails-item{
+      padding: 0;
+    }
+   .product-single__thumbnail{
+     margin-bottom: 16px;
+   }
+   .product-single__thumbnail.active-thumb .product-single__thumbnail-image{
+     opacity: 1;
+     border: 2px solid #FF4438;
+   }
+   .product-single__title{
+     font-size: 44px;
+     line-height: 64px;
+     color: #222222;
+     margin: 0;
+     margin-bottom: 10px;
+   }
+
+  .spr-badge{
+    margin-bottom: 29px;
+  }
+   .product-single__description{
+     font-size: 16px;
+     line-height: 28px;
+     margin-bottom: 70px;
+   }
+    .product-single__description strong{
+        font-family: 'Graphik-Medium';
+    }
+   .product-single__description span, .product-single__description p{
+     color: #6C6E73;
+    line-height: 28px;
+   }
+
+    .product-form__item{
+      padding: 0px;
+    }
+
+    .product-form__item button[aria-disabled="true"]{
+
+        pointer-events: none;
+    }
+
+
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked) {
+      position: absolute;
+      left: -9999px;
+    }
+    [type="radio"]:checked + label,
+    [type="radio"]:not(:checked) + label
+    {
+      position: relative;
+      padding-left: 32px;
+      cursor: pointer;
+      line-height: 20px;
+        display: flex;
+        width: 100%;
+    }
+    [type="radio"]:checked + label:before,
+    [type="radio"]:not(:checked) + label:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border: 1px solid #6C6E73;
+      border-radius: 100%;
+      background: #fff;
+    }
+    [type="radio"]:checked + label:after,
+    [type="radio"]:not(:checked) + label:after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #FF4438;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      border-radius: 100%;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+    }
+    [type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+    [type="radio"]:checked + label:after {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+
+    .selector-container:first-child{
+        border: 1px solid #8B9093
+    }
+   .selector-container {
+     display: flex;
+     align-items: center;
+     justify-content: flex-start;
+       border-bottom: 1px solid #8B9093;
+       border-right: 1px solid #8B9093;
+       border-left: 1px solid #8B9093;
+     padding: 18px 16px 17px 16px;
+   }
+
+   .selector-container label {
+     display: flex;
+     align-items: center;
+
+     justify-content: space-between;
+   }
+   .selector-container label .variant-title {
+    font-family: 'Graphik-Medium';
+      font-weight: 500;
+      font-size: 16px;
+   }
+   .selector-container label .variant-text {
+     color: rgba(0,0,0,0.6);
+     font-size: 14px;
+      margin-right: 10px;
+   }
+
+   .selector-container label .variant-price {
+     font-size: 14px;
+     font-weight: 500;
+       font-family: Graphik-Medium;
+   }
+
+    .price-qty-container .qty-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .price dd,.price__regular{
+        margin: 0;
+    }
+
+  .price-item.price-item--regular{
+      font-size: 32px;
+      line-height: 48px;
+      color: #222222;
+      font-weight: 400!important;
+  }
+
+
+
+
+    .qtydiv .btnqty {
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+        line-height: 32px;
+        background-color: #FFF2F0;
+        border-radius: 30px;
+        text-align: center;
+        vertical-align: inherit;
+        transition: all .3s;
+    }
+    .qtydiv{
+        margin-left: 60px;
+    }
+    .qtydiv .btnqty.qtyminus{
+        margin-right: 0px;
+    }
+    .qtydiv .btnqty.qtyplus{
+        margin-left: 0px;
+    }
+
+    .qtydiv .quantity-input{
+      border: none;
+      padding: 0px;
+      text-align: center;
+      width: 22px;
+      outline: none;
+      display: inline-block;
+      font-size: 14px;
+      line-height: 22px;
+      color: #222222;
+      margin: 0 17px;
+    }
+    .qtydiv {display: inline-block;}
+
+    .product-form__cart-submit {
+        color: #FFFFFF;
+        background-color: #FF4438;
+        border-radius: 900px;
+        display: inline-block;
+        font-size: 16px;
+        font-family: 'Graphik-Medium';
+        width: inherit;
+        line-height: 20px;
+        margin-bottom: 0;
+        text-transform: initial;
+        min-width: 170px;
+        min-height: 64px;
+    }
+
+
+    .product-form__cart-submit:hover {
+        color: #FF4438 !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid rgba(216,216,216,0.3);
+    }
+    .price-qty-container{
+        margin-top: 32px;
+        margin-bottom: 22px;
+    }
+
+    .spr-badge-starrating{
+      margin: 0 10px 0 0;
+      display: inline-flex;
+      column-gap: 8px;
+    }
+
+    .spr-badge{
+      display: flex;
+      align-items: flex-start;
+    }
+
+
+    .product-shared-content {  margin-bottom: 2rem; }
+
+    .product-shared-content .container .item {
+        display: flex;
+        align-items: center;
+        padding: 30px 14px 20px 14px;
+        width: 150px;
+        flex-direction: column;
+    }
+
+    .product-shared-content .container .item svg, .product-shared-content .container .item img {
+      width: 46px;
+      height: 46px;
+        margin-bottom: 12px;
+    }
+
+    .product-shared-content .container .item p { font-size: 14px; text-align: center; max-width: 123px; line-height: 22px;margin-bottom: 0;}
+
+
+    .product-shared-content{
+        margin-left: auto;
+    }
+    .product-single__description {
+      color: rgba(0,0,0,.6);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 26px;
+        display: flex;
+        flex-direction: column;
+    }
+      .shared-button{
+          margin-top: 12px;
+      }
+    .product-shared-content .container{
+      justify-content: center;
+      margin-top: 0;
+      padding: 40px 0 0 0;
+    }
+    .selected_input{
+        border: 2px solid #FF4438 !important;
+    }
+    .review-top-wrapper{
+        display: flex;
+    }
+    .review-counts a{
+        margin-left: 30px;
+        color: #E62E31;
+        font-size: 14px;
+        line-height: 20px;
+        font-family: 'Graphik-Medium';
+        border-bottom: 2px solid #FF4438;
+    }
+
+    .product-shared-content a{
+      display: flex;
+      justify-content: space-around;
+    }
+    .price-qty-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+        margin-top: 85px;
+    }
+
+    @media (max-width: 970px) {
+        .product-single__thumbnail-image{
+            max-width: 60px;
+        }
+        .price-qty-container{
+            justify-content: center;
+            display: flex;
+            margin-top: 30px;
+            row-gap: 0;
+        }
+        .cart-comment{
+            text-align: left;
+        }
+        .grid__item{
+            width: 100%;
+        }
+        .product-shipping-delivery-info{
+            align-content: center;
+        }
+        .item  .tooltip{
+           display: none !important;
+        }
+        .selector-container label .variant-title{
+          font-family: 'Graphik-Regular';
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 22px;
+        }
+        [type="radio"]:checked + label:before,
+        [type="radio"]:not(:checked) + label:before {
+          top: 50%;
+          transform: translate(0, -50%);
+        }
+
+        [type="radio"]:checked + label:after, [type="radio"]:not(:checked) + label:after{
+          top: 50%;
+        }
+
+        [type="radio"]:checked + label:after{
+          transform: scale(1) translate(0, -50%);
+        }
+        .selector-container{
+          padding: 15px;
+        }
+        [type="radio"]:checked + label, [type="radio"]:not(:checked) + label{
+          flex-wrap: wrap;
+        }
+        .product-single__description{
+          margin-bottom: 32px;
+        }
+        .spr-badge{
+          margin-bottom: 24px;
+        }
+        .product-single__description span, .product-single__description p{
+          font-size: 16px;
+        }
+          .product-shared-content .container{
+              justify-content: space-around;
+              display: grid;
+              grid-template-columns: auto auto auto;
+              padding-bottom: 0;
+              padding-top: 60px;
+          }
+        .container .item{
+            width: 100px!important;
+            height: 150px!important;
+            margin-right: 0;
+        }
+          .product-shared-content{
+              margin-bottom: 10px;
+              /* display: none; */
+          }
+          .product-shared-content .container .item {
+            width: 100px;
+        }
+        .product-shared-content a{
+          margin-top: 24px;
+        }
+
+          .product-single .grid__item:first-child,.product-single .grid__item:last-child{
+              width: 100%;
+              padding: 20px;
+          }
+          .product-single__thumbnails.product-single__thumbnails-product-template{
+              position: relative;
+              width: fit-content;
+
+          }
+          .product-single__thumbnails-item{
+              flex: auto !important;
+          }
+          .product-single__thumbnails-slider-track{
+              display: flex;
+              flex-direction: row;
+              max-width: 5%;
+              margin-top: 10px;
+              margin-left: 30px;
+          }
+          }
+          .product-single__media-wrapper{
+              width: 100%;
+              float: unset;
+              margin: auto;
+          }
+
+          .product-single .grid__item:first-child{
+              padding: unset;
+          }product-single__thumbnails-slider-track
+          .product-single__thumbnails{
+              margin: 16px 32px;
+          }
+          .product-single__thumbnail-image{
+              margin-right: 0 !important;
+          }
+          .product-single__thumbnails-item{
+              margin-right: 26px;
+          }
+          .slider-active .product-single__thumbnails{
+              width: 100%;
+          }
+
+          .product-form__cart-submit{
+              width: 228px;
+          }
+          .product-single__title{
+              font-style: normal;
+              font-weight: normal;
+              font-size: 44px;
+              line-height: 64px;
+              color: #222222;
+          }
+          .thumbnails-slider__next--product-template, .thumbnails-slider__prev--product-template{
+              display: none;
+          }
+
+          .mobile-show{
+              display: block;
+              width: 100%;
+            	margin: 0 auto;
+  /*             margin-left: -20px;
+              margin-right: -20px; */
+
+          }
+          .product-shared-content .container .item svg{
+              margin-right: unset;
+          }
+          .product-shared-content .container .item{
+              padding: unset;
+          }
+          .product-shared-content .container .item p{
+              font-style: normal;
+              font-weight: normal;
+              font-size: 14px;
+              color: #6C6E73;
+              line-height: 22px;
+              margin-bottom: 0;
+          }
+          .product-shared-content .container .item p:nth-child(2){
+            max-width: 100px;
+          }
+
+      @media screen and (max-width: 1610px){
+          .price-qty-container{
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: left;
+              margin-top: 50px;
+          }
+          .product-single__description{
+              margin-bottom: 50px;
+          }
+      }
+
+      @media (max-width: 768px){
+          .price-quantity{
+              margin-bottom: 0;
+          }
+          .elementor-element{
+              margin-bottom: 0;
+          }
+          .product-single__description{
+              margin-bottom: 0;
+              margin-top: 0;
+          }
+          .selected-variant{
+              display: block;
+          }
+          .product-shared-content .container{
+              padding-top: 0;
+              padding-bottom: 0;
+          }
+          .in-stock{
+              margin-bottom: 35px;
+          }
+          .price-qty-container{
+             padding: 20px 0;
+              margin-top: 20px;
+              margin-bottom: 10px;
+              align-items: center;
+          }
+          .review-counts a{
+              font-size: 16px;
+              line-height: 20px;
+          }
+          .product-single__media img {
+              border-radius: 0!important;
+          }
+          .product-single__thumbnails-item{
+              margin-right: 16px;
+          }
+          .product-single__thumbnails-slider-track{
+              margin-left: 16px;
+          }
+          .product-single__thumbnail-image{
+              max-width: 40px;
+              max-height: 40px;
+          }
+        .product-shared-content .container{
+          padding: 0;
+        }
+          .product-single__meta{
+              padding-left: 16px;
+              padding-right: 16px;
+          }
+      }
+      @media screen and (max-width: 480px){
+          .variant-discount{
+              margin-right: 0;
+          }
+      }
+</style>
+
+<script>
+    Array.prototype.last = function() {
+    return this[this.length - 1];
+    }
+   // Select quantity
+
+  $('input[type=radio][name=variant]').on('click', function() {
+    console.log($(this).data('price'))
+    let price1 = $(this).closest('.selector-container').find('.variant-price').html().trim().split(' ')
+    let test2 = price1.pop()
+    const itemPrice = price1.join('').replace(/\./g, "")
+    // itemPrice = $(this).closest('.selector-container').find('.variant-price').html().trim().split(' ')[0].replace(/\./g, "")
+    console.log(itemPrice)
+    // console.log('itemPrice' + itemPrice)
+
+    var qty = parseInt($('.quantity-input').val());
+
+
+    let currency = $('.price-item').html().trim().split(' ').last()
+    console.log('currency' + currency)
+
+    let price = parseInt(itemPrice) * qty
+    console.log('price' + price)
+    let stringPrice = price.toString()
+    var len = stringPrice.length;
+    let newStringPrice = stringPrice
+    if(len > 3){
+
+      newStringPrice = stringPrice.slice(0, len-3) +" "+stringPrice.slice(len-3);
+    }
+    setTimeout(function(){
+      $('.price-item').html(newStringPrice + ' ' + currency)
+    }, 0)
+  });
+
+   $('.qtybox .btnqty').on('click', function(){
+       let price1 = $('.selected_input').find('.variant-price').html().trim().split(' ')
+       let test2 = price1.pop()
+       const itemPrice = price1.join('').replace(/\./g, "")
+     var qty = parseInt($(this).parent('.qtybox').find('.quantity-input').val());
+     if($(this).hasClass('qtyplus')) {
+       qty++;
+     }else {
+       if(qty > 1) {
+         qty--;
+       }
+     }
+     let currency = $('.price-item').html().trim().split(' ').last()
+
+     let price = parseInt(itemPrice) * qty
+     let stringPrice = price.toString()
+     var len = stringPrice.length;
+     let newStringPrice = stringPrice
+      if(len > 3){
+
+        newStringPrice = stringPrice.slice(0, len-3) +" "+stringPrice.slice(len-3);
+      }
+      $('.price-item').html(newStringPrice + ' ' + currency)
+     qty = (isNaN(qty))?1:qty;
+     $(this).parent('.qtybox').find('.quantity-input').val(qty);
+   });
+
+   // Hide non-first variant images
+   $('li.product-single__thumbnails-item:has(img[alt~="hide"])').addClass('hide');
+
+   // Hide/show product tab
+   $(document).scroll(function(){
+     var element = ($(document).scrollTop() > ($('.rich-text').offset().top+$('.rich-text').height()));
+     $('.product-tab').css('display', element? '' : 'none');
+   });
+</script>
+<script>
+    function alignSharedContent() {
+
+            var max_wiz = 0;
+            $('.product-single__media-wrapper.js').each(function () {
+                if ($(this).width() > max_wiz) {
+                    max_wiz = $(this).width();
+                }
+
+            });
+
+    }
+    if (window.screen.width > 768) {
+        alignSharedContent();
+
+        $( window ).resize(function() {
+        alignSharedContent()
+
+    });
+    }
+  $('.selector-container>input').each(function () {
+      if ( $(this).prop('checked') ){
+          $(this).closest('.selector-container').addClass("selected_input");
+      }
+  })
+
+      $(this).closest('.selector-container').addClass("selected_input");
+
+
+    $('.selector-container>input').click(function () {
+        if($(this).prop('checked')){
+            $('.selector-container>input').closest('.selector-container').removeClass("selected_input");
+
+            $(this).closest('.selector-container').addClass("selected_input");
+        }else{
+            $('.selector-container>input').closest('.selector-container').removeClass("selected_input");
+
+            // $(this).closest('.selector-container').addClass("selected_input");
+        }
+
+
+    })
+</script>
+
+{% schema %}
+{
+ "name": {
+   "cs": "Stránky produktů",
+   "da": "Produktsider",
+   "de": "Produktseiten",
+   "en": "Product pages",
+   "es": "Páginas de productos",
+   "fi": "Tuotesivut",
+   "fr": "Pages de produits",
+   "it": "Pagine di prodotto",
+   "ja": "商品ページ",
+   "ko": "제품 페이지",
+   "nb": "Produktsider",
+   "nl": "Productpagina's",
+   "pl": "Strony produktu",
+   "pt-BR": "Páginas de produtos",
+   "pt-PT": "Páginas de produtos",
+   "sv": "Produktsidor",
+   "th": "หน้าสินค้า",
+   "tr": "Ürün sayfaları",
+   "vi": "Trang sản phẩm",
+   "zh-CN": "产品页面",
+   "zh-TW": "產品頁面"
+ },
+ "settings": [
+   {
+     "type": "checkbox",
+     "id": "show_quantity_selector",
+     "label": {
+       "cs": "Zobrazit výběr množství",
+       "da": "Vis antalsvælger",
+       "de": "Mengenauswahl anzeigen",
+       "en": "Show quantity selector",
+       "es": "Mostrar selector de cantidad",
+       "fi": "Näytä määrän valitsin",
+       "fr": "Afficher le sélecteur de quantité",
+       "it": "Mostra selettore quantità",
+       "ja": "数量セレクターを表示する",
+       "ko": "수량 선택기 표시",
+       "nb": "Vis mengdevelger",
+       "nl": "Hoeveelheidskiezer weergeven",
+       "pl": "Pokaż selektor ilości",
+       "pt-BR": "Exibir seletor de quantidade",
+       "pt-PT": "Mostrar um seletor de quantidade",
+       "sv": "Visa kvantitetsväljare",
+       "th": "แสดงตัวเลือกจำนวน",
+       "tr": "Adet seçiciyi göster",
+       "vi": "Hiển thị hộp chọn số lượng",
+       "zh-CN": "显示数量选择器",
+       "zh-TW": "顯示數量選擇器"
+     },
+     "default": false
+   },
+   {
+     "type": "checkbox",
+     "id": "show_vendor",
+     "label": {
+       "cs": "Zobrazit dodavatele",
+       "da": "Vis leverandør",
+       "de": "Lieferanten anzeigen",
+       "en": "Show vendor",
+       "es": "Mostrar proveedor",
+       "fi": "Näytä myyjä",
+       "fr": "Afficher les vendeurs",
+       "it": "Mostra fornitore",
+       "ja": "販売元を表示する",
+       "ko": "공급업체 표시",
+       "nb": "Vis leverandør",
+       "nl": "Leverancier weergeven",
+       "pl": "Pokaż dostawcę",
+       "pt-BR": "Exibir fornecedor",
+       "pt-PT": "Mostrar fornecedor",
+       "sv": "Visa säljare",
+       "th": "แสดงผู้ขาย",
+       "tr": "Satıcıyı göster",
+       "vi": "Hiển thị nhà cung cấp",
+       "zh-CN": "显示厂商",
+       "zh-TW": "顯示廠商"
+     },
+     "default": false
+   },
+   {
+     "type": "checkbox",
+     "id": "enable_payment_button",
+     "label": {
+       "cs": "Zobrazit dynamické tlačítko pokladny",
+       "da": "Vis dynamisk betalingsknap",
+       "de": "Dynamischen Checkout Button anzeigen",
+       "en": "Show dynamic checkout button",
+       "es": "Mostrar botón de pago dinámico",
+       "fi": "Näytä dynaaminen kassapainike",
+       "fr": "Afficher le bouton de paiement dynamique",
+       "it": "Mostra pulsante di check-out dinamico",
+       "ja": "動的チェックアウトボタンを表示する",
+       "ko": "동적 결제 버튼 표시",
+       "nb": "Vis dynamisk knapp for å gå til kassen",
+       "nl": "Dynamische betaalknop weergeven",
+       "pl": "Pokaż dynamiczny przycisk realizacji zakupu",
+       "pt-BR": "Exibir botão de checkout dinâmico",
+       "pt-PT": "Mostrar o botão dinâmico de finalização da compra",
+       "sv": "Visa dynamiska utcheckningsknappar",
+       "th": "แสดงปุ่มชำระเงินแบบไดนามิก",
+       "tr": "Dinamik ödeme düğmesini göster",
+       "vi": "Hiển thị nút thanh toán động",
+       "zh-CN": "显示动态结账按钮",
+       "zh-TW": "顯示動態結帳按鈕"
+     },
+     "info": {
+       "cs": "Každý zákazník uvidí platební metodu, kterou ze všech metod dostupných v obchodě (například PayPal nebo Apple Pay) nejvíce preferuje. [Další informace](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "da": "Den enkelte kunde vil se sin foretrukne betalingsmetode blandt dem, der er tilgængelige i din butik, f.eks. PayPal eller Apple Pay. [Få mere at vide](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "de": "Jeder Kunde sieht seine bevorzugte Zahlungsmethode aus den in deinem Shop verfügbaren Zahlungsmethoden wie PayPal oder Apple Pay. [Mehr Informationen](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "en": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "es": "Cada cliente verá su forma de pago preferida entre las disponibles en tu tienda, como PayPal o Apple Pay. [Más información](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "fi": "Kukin asiakas näkee ensisijaisen valintansa kauppasi tarjoamista maksutavoista, esim. PayPal tai Apple Pay. [Lisätietoja](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "fr": "Chaque client verra son moyen de paiement préféré parmi ceux qui sont proposés sur votre boutique, tels que PayPal ou Apple Pay. [En savoir plus](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "it": "Ogni cliente vedrà il suo metodo di pagamento preferito tra quelli disponibili nel tuo negozio, come PayPal o Apple Pay. [Maggiori informazioni](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "ja": "PayPalやApple Payなど、ストアで利用可能な希望の決済方法がお客様に表示されます。[詳しくはこちら](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "ko": "각 고객은 PayPal 또는 Apple Pay와 같이 스토어에서 사용 가능한 지불 방법을 확인할 수 있습니다. [자세히 알아보기](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "nb": "Hver enkelt kunde vil se sin foretrukne betalingsmåte blant de som er tilgjengelig i butikken din, som PayPal eller Apple Pay. [Finn ut mer](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "nl": "Elke klant ziet zijn of haar beschikbare voorkeursmethode om af te rekenen, zoals PayPal of Apple Pay. [Meer informatie](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "pl": "Każdy klient zobaczy swoją preferowaną metodę płatności wśród metod dostępnych w Twoim sklepie, np. PayPal lub Apple Pay. [Dowiedz się więcej](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "pt-BR": "Cada cliente verá a forma de pagamento preferencial dele dentre as disponíveis na loja, como PayPal ou Apple Pay. [Saiba mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "pt-PT": "Cada cliente irá ver o seu método de pagamento preferido entre os disponíveis na loja, como o PayPal ou Apple Pay. [Saiba mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "sv": "Varje kund kommer att se den föredragna betalningsmetoden från de som finns tillgängliga i din butik, till exempel PayPal eller Apple Pay. [Läs mer](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "th": "ลูกค้าแต่ละรายจะเห็นวิธีการชำระเงินที่ต้องการจากวิธีที่ใช้ได้ในร้านค้าของคุณ เช่น PayPal หรือ Apple Pay [ดูข้อมูลเพิ่มเติม](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "tr": "Her müşteri, mağazanız sunulanlar arasından tercih ettikleri ödeme yöntemini görür (ör. PayPal veya Apple Pay). [Daha fazla bilgi edinin](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "vi": "Mỗi khách hàng sẽ thấy phương thức thanh toán ưu tiên trong những phương thức thanh toán được hỗ trợ tại cửa hàng như PayPal hoặc Apple Pay. [Tìm hiểu thêm](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "zh-CN": "每位客户都可在您商店提供的付款方式中看到他们的首选付款方式，例如 PayPal 或 Apple Pay。[了解详细信息](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+       "zh-TW": "每位顧客都可以在您商店內開放使用的付款方式中看見他們偏好使用的方式，如 PayPal、Apple Pay 等。[深入瞭解](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+     },
+     "default": true
+   },
+   {
+     "type": "checkbox",
+     "id": "show_share_buttons",
+     "label": {
+       "cs": "Zobrazit tlačítka pro sdílení na sociálních sítích",
+       "da": "Vis knapper til deling på sociale medier",
+       "de": "Buttons für Social Media anzeigen",
+       "en": "Show social sharing buttons",
+       "es": "Mostrar botones para compartir en redes sociales",
+       "fi": "Näytä sosiaalisen median jakamispainikkeet",
+       "fr": "Affichez les boutons de partage sur les médias sociaux",
+       "it": "Mostra i pulsanti per la condivisione sui social",
+       "ja": "ソーシャルメディアでの共有ボタンを表示する",
+       "ko": "소셜 공유 버튼 표시",
+       "nb": "Vis knapper for deling på sosiale medier",
+       "nl": "Knoppen voor sociaal delen weergeven",
+       "pl": "Pokaż przyciski udostępniania w mediach społecznościowych",
+       "pt-BR": "Exibir botões de compartilhamento em redes sociais",
+       "pt-PT": "Mostrar botões de partilha nas redes sociais",
+       "sv": "Visa knappar för delning i sociala medier",
+       "th": "แสดงปุ่มสำหรับแชร์ลงโซเชียล",
+       "tr": "Sosyal medya paylaşım düğmelerini göster",
+       "vi": "Hiển thị nút chia sẻ qua mạng xã hội",
+       "zh-CN": "显示社交分享按钮",
+       "zh-TW": "顯示社群分享按鈕"
+     },
+     "default": true
+   },
+   {
+     "type": "header",
+     "content": {
+       "cs": "Multimédia",
+       "da": "Medie",
+       "de": "Medien",
+       "en": "Media",
+       "es": "Elementos multimedia",
+       "fi": "Media",
+       "fr": "Support multimédia",
+       "it": "Media",
+       "ja": "メディア",
+       "ko": "미디어",
+       "nb": "Medier",
+       "nl": "Media",
+       "pl": "Multimedia",
+       "pt-BR": "Mídia",
+       "pt-PT": "Multimédia",
+       "sv": "Media",
+       "th": "สื่อ",
+       "tr": "Medya",
+       "vi": "Nội dung đa phương tiện",
+       "zh-CN": "媒体",
+       "zh-TW": "媒體"
+     },
+     "info": {
+       "cs": "Další informace o [typech multimédií](https://help.shopify.com/manual/products/product-media)",
+       "da": "Få mere at vide om [media types](https://help.shopify.com/manual/products/product-media)",
+       "de": "Mehr Informationen über [Medientypen ](https://help.shopify.com/manual/products/product-media)",
+       "en": "Learn more about [media types](https://help.shopify.com/manual/products/product-media)",
+       "es": "Más información sobre [tipos de archivos multimedia](https://help.shopify.com/manual/products/product-media)",
+       "fi": "Lue lisää [mediatyypeistä](https://help.shopify.com/manual/products/product-media)",
+       "fr": "En savoir plus sur les [types de supports multimédia](https://help.shopify.com/manual/products/product-media)",
+       "it": "Scopri di più sulle [tipologie di file multimediali](https://help.shopify.com/manual/products/product-media)",
+       "ja": "[メディアのタイプ](https://help.shopify.com/manual/products/product-media) について詳しくはこちら",
+       "ko": "[미디어 유형](https://help.shopify.com/manual/products/product-media)에 대해 자세히 알아보기",
+       "nb": "Lær mer om [medietyper](https://help.shopify.com/manual/products/product-media)",
+       "nl": "Meer informatie over [mediatypen](https://help.shopify.com/manual/products/product-media)",
+       "pl": "Dowiedz się więcej o [typach multimediów](https://help.shopify.com/manual/products/product-media)",
+       "pt-BR": "Saiba mais sobre [tipos de mídia](https://help.shopify.com/manual/products/product-media)",
+       "pt-PT": "Saiba mais sobre [media types](https://help.shopify.com/manual/products/product-media)",
+       "sv": "Läs mer om [mediatyper](https://help.shopify.com/manual/products/product-media)",
+       "th": "ดูข้อมูลเพิ่มเติมเกี่ยวกับ [ประเภทของสื่อ](https://help.shopify.com/manual/products/product-media)",
+       "tr": "[Medya türleri](https://help.shopify.com/manual/products/product-media) hakkında daha fazla bilgi edinin",
+       "vi": "Tìm hiểu thêm về [loại phương tiện](https://help.shopify.com/manual/products/product-media)",
+       "zh-CN": "详细了解[媒体类型](https://help.shopify.com/manual/products/product-media)",
+       "zh-TW": "深入瞭解 [媒體類型](https://help.shopify.com/manual/products/product-media)"
+     }
+   },
+   {
+     "type": "select",
+     "id": "media_size",
+     "label": {
+       "cs": "Velikost",
+       "da": "Størrelse",
+       "de": "Größe",
+       "en": "Size",
+       "es": "Tamaño",
+       "fi": "Koko",
+       "fr": "Taille",
+       "it": "Dimensione",
+       "ja": "サイズ",
+       "ko": "사이즈",
+       "nb": "Størrelse",
+       "nl": "Grootte",
+       "pl": "Rozmiar",
+       "pt-BR": "Tamanho",
+       "pt-PT": "Tamanho",
+       "sv": "Storlek",
+       "th": "ขนาด",
+       "tr": "Boyut",
+       "vi": "Cỡ",
+       "zh-CN": "大小",
+       "zh-TW": "尺寸"
+     },
+     "options": [
+       {
+         "value": "small",
+         "label": {
+           "cs": "Malá",
+           "da": "Lille",
+           "de": "Klein",
+           "en": "Small",
+           "es": "Pequeño",
+           "fi": "Pieni",
+           "fr": "Petit",
+           "it": "Piccolo",
+           "ja": "スモール",
+           "ko": "스몰",
+           "nb": "Liten",
+           "nl": "Klein",
+           "pl": "Mały",
+           "pt-BR": "Pequeno",
+           "pt-PT": "Pequeno",
+           "sv": "Liten",
+           "th": "เล็ก",
+           "tr": "Küçük",
+           "vi": "Nhỏ",
+           "zh-CN": "小",
+           "zh-TW": "小型"
+         }
+       },
+       {
+         "value": "medium",
+         "label": {
+           "cs": "Střední",
+           "da": "Medium",
+           "de": "Mittel",
+           "en": "Medium",
+           "es": "Mediano",
+           "fi": "Keskisuuri",
+           "fr": "Moyenne",
+           "it": "Medio",
+           "ja": "中",
+           "ko": "보통",
+           "nb": "Middels",
+           "nl": "Gemiddeld",
+           "pl": "Średni",
+           "pt-BR": "Médio",
+           "pt-PT": "Médio",
+           "sv": "Medium",
+           "th": "ปานกลาง",
+           "tr": "Orta",
+           "vi": "Trung bình",
+           "zh-CN": "中等",
+           "zh-TW": "中等"
+         }
+       },
+       {
+         "value": "large",
+         "label": {
+           "cs": "Velká",
+           "da": "Stor",
+           "de": "Groß",
+           "en": "Large",
+           "es": "Grande",
+           "fi": "Suuri",
+           "fr": "Grande",
+           "it": "Grande",
+           "ja": "大",
+           "ko": "라지",
+           "nb": "Stor",
+           "nl": "Groot",
+           "pl": "Duży",
+           "pt-BR": "Grande",
+           "pt-PT": "Grande",
+           "sv": "Stor",
+           "th": "ใหญ่",
+           "tr": "Büyük",
+           "vi": "Lớn",
+           "zh-CN": "大",
+           "zh-TW": "大型"
+         }
+       },
+       {
+         "value": "full",
+         "label": {
+           "cs": "Plná šířka",
+           "da": "Fuld bredde",
+           "de": "Volle Breite",
+           "en": "Full-width",
+           "es": "Ancho completo",
+           "fi": "Täysi leveys",
+           "fr": "Pleine largeur",
+           "it": "Intera larghezza",
+           "ja": "全幅",
+           "ko": "전체 폭",
+           "nb": "Full bredde",
+           "nl": "Volledige breedte",
+           "pl": "Pełna szerokość",
+           "pt-BR": "Largura completa",
+           "pt-PT": "Largura completa",
+           "sv": "Full bredd",
+           "th": "เต็มความกว้าง",
+           "tr": "Tam genişlikli",
+           "vi": "Độ rộng đầy đủ",
+           "zh-CN": "全宽",
+           "zh-TW": "完整寬度"
+         }
+       }
+     ],
+     "default": "medium"
+   },
+   {
+     "type": "checkbox",
+     "id": "enable_image_zoom",
+     "label": {
+       "cs": "Povolit zvětšení obrázku",
+       "da": "Aktivér billedzoom",
+       "de": "Foto-Zoom zulassen",
+       "en": "Enable image zoom",
+       "es": "Habilitar zoom de imagen",
+       "fi": "Ota kuvan zoomaus käyttöön",
+       "fr": "Activer le zoom d'image",
+       "it": "Abilita lo zoom dell'immagine",
+       "ja": "画像ズームを有効にする",
+       "ko": "이미지 확대 사용",
+       "nb": "Aktiver bildezoom",
+       "nl": "Inzoomen op afbeelding inschakelen",
+       "pl": "Włącz powiększenie obrazu",
+       "pt-BR": "Habilitar o zoom da imagem",
+       "pt-PT": "Ativar o zoom da imagem",
+       "sv": "Aktivera bildzoom",
+       "th": "เปิดใช้การซูมภาพ",
+       "tr": "Görsel yakınlaştırmayı etkinleştir",
+       "vi": "Bật thu phóng hình ảnh",
+       "zh-CN": "启用图片缩放",
+       "zh-TW": "啟用圖片縮放"
+     },
+     "default": true
+   },
+   {
+     "type": "checkbox",
+     "id": "enable_video_looping",
+     "label": {
+       "cs": "Povolit smyčky videa",
+       "da": "Aktivér looping af videoer",
+       "de": "Videoschleife aktivieren",
+       "en": "Enable video looping",
+       "es": "Habilitar la reproducción de video en bucle",
+       "fi": "Ota käyttöön videosilmukka",
+       "fr": "Activer le bouclage de la vidéo",
+       "it": "Abilita la riproduzione in loop dei video",
+       "ja": "ビデオのループを有効にする",
+       "ko": "동영상 루프",
+       "nb": "Aktiver løkkeavspilling av video",
+       "nl": "Video-looping inschakelen",
+       "pl": "Włącz zapętlanie wideo",
+       "pt-BR": "Habilitar loop de vídeo",
+       "pt-PT": "Ativar ciclo de vídeo",
+       "sv": "Aktivera video-loopning",
+       "th": "เปิดใช้การวนซ้ำวิดีโอ",
+       "tr": "Video döngüsünü etkinleştir",
+       "vi": "Bật vòng lặp video",
+       "zh-CN": "启用视频循环",
+       "zh-TW": "啟用影片循環功能"
+     },
+     "default": false
+   },
+  {
+  "type": "blog",
+  "id": "blog_for_product",
+  "label":"Blog for product"
+  },
+    {
+    "type": "header",
+    "content": "Tooltips "
+    },
+    {
+    "type": "text",
+    "id": "icon-text1",
+    "label": "Icon text 1"
+    },
+    {
+    "type": "richtext",
+    "id": "tooltip1",
+    "label": "Tooltip 1"
+    },
+    {
+    "type": "text",
+    "id": "tooltip-btn1",
+    "label": "Tooltip button label"
+    },
+    {
+    "type": "url",
+    "id": "tooltip-url1",
+    "label": "Tooltip button url"
+    },
+
+    {
+    "type": "text",
+    "id": "icon-text2",
+    "label": "Icon text 2"
+    },
+    {
+    "type": "richtext",
+    "id": "tooltip2",
+    "label": "Tooltip 2"
+    },
+    {
+    "type": "text",
+    "id": "tooltip-btn2",
+    "label": "Tooltip button label"
+    },
+    {
+    "type": "url",
+    "id": "tooltip-url2",
+    "label": "Tooltip button url"
+    },
+
+    {
+    "type": "text",
+    "id": "icon-text3",
+    "label": "Icon text 3"
+    },
+    {
+    "type": "richtext",
+    "id": "tooltip3",
+    "label": "Tooltip 3"
+    },
+    {
+    "type": "text",
+    "id": "tooltip-btn3",
+    "label": "Tooltip button label"
+    },
+    {
+    "type": "url",
+    "id": "tooltip-url3",
+    "label": "Tooltip button url"
+    },
+   {
+     "type": "text",
+     "id": "icon-text4",
+     "label": "Icon text 4"
+   },
+   {
+     "type": "text",
+     "id": "icon-text5",
+     "label": "Icon text 5"
+   },
+   {
+     "type": "text",
+     "id": "icon-text6",
+     "label": "Icon text 6"
+   }
+ ]
+}
+{% endschema %}

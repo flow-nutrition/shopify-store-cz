@@ -1,0 +1,290 @@
+<ul id="MobileNav" class="mobile-nav">
+    {% for link in linklists[section.settings.main_linklist].links %}
+        {%- assign outerLoopIndex = forloop.index -%}
+
+        <li class="mobile-menu-item{% unless forloop.last %} {% endunless %}">
+            {% if link.links != blank %}
+                {% capture child_list_handle %}{{ link.handle }}-{{ outerLoopIndex }}{% endcapture %}
+                <button type="button" class="btn--link mobile-nav__link has-sub-menu{% if link.child_active %} mobile-nav__link--active{% endif %}" data-target="{{ child_list_handle }}" data-level="1" aria-expanded="false">
+                    <span class="mobile-nav__label">{{ link.title | escape }}</span>
+                </button>
+                <ul class="mobile-nav__dropdown" data-parent="{{ child_list_handle }}" data-level="2">
+                    <li class="visually-hidden" tabindex="-1" data-menu-title="2">
+                        {{- link.title }} {{ 'layout.navigation.menu' | t -}}
+                    </li>
+
+                    {% for childlink in link.links %}
+                        <li class="mobile-menu-item{% unless forloop.last %} {% endunless %}">
+
+                            {% if childlink.links != blank %}
+                                {% capture grandchild_list_handle %}{{ childlink.handle }}-{{ outerLoopIndex }}-{{ forloop.index }}{% endcapture %}
+                                <button type="button" class="btn--link js-toggle-submenu mobile-nav__link mobile-nav__sublist-link" data-target="{{ grandchild_list_handle }}" aria-expanded="false">
+                                    <span class="mobile-nav__label">{{ childlink.title | escape }}</span>
+                                    <div class="mobile-nav__icon">
+                                    </div>
+                                </button>
+
+                                <ul class="mobile-nav__dropdown" data-parent="{{ grandchild_list_handle }}" data-level="3">
+                                    <li class="visually-hidden" tabindex="-1" data-menu-title="3">
+                                        {{- childlink.title }} {{ 'layout.navigation.menu' | t -}}
+                                    </li>
+
+                                    {% for grandchildlink in childlink.links %}
+                                        <li class="mobile-menu-item{% unless forloop.last %} {% endunless %}">
+                                            <a href="{{ grandchildlink.url }}"
+                                               class="mobile-nav__sublist-link"
+                                                    {% if grandchildlink.current %} aria-current="page"{% endif %}
+                                            >
+                                                <span class="mobile-nav__label">{{ grandchildlink.title | escape }}</span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <a href="{{ childlink.url }}"
+                                   class="mobile-nav__sublist-link{% if childlink.current %} current-page{% endif %}"
+                                        {% if childlink.current %} aria-current="page"{% endif %}
+                                >
+                                    <span class="mobile-nav__label">{{ childlink.title | escape }}
+                                    </span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                     {% if link.title == "Produkty" %}
+                         <div class="mobile-menu collection-bottom-content" style="padding: 0;">
+                         </div>
+                    {% endif %}
+                </ul>
+            {% else %}
+                <a href="{{ link.url }}"
+                   class="mobile-nav__link{% if link.active %} mobile-nav__link--active{% endif %}"
+                        {% if link.current %} aria-current="page"{% endif %}
+                >
+                    <span class="mobile-nav__label">{{ link.title | escape }}</span>
+                </a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+<div class="mobile-menu-bottom-content">
+<div class="mobile-menu-contacts">
+    <div class="contact-item">
+        {% render 'icon-phone' %}
+            <a href="tel:{{ section.settings.number}}">{{ section.settings.number}}</a>
+            <span>{{ section.settings.work-time }}</span>
+    </div>
+    <div class="contact-item">
+        {% render 'icon-email' %}
+        <a href="mailto:{{section.settings.email}}">{{section.settings.email}}</a>
+    </div>
+    <div class="contact-item">
+        {% render 'icon-messenger' %}
+        <a href="{{ section.settings.mess_url}}">{{ section.settings.messenger_c}}</a>
+    </div>
+</div>
+    {% if customer %}
+    {% else %}
+<div class="menu-account-login">
+        {% render 'icon-account-login' %}
+        <a href="/account">{{ section.settings.account-login-text}}</a>
+</div>
+    {% endif %}
+</div>
+<style>
+    .mobile-nav-wrapper,.mobile-menu-item .mobile-nav__sublist-link,.mobile-menu-item.active > .mobile-nav__dropdown{
+        background: #F5F6F7;
+    }
+    .mobile-nav-wrapper.js-menu--is-open{
+        overflow: scroll;
+        height: 100vh!important;
+        max-height: 100vh;
+
+    }
+    .grid.grid--no-gutters.grid--table.site-header__mobile-nav{
+        position: relative;
+        z-index: 100;
+    }
+    .mobile-nav-wrapper{
+        z-index: 50;
+        height: unset !important;
+    }
+    .mobile-nav__item, .mobile-nav__dropdown{
+        position: relative;
+    }
+    .sub-nav--is-open .mobile-nav, .page-container{
+        transform: translate(0) !important
+    }
+    .mobile-nav__dropdown{
+        right: 0 !important;
+    }
+    .mobile-menu-item.active > .mobile-nav__dropdown{
+        display: block;
+    }
+    .third-nav--is-open .mobile-nav{
+        transform: none;
+    }
+    #MobileNav{
+        padding: 32px;
+    }
+    .mobile-menu-item .mobile-nav__link{
+        padding: 0;
+        padding-bottom: 32px;
+        position: relative;
+        display: flex;
+    }
+    .mobile-nav__label{
+        text-transform: inherit!important;
+        color: #222222;
+        font-size: 24px;
+        line-height: 32px;
+
+    }
+    .mobile-nav__link--active .mobile-nav__label{
+        border: none;
+    }
+    .mobile-menu-item .mobile-nav__link.has-sub-menu{
+
+    }
+    .mobile-menu-item .mobile-nav__link.has-sub-menu:after{
+        background-image: url({{'mobile-menu-arrow.svg' | asset_url}}) !important;
+        height: 16px;
+        width: 16px;
+        background-size: unset;
+        background-position: center;
+        margin-left: auto;
+        content: "";
+        background-repeat: no-repeat;
+        transition: transform .2s ease-in-out;
+
+    }
+    .mobile-menu-item.active .mobile-nav__link.has-sub-menu:after{
+        background-image: url({{'mobile-menu-arrow.svg' | asset_url}}) !important;
+        width: 16px;
+        height: 16px;
+        background-size: unset;
+        transform: rotate(
+                180deg
+        ) !important;
+        margin-left: auto;
+        content: "";
+        transition: transform .2s ease-in-out;
+        background-repeat: no-repeat;
+    }
+    .mobile-menu-item .mobile-nav__sublist-link{
+        padding: 22px 0;
+        border-top: 1px solid #E9ECEE;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .mobile-menu-item .mobile-nav__sublist-link .mobile-nav__label{
+        font-size: 16px;
+        line-height: 28px;
+    }
+    .mobile-menu-item .mobile-nav__sublist-link.current-page{
+        padding: 24px 0;
+    }
+    .mobile-menu-item .mobile-nav__sublist-link.current-page .mobile-nav__label{
+        font-size: 14px;
+        line-height: 20px;
+        color: #FF4438;
+        font-family: 'Graphik-Medium';
+    }
+    .mobile-menu-item .mobile-nav__sublist-link.current-page svg path{
+        display: none;
+    }
+
+
+    .mobile-nav-wrapper::after{
+        display: none;
+    }
+
+    .mobile-menu.collection-bottom-content{
+        background: #fff;
+        border-radius: 8px;
+        margin-right: -8px;
+        margin-left: -8px;
+        padding: 32px 24px 40px 24px;
+        margin-bottom: 45px;
+    }
+    .mobile-menu.collection-bottom-content .collection-menu-content {
+        text-align: center;
+        font-size: 20px;
+        max-width: 200px;
+        margin-bottom: 16px;
+    }
+    .mobile-menu.collection-bottom-content .collection-menu-button {
+        background: #FF4438;
+        color: #fff;
+        transition: 0.2s;
+    }
+    .mobile-menu.collection-bottom-content .collection-menu-button:hover{
+        background: #C01616;
+        color: #fff;
+    }
+
+    .mobile-menu-bottom-content{
+        padding: 0 26px 24px 26px;
+        margin-bottom: 54px;
+    }
+
+    .mobile-menu-contacts .contact-item{
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 24px;
+    }
+    .mobile-menu-contacts .contact-item svg{
+        margin-right: 10px;
+    }
+    .mobile-menu-contacts .contact-item span p{
+        margin-left: 30px;
+        margin-top: 4px;
+        color: #6C6E73;
+        font-size: 12px;
+        line-height: 16px;
+        font-family: 'Graphik-Regular';
+    }
+    .mobile-menu-contacts .contact-item:last-of-type{
+        margin-bottom: 24px;
+    }
+    #MobileNav{
+        margin-bottom: 0px;
+    }
+    .menu-account-login svg{
+        margin-right: 10px;
+    }
+    .menu-account-login a{
+        font-size: 14px;
+        line-height: 20px;
+        color: #222222;
+        font-family: "Graphik-Medium";
+    }
+    .menu-account-login {
+        border-top: 1px solid #E9ECEE;
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+
+
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var titleTriggerFaq = $('.mobile-menu-item');
+        titleTriggerFaq.click(function () {
+            $(this).next('.faq__answer').slideToggle(250);
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                // $('.site-footer-block-title').removeClass('visible');
+                if ($('.mobile-menu-item ').not(this).hasClass('active')) {
+                    $('.mobile-menu-item.active ').not(this).next('.faq__answer').slideToggle(250);
+                    $('.mobile-menu-item ').not(this).removeClass('active');
+
+                }
+
+                $(this).addClass('active');
+            }
+        });
+    });
+</script>

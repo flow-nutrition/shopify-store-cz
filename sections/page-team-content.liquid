@@ -1,0 +1,48 @@
+<div class="page-team-content">
+  <div class="container">
+    <div class="item left">
+      {% if section.settings.left_col != blank %}
+        {{ section.settings.left_col }}
+      {% endif %}
+    </div>
+    <div class="item right">
+      {% if section.settings.right_col != blank %}
+        {{ section.settings.right_col }}
+      {% endif %}
+    </div>
+  </div>
+  <div class="button-link">
+    <a href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+  </div>
+</div>
+  
+
+
+{% schema %}
+{
+  "name": "Team content",
+  "class": "page-section",
+  "settings": [
+	{
+      "type": "textarea",
+      "id": "left_col",
+      "label": "Left column"
+    },
+	{
+      "type": "textarea",
+      "id": "right_col",
+      "label": "Right column"
+    },
+	{
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ]
+}
+{% endschema %}

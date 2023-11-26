@@ -1,0 +1,464 @@
+<link
+        rel="stylesheet"
+        href="{{ 'form-page.css' | asset_url }}"
+        media="print"
+        onload="this.media='all'"
+/>
+<script src="{{ 'complaint-form.js' | asset_url }}" defer="defer"></script>
+<div id="complaint-wrapper" class="form-container hidden">
+    <div class="form-heading">
+        <h1 class="form-article">
+            1. Vyplňte reklamační formulář
+        </h1>
+        <p class="complaint-article">
+            Budeme rádi za tvůj upřímný feedback. Pomůžeš nám tím posouvat se dál a zlepšovat naše produkty a služby! :)
+        </p>
+    </div>
+
+    <form class="product-form" id="complaint-form">
+
+    <div>
+        <label for="complaint-form-name">Jméno a příjmení <span class="red-star-required">*</span></label>
+        <input placeholder="Jméno a příjmení" type="text" name="fname" id="complaint-form-name">
+    </div>
+    <div>
+        <label for="complaint-form-email">E-mail <span class="red-star-required">*</span></label>
+        <input placeholder="E-mail" type="text" name="email" id="complaint-form-email">
+    </div>
+        <div class="flex-fields">
+            <div class="flex-input">
+                <label for="account-number">Číslo účtu pro poslání peněz <span class="red-star-required">*</span></label>
+                <input id="account-number" placeholder="Číslo účtu pro poslání peněz" type="text">
+            </div>
+            <div class="flex-input">
+                <label for="order-number">Číslo objednávky z objednávkového emailu <span class="red-star-required">*</span></label>
+                <input id="order-number" placeholder="Číslo objednávky z objednávkového emailu" type="text">
+            </div>
+        </div>
+        <label for="form-select">Produkt <span class="red-star-required">*</span></label>
+        <div class="select" id="form-select">
+            <div class="select-head">
+                <span style="padding-top: 5px">Vyberte produkt</span>
+                <img class="open-icon" src="https://cdn.shopify.com/s/files/1/0511/0421/9293/files/select_icon_4df72e40-ebba-4b71-8f3c-12d42111307a.png?v=1683027137" alt="">
+            </div>
+            <input type="hidden" name="product" id="product" />
+            <ul class="select-list">
+                {%- for product in collections.all.products -%}
+                    <li id="{{ product.id }}">
+                        {{
+                        product.featured_image
+                        | img_url: "600x600"
+                        | img_tag: product.featured_image.alt
+                        }}<span>{{ product.title }}</span>
+                    </li>
+                {%- endfor -%}
+            </ul>
+        </div>
+        <div>
+            <label for="complaint-reason">Důvod vrácení <span class="red-star-required">*</span></label>
+            <input id="complaint-reason" placeholder="Důvod vrácení" type="text">
+        </div>
+        <div>
+            <label for="should-improve">Co bychom podle tebe měli zlepšit? <span class="red-star-required">*</span></label>
+            <input id="should-improve" placeholder="Co bychom podle tebe měli zlepšit?" type="text">
+        </div>
+        <span class="red-star-required">* Povinné údaje</span>
+            <div class="fail">
+                <p >Vyplňte všechna povinná pole</p>
+            </div>
+            <div class="success">
+                <p >Reklamace úspěšně odeslána</p>
+            </div>
+    <div class="text-and-button-wrapper" style="grid-column: 1/3;">
+        <div class="page-width">
+            <button type="submit"
+               class="hero__btn">
+                Odeslat
+            </button>
+        </div>
+    </div>
+    </form>
+</div>
+
+<style>
+    .hidden{
+        display: none;
+    }
+    .form-article{
+        font-size: 32px;
+        line-height: 42px;
+    }
+    .complaint-article{
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+        max-width: 560px;
+        margin: auto;
+    }
+    .search-bar__input{
+        border: none;
+    }
+    .hero__btn{
+        margin-top: 50px;
+    }
+    .select-head{
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+    }
+    .select-head .open-icon{
+        width: 18px;
+        height: 9px;
+        margin-top: 4px;
+        margin-left: auto;
+    }
+    .flex-input{
+        width: 50%;
+    }
+    .flex-fields{
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+    }
+    .review-body{
+        height: 100px;
+    }
+    .product-form{
+        display: block;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 40px;
+        max-width: 1000px;
+        margin: auto;
+    }
+    .form-input{
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #E4E7E9;
+        height: 54px;
+        outline: none;
+    }
+    .form-heading{
+        text-align: center;
+    }
+    .custom-reviews-wrapper .reviews-texts .spr-badge-starrating{
+        margin: 10px 0 0;
+    }
+    a.reviews-content-button{
+        position: relative;
+    }
+    a.reviews-content-button:after{
+        content: url("//cdn.shopify.com/s/files/1/0511/0421/9293/t/22/assets/dropdown-arrow.svg?v=8910488665677481323");
+        display: block;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 40px;
+
+    }
+    .spr-summary-starrating, .spr-summary-actions-togglereviews{
+        display: block;
+        margin-bottom: 16px !important;
+
+    }
+    .reviews-content-button{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        padding: 22px 96px 22px 32px;
+        color: #222222;
+        margin-top: 58px;
+        background: #F5F6F7;
+        border-radius: 68px;
+        display: inline-block;
+    }
+
+    .spr-icon{
+        margin-right: 4px;
+    }
+    .custom-reviews-wrapper, .spr-container{
+        max-width: 1120px;
+        display: flex;
+        justify-content: space-between;
+        margin: auto;
+        border:unset;
+    }
+    .review-content{
+        max-width: 630px;
+    }
+    .custom-reviews-wrapper, .spr-container{
+        padding: 120px 10px;
+    }
+    .mobile-show{
+        display: none;
+    }
+    .review-text, .spr-review-content-body {
+        margin-top: 24px !important;
+        margin-bottom: 32px !important;
+        font-size: 16px !important;
+        line-height: 28px !important;
+    }
+
+    .reviews-texts p, .spr-summary{
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-size: 14px !important;
+        line-height: 24px !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        color: #8B9093 !important;
+        margin-bottom: 16px !important;
+    }
+    .reviews-texts h2, #shopify-product-reviews .spr-header-title{
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-size: 32px !important;
+        line-height: 48px !important;
+        max-width: 352px !important;
+        margin-bottom: 54px !important;
+        color: #222222 !important;
+    }
+    .review-image-wrapper{
+        display: flex;
+        display: -webkit-inline-box;
+    }
+    .review-image-wrapper img{
+        max-width: 44px;
+        margin-right: 16px;
+        object-fit: contain;
+    }
+    span.reviewer-name{
+        margin-bottom: 5px;
+        font-family: 'Graphik-Medium';
+        font-weight: 400;
+    }
+
+    .review-name-wrapper{
+        display: flex;
+        flex-direction: column;
+    }
+    .average_review{
+        font-style: normal !important;
+        font-weight: normal !important;
+        font-family: 'Graphik-Light';
+        font-size: 56px !important;
+        line-height: 72px !important;
+        color: #222222 !important;
+    }
+    .reviews_amount{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 22px;
+        /* identical to box height, or 157% */
+
+
+        /* Grayscale / Gray 60 (Disabled) */
+        display: block;
+        color: #8B9093;
+        margin-bottom: 90px;
+
+    }
+    .reviews-texts-button:hover, .spr-summary-actions-newreview:hover{
+        background-color: #F5F6F7;
+    }
+    .reviews-texts-button, .spr-summary-actions-newreview{
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FF4438;
+        border: 1px solid lightgray;
+        border-radius: 96px;
+        display: inline-block;
+        padding: 22px 76px;
+        text-transform: initial;
+        margin-top: 70px;
+        font-family: 'Graphik-Medium';
+    }
+    .spr-summary-caption{
+        margin-top: unset;
+        display: block;
+
+    }
+    .spr-form-actions .spr-button.spr-button-primary{
+        background: #fff;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FF4438;
+        border: 1px solid lightgray;
+        border-radius: 96px;
+        display: block;
+        padding: 22px 76px;
+        text-transform: initial;
+        font-family: 'Graphik-Medium';
+        float: none;
+        margin: 0 auto;
+    }
+    .spr-form-actions .spr-button.spr-button-primary:hover{
+        background-color: #F5F6F7;
+        outline: none;
+    }
+    .spr-form-actions .spr-button.spr-button-primary:focus{
+        box-shadow: none;
+    }
+    .spr-badge-caption{
+        margin-left: 30px;
+        color: #6C6E73!important;
+        font-size: 14px;
+        line-height: 20px;
+        font-family: 'Graphik-Medium';
+        border-bottom: 2px solid #FF4438;
+    }
+    .review-counts{
+        display: none;
+    }
+    #shopify-product-reviews .spr-header-title.no_reviews{
+        max-width: unset!important;
+    }
+
+    .spr-content {
+        display: block !important;
+    }
+    @media( max-width: 767px){
+        .hero__btn{
+            margin-top: 20px;
+        }
+        .form-article{
+            font-size: 28px;
+            line-height: 40px;
+        }
+        .form-heading {
+            margin-bottom: 40px;
+        }
+        .product-form{
+            padding: 0;
+        }
+        .reviews-texts p, .spr-summary{
+            margin-bottom: 8px;
+        }
+        .spr-container{
+            flex-wrap: wrap;
+        }
+        .spr-content{
+            width: 100%;
+            padding: 0 20px;
+        }
+        .reviews-content{
+        }
+        .mobile-show{
+            display: inline-block;
+        }
+        .reviews-texts{
+            text-align: center;
+            width: 100%;
+        }
+        .spr-header{
+            width: 100%;
+            text-align:center;
+        }
+        .spr-content{
+            display: block !important;
+        }
+        .flex-fields{
+            flex-direction: column;
+            gap: 0;
+        }
+        .flex-input{
+            width: 100%;
+        }
+        #shopify-product-reviews .spr-header-title{
+
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        .reviews-texts h2{
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 18px;
+        }
+        .custom-reviews-buttons-wrapper{
+            display: flex;
+            flex-direction: column;
+
+            max-width: 330px;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        .reviews-content-button.mobile-show{
+            margin-top: 16px;
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 400;
+            font-family: 'Graphik-Medium';
+        }
+        .average_review{
+            display: inline-block;
+            margin-bottom: 0;
+
+        }
+        .reviews-content-button {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 20px;
+            padding: 22px 32px 22px 32px;
+            color: #222222;
+            margin-top: 64px;
+            background: #F5F6F7;
+            border-radius: 68px;
+            display: inline-block;
+            margin-right: unset;
+            margin-left: unset;
+        }
+        .custom-reviews-wrapper{
+            padding: 56px 10px 50px;
+
+        }
+        .reviews_amount{
+            margin-bottom: 36px;
+        }
+        .product-form{
+            display: block;
+        }
+        .fail, .success{
+            margin-top: 30px;
+            width: 100%;
+        }
+    }
+        @media (max-width: 550px) {
+            .form-heading{
+                margin-bottom: 40px;
+            }
+        }
+</style>
+<script>
+    setTimeout(function () {
+
+        var jsons = $("#shopify-product-reviews [type='application/ld+json']");
+        jsons = jsons.text();
+        if  (jsons.length){
+            var raitingVal =  $.parseJSON(jsons).ratingValue;
+            $( "<p class='average_review'>"+ (Math.round(raitingVal * 10) / 10).toFixed(1)+ "</p>" ).insertAfter( ".spr-header-title" );
+        }else{
+            $('.spr-content').hide();
+            $('.spr-header').css('text-align', 'center');
+            $('#shopify-product-reviews .spr-header-title').addClass('no_reviews');
+
+            let review_header = document.querySelector(".spr-header-title");
+            if (review_header.classList.contains("no_reviews")) {
+                let review_form = document.querySelector(".spr-content");
+                review_form.style.display = "block";
+                document.querySelector(".spr-form").style.display = "block";
+            }
+        }
+
+
+    }, 2000)
+
+
+</script>

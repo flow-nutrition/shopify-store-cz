@@ -1,0 +1,680 @@
+<section class="review-slider">
+  <div class="review-container">
+    <div style="flex-direction: row" class="buttons-wrapper">
+      <div class="review-subtitle">Recenze zákazníků</div>
+      <div class="container-arrows">
+        <!--
+          <div class="prev-review-slide"><img src="{{ 'arrow-left.svg' | asset_url }}" alt=""></div>
+          <div class="next-review-slide"><img src="{{ 'arrow-right.svg' | asset_url }}" alt=""></div>
+        -->
+        <div class="prev-review-slide2">{% include 'review_arrow_left' %}</div>
+        <div class="next-review-slide2">{% include 'review_arrow_right' %}</div>
+      </div>
+    </div>
+
+    <div class="review-slick-slider">
+      {% for block in section.blocks %}
+        <div class="review-item">
+          <!-- <div style="opacity: 0.1" class="review-subtitle">{{ block.settings.sub-title }}</div> -->
+          <div class="review-images-wrapper">
+            <div class="review-image-block">
+              <img src="{{ block.settings.author-image | img_url: '80x80'}}">
+            </div>
+            <div class="review-text-block">
+              <div class="author-block">
+                <div class="author-title">{{ block.settings['author-title'] }}</div>
+                <div class="author-name">{{ block.settings['author-name'] }}</div>
+              </div>
+              <div class="product-block">
+                <div class="product-title">{{ block.settings['product-title'] }}</div>
+                <a href="{{ block.settings.product-url }}" class="product-name">{{ block.settings['product-name'] }}</a>
+              </div>
+            </div>
+          </div>
+          <div class="review_star_rairing review_star_{{ block.id }}">
+            {% include 'custom_star_raiting' %}
+          </div>
+          <div class="review-text">{{ block.settings['review-text'] }}</div>
+          <div class="show">Číst více</div>
+          <div class="hide__show hide">Ukaž méně</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="text-and-button-wrapper btn-reviews" style="background-color: {{ section.settings.bg_color }};">
+    <div class="page-width">
+      <a
+        href="https://flow-nutrition.cz/pages/recenze"
+        class="hero__btn"
+      >
+        Napište recenzi
+      </a>
+    </div>
+  </div>
+</section>
+
+{%- style -%}
+  {% if template != 'index' %}
+  .prev-review-slide circle, .next-review-slide circle{
+      stroke: #E4E7E9;
+  }
+  .prev-review-slide path, .next-review-slide path{
+      stroke: #6C6E73;
+  }
+  {% endif %}
+
+  {% for block in section.blocks %}
+      {% if block.settings.star_raiting == 'low' %}
+      .review_star_{{ block.id }} svg:nth-last-child(-n+2){
+          fill: transparent;
+      }
+      {% elsif block.settings.star_raiting == 'mid' %}
+      .review_star_{{ block.id }} svg:last-child{
+          fill: transparent;
+      }
+      {% else %}
+      .review_star_{{ block.id }} svg{
+          fill: #FF4438;
+      }
+      {% endif %}
+  {% endfor %}
+{%- endstyle -%}
+
+<style>
+      /*TEXT AND BUTTON AT THE BOTTOM OF THE SECTION*/
+      .container-arrows{
+          display: flex;
+      }
+      .review-container{
+          padding-left: 165px;
+          padding-top: 95px;
+      }
+      .slick-slide {
+          width: 100%;
+      }
+      .review-slick-slider{
+          display: flex;
+      }
+      .review-slick-slider .review-item{
+          background-color: white;
+          border-radius: 8px;
+          padding: 20px 20px 0 20px;
+          min-height: 310px;
+          max-width: 370px;
+          border: solid #E4E7E9 1px;
+          margin: 18px;
+      }
+      .text-and-button-wrapper{
+          width: 100%;
+          text-align: center;
+          margin: auto;
+      }
+      .btn-reviews{
+          padding: 60px 0;
+      }
+      .text-block{
+          font-family: "Graphik-Regular";
+          font-style: normal;
+          font-weight: normal;
+          font-size: 24px;
+          line-height: 36px;
+          text-align: center;
+          color: #222222;
+          margin-bottom: 22px;
+      }
+      .text-and-button-wrapper .hero__btn.transparent{
+          background: transparent;
+          max-width: 203px;
+          min-height: 60px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 900px;
+          font-style: normal;
+          font-weight: 800;
+          font-family: "Graphik-Regular";
+          font-size: 16px;
+          line-height: 20px;
+          color: #FF4438;
+          border: 1px solid #E4E7E9;
+          margin: 0 auto;
+          transition: 0.2s;
+      }
+      .text-and-button-wrapper .hero__btn.transparent:hover{
+          color: #FF4438!important;
+          background: #F5F6F7!important;
+          border: 1px solid #E4E7E9;
+      }
+      .text-and-button-wrapper .hero__btn {
+          background: #FF4438;
+          border-radius: 900px;
+          font-family: "Graphik-Regular";
+          font-style: normal;
+          font-weight: 800;
+          font-size: 16px;
+          line-height: 20px;
+          color: #FFFFFF;
+          border: 1px solid #FF4438;
+          transition: 0.2s;
+          padding: 22px 40px;
+          display: inline-block;
+          width: 218px;
+      }
+      .review_arrow_left{
+          margin-right: 20px;
+      }
+
+      .slick-track{
+          align-items: flex-start;
+      }
+
+      .text-and-button-wrapper .hero__btn:hover{
+          color: #FFFFFF!important;
+          background: #C01616!important;
+          border: 1px solid #C01616;
+      }
+      @media (max-width: 1250px){
+          .review-container{
+              padding-left: 80px;
+          }
+      }
+      @media (max-width: 970px){
+          .review-container{
+              padding-left: 30px;
+          }
+      }
+      @media (max-width: 768px){
+          .review-slick-slider .review-item{
+              margin: 10px;
+          }
+          .review-slick-slider .review-item{
+              min-height: 320px;
+              max-width: 270px;
+          }
+          .btn-reviews{
+              padding: 20px 0 50px 0;
+          }
+          .text-and-button-wrapper{
+              margin-top: 25px;
+          }
+          .text-block{
+              font-size: 20px;
+              line-height: 32px;
+              margin-bottom: 22px;
+          }
+
+          .review-container{
+              padding-left: 16px;
+              padding-top: 50px;
+          }
+      }
+      @media (max-width: 480px){
+          .slick-list draggable{
+              padding: 0!important;
+          }
+          .text-block{
+              margin: 0 auto;
+              margin-bottom: 16px;
+          }
+          .text-and-button-wrapper .hero__btn.transparent{
+              max-width: 201px;
+              min-height: 48px;
+          }
+
+      }
+
+      /*WHOLE SECTION SLIDER CSS*/
+      .review-container .buttons-wrapper{
+          margin-bottom: 10px;
+      }
+      .feature-columns .slider-content .review-item:nth-child(3n){
+          margin-right: 40px;
+      }
+      .review-slider-wrapper .feature-columns .slider-content .review-item{
+          margin-right: 32px!important;
+      }
+
+      .slider-content .slick-list{
+          padding: 0 0 0 188px !important;
+      }
+
+      @media (max-width: 1500px){
+          .slider-content .slick-list{
+              padding: 0 0 0 33px !important;
+          }
+      }
+      @media (max-width: 600px){
+          .slider-content .slick-list{
+              padding: 0 0 0px 0px !important;
+          }
+      }
+
+      .review-slider-wrapper .slider-buttons-wrapper .slick-arrow{
+          border: 1px solid transparent;
+      }
+
+      .review-slider{
+          width: 100%;
+          background-color: {{ section.settings.bg-color }};
+      }
+
+  .show, .hide__show{
+      color: #FF4438;
+      margin-bottom: 16px;
+      cursor: pointer;
+      font-family: 'Graphik-Medium';
+  }
+  .review-text.show__text{
+      max-height: 1000px;
+  }
+      .product-block{
+          line-height: 1;
+          margin-top: 6px;
+      }
+  .review-text{
+      max-width: 779px;
+      line-height: 38px;
+      margin-bottom: 2rem;
+      transition: all .5s linear;
+      max-height: 70px;
+      overflow: hidden;
+  }
+
+  .review-text-block{
+      display: block;
+  }
+
+  .review-slider-wrapper .buttons-wrapper > div:hover{
+      cursor: pointer;
+  }
+
+  .review-slider-wrapper{
+      padding-top: 60px;
+      padding-left: 165px;
+  }
+  .buttons-wrapper{
+      flex-direction: row;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 165px;
+  }
+  .slider-content{
+      /*margin-left: 87px;*/
+      display: flex;
+      width: 100%;
+      margin: auto;
+  }
+  {% if template == 'index' %}
+  .review-subtitle{
+      color: #222222;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 42px;
+      letter-spacing: 0;
+  }
+  {% else %}
+  .review-subtitle{
+      color: #222222;
+      font-size: 32px;
+      line-height: 42px;
+      letter-spacing: 0;
+  }
+  {% endif %}
+  .review-text{
+      max-width: 779px;
+  }
+  {% if template == 'index' %}
+  .review-text p{
+      color: #222222;
+      font-size: 16px;
+      line-height: 23px;
+  }
+  {% else %}
+  .review-text p{
+      color: #222222;;
+      font-size: 16px;
+      line-height: 24px;
+  }
+  {% endif %}
+  .review-images-wrapper{
+      display: flex;
+      flex-direction: row;
+      height: 112px;
+      align-items: flex-start;
+  }
+  .review-image-block{
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-right: 2px;
+      object-fit: fill;
+  }
+  .review-image-block img{
+      border-radius: 15px;
+      width: 80px;
+      height: 80px;
+      margin-right: 16px;
+  }
+  {% if template == 'index' %}
+  .author-title,.product-title{
+      font-size: 12px;
+      line-height: 24px;
+      color: #FF4438;
+      text-transform: uppercase;
+  }
+  .author-name,.product-name{
+      font-size: 14px;
+      line-height: 7px;
+      color: #222222;
+  }
+  {% else %}
+  .author-title,.product-title{
+      font-size: 12px;
+      line-height: 24px;
+      color: #FF4438;
+      text-transform: uppercase;
+  }
+  .author-name,.product-name{
+      font-size: 14px;
+      line-height: 7px;
+      color: #222222;
+  }
+  {% endif %}
+  a.product-name{
+      text-decoration: underline;
+  }
+  .review-link{
+      color: #FF4438;
+      font-size: 16px;
+      line-height: 20px;
+      border-bottom: 2px solid;
+      padding-bottom: 2px;
+      font-weight: 600;
+  }
+  .review-link:hover{
+      border-bottom: none;
+  }
+  .review_star_rairing{
+      margin: -12px 0 14px 0;
+  }
+  .review_star_rairing svg{
+      margin-right: 2px;
+      fill: #FF4438;
+      width: 20px;
+      height: 19px;
+  }  @media (max-width: 1250px){
+          .buttons-wrapper{
+              padding-right: 80px;
+          }
+          .review-slider-wrapper{
+              padding-left: 80px;
+          }
+      }
+      @media (max-width: 970px){
+          .review-slider-wrapper{
+              padding-left: 30px;
+          }
+          .buttons-wrapper{
+              padding-right: 30px;
+          }
+      }
+  @media (max-width: 1100px){
+  }
+  @media (max-width: 767px){
+      .review-slider-wrapper{
+          padding-top: 50px;
+          position: relative;
+      }
+      .buttons-wrapper{
+          padding-right: 16px;
+      }
+      /*.review-slider-wrapper .buttons-wrapper {*/
+      /*    right: unset;*/
+      /*    left: 26px;*/
+      /*    bottom: 44px;*/
+      /*}*/
+      .text-row.heading .image img{
+          border-radius: unset;
+      }
+
+      .buttons-wrapper{
+          margin-bottom: 14px;
+          bottom: 50px;
+          right: 40px;
+          z-index: 2;
+      }
+      .review-text p{
+          font-size: 16px;
+          line-height: 23px;
+      }
+  }
+  @media (max-width: 480px) {
+      .review-subtitle{
+          font-size: 24px;
+          line-height: 32px;
+          margin-bottom: 0;
+      }
+      .review_arrow_left{
+          margin-right: 10px;
+      }
+      .prev-review-slide2 svg, .next-review-slide2 svg {
+          width: 44px;
+          height: 44px;
+      }
+      .review-slider-wrapper {
+          padding-left: 30px;
+      }
+      .review-text p{
+          font-size: 16px;
+          line-height: 23px;
+          max-width: 280px;
+          margin-bottom: 35px;
+      }
+      .review-image-block{
+          margin-bottom: 22px;
+      }
+      .review-image-block:last-of-type{
+          margin-bottom: 48px;
+      }
+      .prev-review-slide svg,.next-review-slide svg{
+          max-width: 44px;
+          height: 44px;
+      }
+      .buttons-wrapper{
+          min-width: 104px;
+          bottom: 45px;
+          right: 45px;
+      }
+      .review-slider-wrapper .slick-list{
+          padding: 0 10% 0 0;
+      }
+      .review-item.slick-slide .review-link{
+         opacity: 0;
+      }
+      .review-item.slick-slide.slick-current.slick-active {
+          opacity: 1;
+          transition: 1s;
+      }
+      .review-item.slick-slide.slick-current.slick-active .review-link{
+          opacity: 1;
+          transition: 1s;
+      }
+      .review-text {
+          overflow-y: hidden;
+      }
+      .review-item .show, .review-item .hide__show {
+          visibility: visible;
+          opacity: 1;
+          height: auto;
+      }
+  }
+</style>
+{{ 'slick.min.js' | asset_url | script_tag }}
+
+<script>
+  $('.show').click(function(){
+      $(this).closest('.review-item').find('.review-text').addClass('show__text')
+      $(this).closest('.review-item').find('.hide__show').removeClass('hide')
+      $(this).addClass('hide')
+  })
+  $('.hide__show').click(function(){
+      $(this).addClass('hide')
+      $(this).closest('.review-item').find('.review-text').removeClass('show__text')
+      $(this).closest('.review-item').find('.show').removeClass('hide')
+  })
+</script>
+
+<script>
+  $('.review-slick-slider').slick({
+      infinite: true,
+      speed: 300,
+      slidesToShow: 4,
+      variableWidth: true,
+      slidesToScroll: 1,
+      prevArrow: $('.prev-review-slide2'),
+      nextArrow: $('.next-review-slide2'),
+      responsive: [
+          {
+              breakpoint: 1500,
+              settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 1,
+              }
+          },
+          {
+              breakpoint: 1000,
+              settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 1,
+              }
+          },
+          {
+              breakpoint: 900,
+              settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+              }
+          }
+      ],
+  });
+</script>
+
+{% schema %}
+{
+"name": "Review slider",
+"class": "index-section",
+"settings": [
+{
+"type": "color",
+"id": "bg-color",
+"label": "Background color"
+}
+],
+"blocks": [
+{
+"type": "review_item",
+"name": "Review",
+"settings": [
+{
+"type": "text",
+"id": "sub-title",
+"label": "Subtitle",
+"default": "Zákazníci o nás řekli"
+},
+{
+"type": "richtext",
+"id": "review-text",
+"label": "Review text"
+},
+{
+    "type": "select",
+    "id": "star_raiting",
+    "label": "Star raiting",
+    "options": [
+        {
+            "value": "high",
+            "label": "High"
+        },
+        {
+            "value": "mid",
+            "label": "Medium"
+        },
+        {
+            "value": "low",
+            "label": "Low"
+        }
+
+    ]
+},
+{
+"type": "image_picker",
+"id": "author-image",
+"label": "Author image"
+},
+{
+"type": "text",
+"id": "author-title",
+"label": "Author title",
+"default": "Autor"
+},
+{
+"type": "text",
+"id": "author-name",
+"label": "Author name"
+},
+{
+"type": "image_picker",
+"id": "product-image",
+"label": "Product image"
+},
+{
+"type": "text",
+"id": "product-title",
+"label": "Product title",
+"default": "Produkt"
+},
+{
+"type": "text",
+"id": "product-name",
+"label": "Product name"
+},
+{
+"type": "url",
+"id": "product-url",
+"label": "Product url"
+},
+{
+"type": "text",
+"id": "review-link-label",
+"label": "Review link label",
+"default": "Všechny recenze"
+},
+{
+"type": "url",
+"id": "review-url",
+"label": "Review url"
+}
+]
+}
+],
+"presets": [
+{
+"name": "Review slider",
+"category": "Slider",
+"blocks": [
+{
+"type": "review_item"
+},
+{
+"type": "review_item"
+},
+{
+"type": "review_item"
+}
+]
+}
+]
+}
+{% endschema %}

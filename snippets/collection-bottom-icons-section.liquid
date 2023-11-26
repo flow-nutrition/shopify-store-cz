@@ -1,0 +1,139 @@
+{% if section.settings.icon1 != blank or section.settings.icon2 != blank or section.settings.icon1 != blank %}
+<div class="collection-footer-wrapper">
+    <div class="collection-footer-content">
+        <div>
+            {{section.settings.icon1 | replace: '<svg', '<svg class="icon"' }}
+           <div class="icon-content">
+            <h4>{{ section.settings.icon1-title }}</h4>
+            {{ section.settings.icon1-content }}
+           </div>
+        </div>
+        <div>
+            {{section.settings.icon2 | replace: '<svg', '<svg class="icon"' }}
+            <div class="icon-content">
+            <h4>{{ section.settings.icon2-title }}</h4>
+            {{ section.settings.icon2-content }}
+            </div>
+        </div>
+        <div class="last-icon-item">
+            {{section.settings.icon3 | replace: '<svg', '<svg class="icon"' }}
+            <div class="icon-content">
+            <h4>{{ section.settings.icon3-title }}</h4>
+            {{ section.settings.icon3-content }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+
+    .collection-footer-wrapper {
+        max-width: 1120px;
+        margin: 0 auto;
+        border: 1px solid #E4E7E9;
+        border-radius: 8px;
+    }
+
+    .collection-footer-content {
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        min-height: 440px;
+        align-items: center;
+        max-width: 938px;
+    }
+
+
+
+    .collection-footer-content svg {
+        width: 58px;
+        height: auto;
+        margin-bottom: 25px;
+        color: transparent;
+    }
+
+    .collection-footer-content h4 {
+        font-size: 16px;
+        line-height: 20px;
+        color: #222222;
+        font-family: 'Graphik-Medium';
+        margin-bottom: 16px;
+    }
+
+    .collection-footer-content p {
+        font-size: 14px;
+        line-height: 20px;
+        color: #6C6E73;
+        max-width: 235px;
+
+    }
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+        .collection-footer-content {
+            flex-wrap: wrap;
+        }
+    }
+    @media (max-width: 1408px) {
+        .collection-footer-wrapper {
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+    }
+    @media (max-width: 1152px) {
+        .collection-footer-wrapper {
+            max-width: 1152px;
+        }
+    }
+    @media (max-width: 749px) {
+        .collection-footer-content{
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .collection-footer-wrapper{
+            background: #F5F6F7;
+            border: none;
+            border-radius: 0;
+            margin: 0;
+        }
+    }
+    @media (max-width: 600px) {
+        .collection-footer-content div {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 43px;
+        }
+
+        .collection-footer-content svg{
+            margin-right: 25px;
+        }
+        .collection-footer-content .icon-content{
+            flex-direction: column;
+            text-align: left;
+            margin-bottom: 0;
+        }
+        .collection-footer-content{
+            flex-direction: column;
+            padding-top: 60px;
+            margin-top: 20px;
+        }
+    }
+    @media (max-width: 480px) {
+        .collection-footer-content svg{
+            width: 40px;
+        }
+        .collection-footer-content h4{
+            font-size: 16px;
+            line-height: 22px;
+            margin-bottom: 4px;
+        }
+        .collection-footer-content p{
+            font-size: 14px;
+            line-height: 22px;
+        }
+        .collection-footer-content .last-icon-item{
+            margin-bottom: 36px;
+        }
+    }
+
+</style>

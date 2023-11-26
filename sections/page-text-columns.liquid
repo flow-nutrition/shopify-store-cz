@@ -1,0 +1,49 @@
+<div class="page-columns">
+  <div class="grid">
+    {% for block in section.blocks %}
+      <div class="grid__item medium-up--one-third">
+        {% if block.settings.label != blank %}
+          <p class="label">{{ block.settings.label | escape }}</p>
+        {% endif %}
+        {% if block.settings.heading != blank %}
+          <h2>{{ block.settings.heading | escape }}</h2>
+        {% endif %}
+        {% if block.settings.text != blank %}
+          <div class="rte-setting">{{ block.settings.text }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+  
+
+
+{% schema %}
+{
+  "name": "Text columns",
+  "class": "page-section",
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Column",
+      "settings": [
+		{
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

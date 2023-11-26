@@ -1,0 +1,49 @@
+<div class="filter-sidebar">
+  <div class="category-menu-toggle">Kategorie</div>
+  <div class="collection-btn-group">
+    {% for block in section.blocks %}
+      <a class="{% if block.settings.collection-title == collection.title or block.settings.collection-title == 'Všechny produkty' and collection.title == 'Produkty' %}current{% endif %}" href=" {{ block.settings.collection-url }}"> {{ block.settings.collection-title }}</a>
+    {% endfor %}
+  </div>
+
+  {% assign filter_tags = section.settings.filter_tags | split: ', ' %}
+  {% if filter_tags.size > 0 %}
+  <div class="filter-tags-container">
+    <a class="remove_all_filter" href="{{ collection.url }}" style="display: none;">
+      Zrušit vybrané filtry
+      <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.36373 0.133429C1.24743 0.133429 1.13099 0.177731 1.04236 0.266593L0.133292 1.17566C-0.0444307 1.35338 -0.0444307 1.64113 0.133292 1.8184L3.44819 5.1333L0.133292 8.4482C-0.0444307 8.62592 -0.0444307 8.91367 0.133292 9.09094L1.04236 10C1.22008 10.1777 1.50783 10.1777 1.6851 10L5 6.68511L8.3149 10C8.49217 10.1777 8.78037 10.1777 8.95764 10L9.86671 9.09094C10.0444 8.91322 10.0444 8.62547 9.86671 8.4482L6.55181 5.1333L9.86671 1.8184C10.0444 1.64113 10.0444 1.35293 9.86671 1.17566L8.95764 0.266593C8.77992 0.0888701 8.49217 0.0888701 8.3149 0.266593L5 3.58149L1.6851 0.266593C1.59624 0.177731 1.48003 0.133429 1.36373 0.133429Z" fill="#6C6E73"/>
+      </svg>        
+    </a>
+    {% assign collection_all_tags = '' %}
+    {% for tag in collection.all_tags %}
+      {% capture collection_all_tags %}
+      {{ collection_all_tags | append: tag }}
+      {% endcapture %}
+    {% endfor %}
+    {% for filter_tag in filter_tags %}
+    {% if collection_all_tags contains filter_tag %}
+      <div class="filter-tag-group">
+        <div class="filter-tag-title">{{ filter_tag }}</div>
+        <div class="tags-container">
+          {% for tag in collection.all_tags %}
+            {% if tag contains filter_tag %}
+              {% capture tag_link_inner %}
+                <span {% if current_tags contains tag %}class="active"{% endif %}></span>
+                {{ tag | split: "_" | last }}
+              {% endcapture %}
+              {% if current_tags contains tag %}
+                {{ tag_link_inner | link_to_remove_tag: tag }}
+              {% else %}
+                {{ tag_link_inner | link_to_add_tag: tag }}
+              {% endif %}
+            {% endif %}
+
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>

@@ -1,0 +1,181 @@
+<div class="history_block">
+    <div class="history_block_position">
+        <div class="hist_head">
+            <h4>{{ section.settings.sub_head_hs}}</h4>
+            <h2>{{ section.settings.head_hs}}</h2>
+        </div>
+        <div class="banner_hist">
+            <img src="{{ section.settings.banner_hist | img_url: 'master'}}">
+        </div>  
+        <div class="m_banner_hist">
+            <img src="{{ section.settings.m_banner_hist | img_url: 'master'}}">
+        </div>  
+        <div class="hist_info">
+            <h3>{{ section.settings.text-box_hs}}</h3>
+        </div>
+    </div>
+</div>
+
+<style>
+    .history_block{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 1440px;
+        margin: auto;
+    }
+    .history_block h2{
+        font-weight: normal;
+        font-size: 32px;
+        line-height: 48px;
+        text-transform: none;
+    }
+    .history_block h3{
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 28px;
+        color: #6C6E73;
+    }
+    .history_block h4{
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #8B9093;
+        margin: 0 0 16px;
+    }
+    .history_block_position{
+        display: flex;
+        width: 80%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 70px;
+    }
+    .banner_hist{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: -90px;
+    }
+    .m_banner_hist{
+        display: none;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: -125px;
+    }
+    .banner_hist img{
+        max-width: 1440px;
+    }
+    .hist_head{
+        display: flex;
+        max-width: 676px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        z-index: 1;
+    }
+    .hist_info{
+        display: flex;
+        max-width: 322px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-left: auto;
+        margin-top: 80px;
+        margin-right: 230px
+    }
+    @media screen and (max-width: 1170px){
+        .hist_info{
+            margin-right: 0;
+        }
+    }
+    @media screen and (max-width: 768px){
+        .history_block_position{
+            width: 90%;
+        }
+        .history_block h2{
+            font-size: 28px;
+            line-height: 44px;
+        }
+        .hist_info{
+            margin-top: 32px;
+            max-width: 227px;
+            padding: 0;
+        }
+        .hist_head{
+            max-width: 480px;
+        }
+        .banner_hist img{
+            max-width: 768px;
+        }
+    }
+    @media screen and (max-width: 425px){
+        .history_block{
+            margin-top: 65px;
+        }
+        .history_block_position{
+            width: 100%;
+            margin-top: 0;
+        }
+        .hist_head{
+            padding: 0 32px;
+        }
+        .banner_hist{
+            display: none;
+            margin-top: -125px;
+        }
+        .m_banner_hist{
+            display: flex;
+        }
+        .m_banner_hist img{
+            width: 100%;
+        }
+        .hist_info{
+            margin-right: 32px;
+        }
+    }
+</style>
+
+{% schema %}
+{
+    "name": "history",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "banner_hist",
+            "label": "Description Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "m_banner_hist",
+            "label": "Mobile Description Image"
+        },
+        {
+            "id": "head_hs",
+            "type":"text",
+			"label":"Heading",
+			"default":"Tittle"
+        },
+        {
+            "id": "sub_head_hs",
+            "type":"text",
+			"label":"Heading",
+			"default":"Sub Tittle"
+        },
+        {
+            "id": "text-box_hs",
+            "type":"text",
+			"label":"Info",
+			"default":"Information"
+        }
+    ]
+}
+{% endschema %}

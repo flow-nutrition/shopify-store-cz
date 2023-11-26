@@ -1,0 +1,442 @@
+{% assign faq_titles = page.metafields.category.titles | split: ',' %}
+<div class="page page-faq">
+  <div class="page-container">
+    <div class="page-header">
+      <h1>{{ page.title }}</h1>
+
+      <div class="mobile-caterory-wrapper">
+        {% for title in faq_titles %}
+        {% if title == 'Obecne' %}
+        <div onclick="showhide('obecne');" class="active">Obecné</div>
+        {% endif %}
+
+        {% if title == 'Focus' %}
+        <div onclick="showhide('mindflow-focus');">Focus</div>
+        {% endif %}
+        {% if title == 'Decaf' %}
+        <div onclick="showhide('mindflow-decaf');">Decaf</div>
+        {% endif %}
+        {% if title == 'Mind Mg' %}
+        <div onclick="showhide('mindflow-mind-mg');">Mind Mg</div>
+        {% endif %}
+        {% if title == 'Hangover' %}
+        <div onclick="showhide('mindflow-hangover');">Hangover</div>
+        {% endif %}
+        {% if title == 'Advanced Mind' %}
+        <div onclick="showhide('mindflow-advanced-mind');">Advanced Mind</div>
+        {% endif %}
+        {% if title == 'Drive' %}
+        <div onclick="showhide('mindflow-drive');">Drive</div>
+        {% endif %}
+        {% if title == 'Active Coffee' %}
+        <div onclick="showhide('mindflow-active-coffee');">Active Coffee</div>
+        {% endif %}
+        {% if title == 'Sleep' %}
+        <div onclick="showhide('mindflow-sleep');">Sleep</div>
+        {% endif %}
+        {% if title == 'Sleep Melatonin Free' %}
+        <div onclick="showhide('mindflow-sleep-melatonin-free');">Sleep Melatonin Free</div>
+        {% endif %}
+        {% if title == 'Stress Free' %}
+        <div onclick="showhide('mindflow-stress-free');">Stress Free</div>
+        {% endif %}
+        {% if title == 'CBD + CBG oil' %}
+        <div onclick="showhide('mindflow-sleep-cbd-cbg-oil');">CBD + CBG oil</div>
+        {% endif %}
+        {% if title == 'Balicky' %}
+        <div onclick="showhide('mindflow-balicky');">Balíčky</div>
+        {% endif %}
+          {% if title == 'NEW FAQ 1' %}
+            <div onclick="showhide('NEW-FAQ-1');">NEW FAQ 1</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 2' %}
+            <div onclick="showhide('NEW-FAQ-2');">NEW FAQ 2</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 3' %}
+            <div onclick="showhide('NEW-FAQ-3');">NEW FAQ 3</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 4' %}
+            <div onclick="showhide('NEW-FAQ-4');">NEW FAQ 4</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 5' %}
+            <div onclick="showhide('NEW-FAQ-5');">NEW FAQ 5</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 6' %}
+            <div onclick="showhide('NEW-FAQ-6');">NEW FAQ 6</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <div class="container">
+      <div class="item left">
+        {% for title in faq_titles %}
+
+
+          {% if title == 'Obecne' %}
+            <div onclick="showhide('obecne');" class="active">Obecné</div>
+          {% endif %}
+
+          {% if title == 'Focus' %}
+            <div onclick="showhide('mindflow-focus');">Focus</div>
+          {% endif %}
+          {% if title == 'Decaf' %}
+            <div onclick="showhide('mindflow-decaf');">Decaf</div>
+          {% endif %}
+          {% if title == 'Mind Mg' %}
+            <div onclick="showhide('mindflow-mind-mg');">Mind Mg</div>
+          {% endif %}
+          {% if title == 'Hangover' %}
+            <div onclick="showhide('mindflow-hangover');">Hangover</div>
+          {% endif %}
+          {% if title == 'Advanced Mind' %}
+            <div onclick="showhide('mindflow-advanced-mind');">Advanced Mind</div>
+          {% endif %}
+          {% if title == 'Drive' %}
+            <div onclick="showhide('mindflow-drive');">Drive</div>
+          {% endif %}
+          {% if title == 'Active Coffee' %}
+            <div onclick="showhide('mindflow-active-coffee');">Active Coffee</div>
+          {% endif %}
+          {% if title == 'Sleep' %}
+            <div onclick="showhide('mindflow-sleep');">Sleep</div>
+          {% endif %}
+          {% if title == 'Sleep Melatonin Free' %}
+            <div onclick="showhide('mindflow-sleep-melatonin-free');">Sleep Melatonin Free</div>
+          {% endif %}
+          {% if title == 'Stress Free' %}
+            <div onclick="showhide('mindflow-stress-free');">Stress Free</div>
+          {% endif %}
+          {% if title == 'CBD + CBG oil' %}
+            <div onclick="showhide('mindflow-cbd-cbg-oil');">CBD + CBG oil</div>
+          {% endif %}
+          {% if title == 'Balicky' %}
+            <div onclick="showhide('mindflow-balicky');">Balíčky</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 1' %}
+            <div onclick="showhide('NEW-FAQ-1');">NEW FAQ 1</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 2' %}
+            <div onclick="showhide('NEW-FAQ-2');">NEW FAQ 2</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 3' %}
+            <div onclick="showhide('NEW-FAQ-3');">NEW FAQ 3</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 4' %}
+            <div onclick="showhide('NEW-FAQ-4');">NEW FAQ 4</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 5' %}
+            <div onclick="showhide('NEW-FAQ-5');">NEW FAQ 5</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 6' %}
+            <div onclick="showhide('NEW-FAQ-6');">NEW FAQ 6</div>
+          {% endif %}
+
+        {% endfor %}
+      </div>
+      <div class="item right">
+        {% for title in faq_titles %}
+            {% if title == 'Obecne' %}
+                <div class="accordion-hide" id="obecne" style="display: block;">{% section 'page-faq-obecne' %}</div>
+            {% endif %}
+          {% if title == 'Focus' %}
+                <div class="accordion-hide" id="mindflow-focus">{% section 'page-faq-focus' %}</div>
+          {% endif %}
+           {% if title == 'Decaf' %}
+                <div class="accordion-hide" id="mindflow-decaf">{% section 'page-faq-decaf' %}</div>
+           {% endif %}
+           {% if title == 'Mind Mg' %}
+                <div class="accordion-hide" id="mindflow-mind-mg">{% section 'page-faq-mind-mg' %}</div>
+           {% endif %}
+           {% if title == 'Hangover' %}
+                <div class="accordion-hide" id="mindflow-hangover">{% section 'page-faq-hangover' %}</div>
+           {% endif %}
+           {% if title == 'Advanced Mind' %}
+        <div class="accordion-hide" id="mindflow-advanced-mind">{% section 'page-faq-advanced-mind' %}</div>
+           {% endif %}
+             {% if title == 'Drive' %}
+        <div class="accordion-hide" id="mindflow-drive">{% section 'page-faq-drive' %}</div>
+             {% endif %}
+            {% if title == 'Active Coffee' %}
+       <div class="accordion-hide" id="mindflow-active-coffee">{% section 'page-faq-active-coffee' %}</div>
+           {% endif %}
+          {% if title == 'Sleep' %}
+        <div class="accordion-hide" id="mindflow-sleep">{% section 'page-faq-sleep' %}</div>
+          {% endif %}
+            {% if title == 'Sleep Melatonin Free' %}
+        <div class="accordion-hide" id="mindflow-sleep-melatonin-free">{% section 'page-faq-sleep-melatonin-free' %}</div>
+            {% endif %}
+           {% if title == 'Stress Free' %}
+        <div class="accordion-hide" id="mindflow-stress-free">{% section 'page-faq-stress-free' %}</div>
+           {% endif %}
+            {% if title == 'CBD + CBG oil' %}
+       <div class="accordion-hide" id="mindflow-cbd-cbg-oil">{% section 'page-faq-cbd-cbg-oil' %}</div>
+            {% endif %}
+                {% if title == 'Balicky' %}
+        <div class="accordion-hide" id="mindflow-balicky">{% section 'page-faq-balicky' %}</div>
+            {% endif %}
+
+          {% if title == 'NEW FAQ 1' %}
+            <div class="accordion-hide" id="NEW-FAQ-1">{% section 'NEW-FAQ-1' %}</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 2' %}
+            <div class="accordion-hide" id="NEW-FAQ-2">{% section 'NEW-FAQ-2' %}</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 3' %}
+            <div class="accordion-hide" id="NEW-FAQ-3">{% section 'NEW-FAQ-3' %}</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 4' %}
+            <div class="accordion-hide" id="NEW-FAQ-4">{% section 'NEW-FAQ-4' %}</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 5' %}
+            <div class="accordion-hide" id="NEW-FAQ-5">{% section 'NEW-FAQ-5' %}</div>
+          {% endif %}
+          {% if title == 'NEW FAQ 6' %}
+            <div class="accordion-hide" id="NEW-FAQ-6">{% section 'NEW-FAQ-6' %}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% section 'footer-newsletter' %}
+<style>
+  .bottom-newsletter-content-wrapper{
+    margin-top: -144px;
+  }
+  .page-faq.page .page-container{
+    padding-top: 55px;
+  }
+  .page-faq .page-container .page-header{
+    max-height: 240px;
+    max-width: 100%;
+    padding: 84px 159px;
+    min-height: unset;
+  }
+  .page.page-faq .page-content{
+    background: #F5F6F7;
+    max-width: 100%;
+    margin: 0;
+  }
+  .page.page-faq .page-content .container{
+    margin: 0;
+  }
+  .page-faq.page .page-header h1{
+    color: #222222;
+    font-size: 56px;
+    line-height: 72px;
+    font-family: 'Graphik-Light';
+  }
+  .page.page-faq .page-content .container{
+    padding: 0;
+    align-items: unset;
+    padding: 120px 160px 319px 160px;
+    justify-content: space-between;
+  }
+  .accordion-button{
+    margin: 0;
+  }
+  .page.page-faq .page-content .container .item.left div{
+    color: #222222;
+    font-size: 16px;
+    line-height: 28px;
+    padding: 18px 0;
+    border-bottom: 1px solid #E4E7E9;
+    cursor: pointer;
+  }
+  #shopify-section-page-faq-obecne #accordionFAQ{
+    margin: 0;
+  }
+  .mobile-caterory-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  .mobile-caterory-wrapper {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .accordion-hide { display: none; }
+
+  .page.page-faq .page-content .container .item.left div.active { color: #E52331; }
+
+  .accordion-body{
+    padding: 0px 26px 0px 32px;
+  }
+  .accordion-body p, .accordion-body ul, .accordion-body ul li, .accordion-body a{
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 8px;
+    color: #6C6E73;
+  }
+  .accordion-body ul { list-style-position: inside; padding-left: 2rem; }
+
+  .accordion-body ul li { list-style: disc; }
+
+  .accordion-body a { color: #E62E31; }
+
+  .accordion-body a:hover { color: inherit; }
+
+
+  .page.page-faq .page-content .container .item.left{
+    width: 50%;
+    max-width: 256px;
+    margin-right: 132px;
+  }
+  .page.page-faq .page-content .container .item.right{
+    width: 100%;
+  }
+  #accordionFAQ .accordion-header .accordion-button{
+    font-size: 19px;
+    line-height: 32px;
+    color: #222222;
+    padding: 24px 26px 24px 32px;
+    text-align: left;
+  }
+  #accordionFAQ{
+    background: transparent;
+    margin: 0;
+  }
+  #accordionFAQ .accordion-item{
+    margin-bottom: 16px;
+    background: #fff;
+    border-radius: 8px;
+  }
+  .accordion-button::after{
+    background-image: url({{'arrow_down.svg' | asset_url}}) !important;
+    height: 16px;
+    width: 16px;
+    background-size: unset;
+    background-position: center;
+  }
+  .accordion-button:not(.collapsed)::after{
+    background-image: url({{'arrow_up.svg' | asset_url}}) !important;
+    color: red;
+    width: 16px;
+    height: 16px;
+    background-size: unset;
+    transform: rotate(
+            180deg
+    ) !important;
+  }
+  .mobile-caterory-wrapper{
+    display: none;
+  }
+  .mobile-caterory-wrapper div {
+    font-size: 14px;
+    line-height: 20px;
+    color: #E62E31;
+    padding: 6px 16px;
+    background: #FFF2F0;
+    border-radius: 8px;
+    font-family: 'Graphik-Medium';
+    display: inline-block;
+    margin-right: 8px;
+    margin-bottom: 11px;
+  }
+  .mobile-caterory-wrapper div.active{
+    color: #ffffff;
+    background: #FF4438;
+  }
+
+@media (max-width: 1100px) {
+  .page-faq .page-container .page-header{
+    padding: 60px 100px;
+  }
+  .page.page-faq .page-content .container{
+    padding: 80px 100px 319px 100px;
+  }
+}
+  @media (max-width: 996px) {
+    .page-faq .page-container .page-header{
+      padding: 60px 40px;
+    }
+    .page.page-faq .page-content .container{
+      padding: 80px 40px 250px 40px;
+    }
+    .page.page-faq .page-content .container .item.left{
+      margin-right: 50px;
+    }
+  }
+  @media (max-width: 767px) {
+    .page.page-faq .page-content .container .item.left{
+      display: none;
+    }
+    .mobile-caterory-wrapper{
+      display: block;
+      margin-top: 40px;
+    }
+
+
+  }
+  @media (max-width: 600px) {
+
+    .page-faq .page-container{
+      padding-bottom: 0;
+    }
+    .page-faq .page-container .page-header{
+      padding-right: 0;
+      padding-bottom: 32px;
+    }
+    .page-faq.page .page-header h1{
+      font-size: 36px;
+      line-height: 48px;
+      margin-bottom: 20px;
+    }
+    .mobile-caterory-wrapper{
+      margin-top: 0;
+      display: flex;
+      overflow: scroll;
+    }
+    .mobile-caterory-wrapper div {
+      margin-bottom: 0px;
+      font-family: 'Graphik-Medium';
+      white-space: nowrap;
+    }
+    .page.page-faq .page-content .container{
+      padding: 28px 24px 239px 24px;
+    }
+    #accordionFAQ .accordion-header .accordion-button{
+      font-size: 16px;
+      line-height: 22px;
+      padding: 21px 18px 21px 16px;
+      font-family: 'Graphik-Medium';
+    }
+
+    #accordionFAQ .accordion-item{
+      margin-bottom: 10px;
+    }
+    .accordion-body p, .accordion-body ul, .accordion-body ul li, .accordion-body a{
+      font-size: 16px;
+      line-height: 28px;
+    }
+    .accordion-body{
+      padding: 0 16px;
+    }
+  }
+</style>
+
+<script>
+  $('.item.left div').click( function(){
+    $('.item.left div.active').removeClass('active');
+    $(this).addClass('active');
+  });
+  $('.mobile-caterory-wrapper div').click( function(){
+    $('.mobile-caterory-wrapper div.active').removeClass('active');
+    $(this).addClass('active');
+  });
+  
+  function showhide(id){
+    if (document.getElementById) {
+      const divid = document.getElementById(id);
+      const divs = document.getElementsByClassName("accordion-hide");
+      for(var i=0;i<divs.length;i++) {
+         divs[i].style.display = "none";
+      }
+      divid.style.display = "block";
+    } 
+    return false;
+  }
+</script>
+

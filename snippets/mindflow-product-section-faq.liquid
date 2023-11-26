@@ -1,0 +1,205 @@
+{% assign faq = product.metafields.section.faq %}
+<div id="faq">
+  <div class="page-width">
+    <div class="grid text-center">
+      <div class="accordion_wrapper">
+        <div class="heading_wrapper">
+          <div class="rich-text__heading">
+            <h2>{{ faq.heading }}</h2>
+          </div>
+        </div>
+        <div class="accordion" id="accordionFAQ">
+          {% for block in faq.blocks %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading{{ forloop.index }}">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapse{{ forloop.index }}"
+                  aria-expanded="false"
+                  aria-controls="collapse{{ forloop.index }}"
+                >
+                  {{ block.heading }}
+                </button>
+              </h2>
+              <div
+                id="collapse{{ forloop.index }}"
+                class="accordion-collapse collapse"
+                aria-labelledby="heading{{ forloop.index }}"
+              >
+                <p
+                  style="
+                    margin: unset;
+                    margin-top: 24px;
+                  "
+                ></p>
+                <div class="accordion-body">
+                  <p>{{ block.text }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% comment %}
+      <p class="faq-email">Máte jiné otázky? Napište nám na messengeru nebo mailu <a href="mailto:tym@mindflow.cz">tym@mindflow.cz</a></p>
+    {% endcomment %}
+  </div>
+</div>
+<style>
+  .rich-text__heading{
+    padding: 80px 0 30px 0;
+  }
+  .rich-text__heading h2{
+    font-size: 32px;
+    line-height: 42px;
+    text-transform: uppercase;
+  }
+
+  #faq{
+    background-color: #F5F6F7;
+
+    padding: 6px 0 90px 0;
+  }
+  .accordion-button::after{
+    background-position: center;
+  }
+  .accordion{
+    background-color: unset;
+    margin:unset;
+
+    width: 100%;
+    max-width: 926px;
+
+  }
+  .accordion_wrapper{
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    padding-left: 165px;
+    padding-right: 165px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .accordion_wrapper .rich-text__text p{
+    text-transform: uppercase;
+  }
+  .accordion-button{
+    margin: unset;
+    font-size: 19px;
+    font-weight: 400;
+    font-family: 'Graphik-Regular';
+  }
+  .accordion-collapse.show, .accordion-collapse.collapsing{
+    /*margin-top: 24px;*/
+  }
+  #accordionFAQ{
+    max-width: 1036px;
+    width: 100%;
+  }
+  .accordion-body{
+    margin-bottom: 0;
+  }
+  .accordion-body p{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    margin-bottom: 8px;
+    color: #6C6E73;
+  }
+  .accordion-item{
+    background: #fff;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 24px 32px;
+    margin-bottom: 16px;
+  }
+  #faq .rich-text__text p{
+    text-align: left;
+  }
+  #faq .rich-text__text{
+    margin-bottom: 16px;
+  }
+  #faq .accordion-body p{
+    text-align: left;
+  }
+  .accordion-button:not(.collapsed){
+    color: inherit;
+  }
+  .accordion-button.collapsed::after{
+    background-image: url({{'arrow_down.svg' | asset_url}}) !important;
+    height: 16px;
+    width: 16px;
+    background-size: unset;
+  }
+  .accordion-button:not(.collapsed)::after{
+    background-image: url({{'arrow_up.svg' | asset_url}}) !important;
+    color: red;
+    width: 16px;
+    height: 16px;
+    background-size: unset;
+    transform: rotate(
+            180deg
+    ) !important;  }
+
+  @media (max-width: 1250px) {
+    .accordion_wrapper{
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+  }
+  @media (max-width: 970px) {
+    .accordion_wrapper{
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+  @media (max-width: 768px) {
+    .rich-text__heading{
+      padding: 40px 0 0 0;
+    }
+    .rich-text__heading h2{
+      font-size: 32px;
+      line-height: 42px;
+    }
+    .accordion_wrapper{
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .heading_wrapper{
+      margin-right: auto;
+    }
+    .accordion-item{
+      padding: 21px 18px 21px 16px;
+    }
+    .accordion-button.collapsed{
+      font-family: 'Graphik-Regular';
+    }
+    .accordion_wrapper{
+      flex-direction: column;
+    }
+    .accordion-button{
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 22px;
+    }
+    .rich-text__heading{
+      margin-right: auto;
+      width: fit-content;
+
+    }
+
+    #faq{
+      padding: 0 0 30px 0;
+    }
+    .accordion-body p{
+      text-align: left;
+
+    }
+  }
+</style>

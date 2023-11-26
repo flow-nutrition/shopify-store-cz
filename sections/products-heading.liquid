@@ -1,0 +1,375 @@
+<div class="heading__wrapper">
+    <div class="wrapper__inner">
+        <h1 class="page__title">{{ page.title }}</h1>
+        <div class="description">{{ page.content }}</div>
+    </div>
+</div>
+
+<div class="products__wrapper">
+    {% assign sorted_products = collections[section.settings.collection].products | sort:"title" %}
+    {% for prod in sorted_products %}
+        <div class="product__wrapper">
+            <div class="product__wrapper__inner">
+                <div class="prod__img_title">
+                    <img src="{{ prod.featured_image | img_url: '80x' }}" alt="{{ prod.featured_image.alt }}"
+                         class="open__popup">
+                    <h4><a href="{{ prod.url }}">{{ prod.title }}</a></h4>
+                </div>
+                <div class="buttons__wrapper">
+                    <div class="popup__trigger"
+                         data-defaultimg="{{ section.settings.popup__image }}"
+                         data-defaultimgmobile="{{ section.settings.mobile__popup__image }}"
+                         data-popupimg="{{ prod.metafields.my_fields.product_manual }}"
+                         data-popupimgmobile="{{ prod.metafields.my_fields.product_manual_mobile }}">{{ section.settings.popup__text }}</div>
+                    <a
+                            href="{% if prod.metafields.my_fields.product_manual != blank %}
+                        {{ prod.metafields.my_fields.product_manual }}
+                        {% else %}{{ section.settings.download__link }}{% endif %}"
+                            class="download" download="test" target="_blank"
+                    >
+                        {{ section.settings.download__btn }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+<style>
+    .popup__img {
+        width: 100%;
+    }
+
+    .open__popup {
+        cursor: pointer;
+    }
+
+    .popup__content::-webkit-scrollbar-thumb {
+        background-color: #ff412e;
+        border-radius: 10px;
+    }
+
+    .popup__content::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    /* .popup__content::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 2px rgb(0 0 0 / 10%);
+        background: #ececec;
+    } */
+    .close__popup {
+        font-weight: 900;
+        font-size: 20px;
+        position: absolute;
+        right: 10px;
+        top: 8px;
+        cursor: pointer;
+        color: #000;
+        transition: .2s all linear;
+    }
+
+    .close__popup:hover {
+        color: #ff412e;
+    }
+
+    .popup__content {
+        width: 80%;
+        height: 70%;
+        background: #fff;
+        top: 50%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 300px;
+        overflow-y: scroll;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, .4);
+    }
+
+    .popup__wrapper.active {
+        display: block;
+    }
+
+    .popup__wrapper {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        display: none;
+    }
+
+    .prod__img_title {
+        display: flex;
+        align-items: center;
+    }
+
+    .download {
+        border: 1px solid #b9b9b9;
+        padding: 6px 16px;
+        border-radius: 50px;
+        transition: 0.2s;
+        color: #FF4438;
+        line-height: 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    .download:hover {
+        border: 1px solid #FF4438;
+    }
+
+    .popup__trigger {
+        background: #FF4438;
+        color: #fff;
+        padding: 6px 16px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 14px;
+        line-height: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    .popup__trigger:hover {
+        color: #FFFFFF;
+        background: #C01616;
+    }
+
+    .buttons__wrapper {
+        display: flex;
+        margin-left: auto;
+        padding-left: 10px;
+    }
+
+    a.download {
+        margin-left: 16px;
+    }
+
+    .product__wrapper__inner h4 {
+        margin-bottom: 0;
+        margin-left: 37px;
+        font-weight: 600;
+        font-size: 18px;
+        color: #222;
+    }
+
+    .product__wrapper:nth-child(odd) .product__wrapper__inner {
+        margin-left: auto;
+    }
+
+    .product__wrapper__inner {
+        padding: 10px 26px;
+        max-width: 626px;
+        display: flex;
+        align-items: center;
+    }
+
+    .products__wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 100px;
+        padding: 0 165px;
+    }
+
+    .product__wrapper {
+        width: 50%;
+        background: #f5f6f7;
+    }
+
+    .product__wrapper:nth-child(4n+3) {
+        background: #fff;
+    }
+
+    .product__wrapper:nth-child(4n) {
+        background: #fff;
+    }
+
+    .wrapper__inner {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 0;
+    }
+
+    .page__title {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        font-size: 44px;
+        line-height: 56px;
+        padding: 0 120px;
+        margin-left: auto;
+        font-family: 'Graphik-Regular';
+        color: #222;
+    }
+
+    .description {
+        font-size: 16px;
+        color: #6C6E73;
+        font-family: 'Graphik-Regular';
+    }
+
+    @media screen and (max-width: 1250px) {
+        .products__wrapper {
+            padding: 0 80px;
+        }
+    }
+
+    @media screen and (max-width: 992px) {
+        .product__wrapper {
+            width: 100%;
+        }
+
+        .product__wrapper:nth-child(odd) .product__wrapper__inner {
+            margin: 0 auto;
+        }
+
+        .product__wrapper__inner {
+            margin: 0 auto;
+        }
+
+        .product__wrapper {
+            background-color: #fff;
+        }
+
+        .product__wrapper:nth-child(odd) {
+            background: #f5f6f7;
+        }
+    }
+
+    @media screen and (max-width: 970px) {
+        .products__wrapper {
+            padding: 0 30px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .products__wrapper {
+            padding: 0 16px;
+        }
+
+        .wrapper__inner {
+            flex-direction: column;
+        }
+
+        .page__title {
+            width: 100%;
+            padding: 0;
+            text-align: center;
+        }
+
+        .description {
+            width: 100%;
+            text-align: center;
+            padding: 0;
+        }
+    }
+
+    @media screen and (max-width: 568px) {
+        .product__wrapper__inner {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 16px;
+        }
+
+        .buttons__wrapper {
+            margin-left: 0;
+            margin-top: 16px;
+            padding-left: 0;
+        }
+
+        .wrapper__inner {
+            padding: 40px 16px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        console.log(document.querySelector('.popup__wrapper .popup__img'))
+        document.querySelector('.close__popup').addEventListener('click', function () {
+            document.querySelector('.popup__wrapper').classList.toggle('active')
+        })
+        document.querySelector('.overlay').addEventListener('click', function () {
+            document.querySelector('.popup__wrapper').classList.toggle('active')
+        })
+        document.querySelectorAll('.popup__trigger').forEach(item => {
+            item.addEventListener('click', function () {
+                document.querySelector('.popup__wrapper').classList.toggle('active')
+                if (window.innerWidth > 768) {
+                    console.log(this.dataset.popupimg)
+                    if (this.dataset.popupimg) {
+                        document.querySelector('.popup__wrapper .popup__img').src = this.dataset.popupimg
+                    } else {
+                        document.querySelector('.popup__wrapper .popup__img').src = this.dataset.defaultimg
+                    }
+                } else {
+                    if (this.dataset.popupimg) {
+                        document.querySelector('.popup__wrapper .popup__img').src = this.dataset.popupimgmobile
+                    } else {
+                        document.querySelector('.popup__wrapper .popup__img').src = this.dataset.defaultimgmobile
+                    }
+                }
+            })
+        })
+        document.querySelectorAll('.open__popup').forEach(item => {
+            item.addEventListener('click', function () {
+                document.querySelector('.popup__wrapper').classList.toggle('active')
+            })
+        })
+    })
+</script>
+
+
+{% schema %}
+{
+  "name": "Products page",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "popup__text",
+      "label": "Popup button text"
+    },
+    {
+      "type": "text",
+      "id": "download__btn",
+      "label": "Download button text"
+    },
+    {
+      "type": "image_picker",
+      "id": "popup__image",
+      "label": "Popup image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile__popup__image",
+      "label": "Popup image mobile"
+    },
+    {
+      "type": "url",
+      "id": "download__link",
+      "label": "Download link"
+    }
+  ]
+}
+{% endschema %}

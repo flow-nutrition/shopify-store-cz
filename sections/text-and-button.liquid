@@ -1,0 +1,133 @@
+<section class="text-and-button-wrapper" style="background-color: #ffffff">
+    <div class="page-width">
+    <div class="text-block text-width">{{ section.settings.text }}</div>
+        <a href="{{ section.settings.button_url }}"
+           class="hero__btn">
+            {{- section.settings.button_label | escape -}}
+        </a>
+    </div>
+</section>
+
+<style>
+.text-block{
+    font-family: "Graphik-Regular";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    color: #222222;
+    margin-bottom: 22px;
+}
+.hero__btn.transparent{
+    background: transparent;
+    max-width: 203px;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 900px;
+    font-style: normal;
+    font-weight: 800;
+    font-family: "Graphik-Regular";
+    font-size: 16px;
+    line-height: 20px;
+    color: #FF4438;
+    border: 1px solid #E4E7E9;
+    margin: 0 auto;
+    transition: 0.2s;
+}
+    .text-and-button-wrapper .hero__btn.transparent:hover{
+        color: #FF4438!important;
+        background: #F5F6F7!important;
+        border: 1px solid #E4E7E9;
+    }
+    .text-and-button-wrapper .hero__btn {
+        background: #FF4438;
+        border-radius: 900px;
+        font-family: "Graphik-Regular";
+        font-style: normal;
+        font-weight: 800;
+        font-size: 16px;
+        line-height: 20px;
+        color: #FFFFFF;
+        border: 1px solid #FF4438;
+        transition: 0.2s;
+        padding: 22px 40px;
+        display: inline-block;
+        margin-top: 0;
+        width: 218px;
+    }
+    .text-and-button-wrapper .hero__btn:hover{
+        color: #FFFFFF!important;
+        background: #C01616!important;
+        border: 1px solid #C01616;
+    }
+    @media (max-width: 767px){
+        .text-and-button-wrapper{
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+        .text-block{
+            font-size: 20px;
+            line-height: 32px;
+            margin-bottom: 22px;
+        }
+    }
+    @media (max-width: 480px){
+        .text-width{
+            max-width: 80%;
+        }
+        .text-block{
+            margin: 0 auto;
+            margin-bottom: 16px;
+        }
+        .text-and-button-wrapper .hero__btn.transparent{
+            max-width: 201px;
+            min-height: 48px;
+        }
+        .text-and-button-wrapper{
+            margin-bottom: 0;
+        }
+    }
+</style>
+
+{% schema %}
+{
+"name": "Text and button",
+"class": "index-section",
+"settings": [
+{
+"type": "text",
+"id": "text",
+"label": "Heading"
+},
+{
+"type": "text",
+"id": "button_label",
+"label": "Button label"
+},
+{
+    "type": "color",
+    "id": "bg_color",
+    "label": "Background color",
+    "default": "#FFF"
+},
+{
+"type": "url",
+"id": "button_url",
+"label": "Button url"
+}
+],
+"presets": [
+{
+"name": {
+"en": "Text and button"
+},
+"category": {
+"en": "Custom"
+}
+}
+]
+}
+{% endschema %}

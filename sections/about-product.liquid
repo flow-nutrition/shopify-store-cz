@@ -1,0 +1,179 @@
+<div class="wrapper-about">
+    {% include 'mindflow-product-section-text-row' %}
+    {% include 'mindflow-product-section-cards' %}
+    {% include 'mindflow-product-section-feature-row' %}
+</div>
+
+<style>
+    .heading{
+        max-width: 100%;
+        font-size: 32px;
+        line-height: 48px;
+        color: #222222;
+        font-family: "Graphik-Regular";
+    }
+    @media screen and (max-width: 768px) {
+        .heading{
+            text-align: center;
+        }
+    }
+    .wrapper-about{
+    }
+    .item__wrapper{
+        background: #fff;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        max-width: 100%;
+        margin: auto;
+    }
+    .accordion2::after{
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-left: auto;
+        content: "";
+        background-position: center;
+        background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
+        background-repeat: no-repeat;
+        background-size: 1.25rem;
+        transition: transform .2s ease-in-out;
+    }
+    .accordion2:not(.active)::after{
+        background-image: url({{'arrow_down.svg' | asset_url}}) !important;
+        height: 16px;
+        width: 16px;
+        background-size: unset;
+    }
+    .accordion2.active::after{
+        background-image: url({{'arrow_up.svg' | asset_url}}) !important;
+        color: red;
+        width: 16px;
+        height: 16px;
+        background-size: unset;
+        transform: rotate(180deg) !important;  
+    }
+</style>
+
+
+<style>
+    @media screen and (max-width: 768px){
+        .section-cards-wrapper{
+            background-color: #F5F6F7;
+            padding-top: 20px;
+        }
+        .rich-text {
+            padding: 0 28px;
+            margin-top: 0.5rem;
+        }
+        .wrapper-about{
+            width: 100%;
+        }
+        .item__wrapper{
+            background: transparent;
+            -webkit-border-radius: unset;
+            -moz-border-radius: unset;
+            border-radius: unset;
+            padding: unset;
+            max-width: 1220px;
+        }
+        .richtext-heading{
+            display: none;
+        }
+        .wrapper-about > .heading{
+            color: #6C6E73;
+            font-size: 14px;
+            line-height: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0;
+        }
+        .rich-text-wrapper.heading__flex > div{
+            text-align: center;
+        }
+    }
+</style>
+
+<script>
+    if(window.innerWidth >= 768){
+        document.addEventListener('DOMContentLoaded', function(){
+
+            const accordionBtns = document.querySelectorAll(".accordion2");
+
+            // accordionBtns.forEach((accordion) => {
+            //     accordion.onclick = function () {
+            //         this.classList.toggle("active");
+
+            //         let content = this.nextElementSibling;
+            //         console.log(content);
+
+            //         if (content.style.maxHeight) {
+            //         //this is if the accordion is open
+            //             content.style.maxHeight = null;
+            //         } else {
+            //         //if the accordion is currently closed
+            //             content.style.maxHeight = content.scrollHeight + "px";
+            //             console.log(content.style.maxHeight);
+            //         }
+            //     };
+            // });
+            document.onreadystatechange = function () {
+                if (document.readyState == "complete") {
+                    var acordion = document.getElementsByClassName('accordion2');
+                  
+                    var i;
+                    var len = acordion.length;
+                    for(i = 0; i<len; i++){
+                        acordion[i].classList.toggle('active');
+                        var panal = acordion[i].nextElementSibling;
+                        acordion[i].addEventListener('click', function(){
+                            this.classList.toggle('active');
+                            var panal = this.nextElementSibling;
+                            panal.classList.toggle('el_hide')
+                            if(panal.style.maxHeight){
+                                panal.style.maxHeight = panal.scrollHeight + 'px';
+                            }else{
+                                panal.style.maxHeight = null;
+                            }
+                        })
+                    }
+                }
+            }
+        })
+    }
+
+</script>
+
+{% schema %}
+{
+   "name": "Product description",
+   "settings":[
+    {
+       "type": "text",
+       "id": "section__heading",
+       "label": "Section heading"
+    },
+    {
+       "type": "text",
+       "id": "acordion1",
+       "label": "1 acordion heading"
+    },
+    {
+       "type": "text",
+       "id": "acordion2",
+       "label": "2 acordion heading"
+    },
+    {
+       "type": "text",
+       "id": "acordion3",
+       "label": "3 acordion heading"
+    },
+    {
+       "type": "text",
+       "id": "acordion4",
+       "label": "4 acordion heading"
+    }
+   ]
+}
+{% endschema %}

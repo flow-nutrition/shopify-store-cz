@@ -1,0 +1,45 @@
+<div class="page-faq">
+  <div class="accordion" id="accordionFAQ">
+    {% for block in section.blocks %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ forloop.index }}">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.index }}-mh" aria-expanded="false" aria-controls="collapse{{ forloop.index }}">
+            {{ block.settings.heading }}
+          </button>
+        </h2>
+        <div id="collapse{{ forloop.index }}-mh" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.index }}">
+          <div class="accordion-body">
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+  
+
+
+{% schema %}
+{
+  "name": "Balíčky",
+  "class": "page-section",
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
